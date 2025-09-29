@@ -1,0 +1,60 @@
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Temporary folders
+tmp/
+temp/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Build outputs (if any build tools are added later)
+dist/
+build/
+out/
+
+# Dependencies (if any package managers are used later)
+node_modules/
+bower_components/
+
+# Cache
+.cache/
+.parcel-cache/
+
+# Coverage reports
+coverage/
+*.lcov
+
+# Test files
+test-results/
+playwright-logs/
