@@ -4,6 +4,82 @@ document.addEventListener('DOMContentLoaded', function() {
     const navMenu = document.querySelector('.nav-menu');
     const navLinks = document.querySelectorAll('.nav-link');
 
+    // Modern Theme Toggle
+    const themeToggle = document.querySelector('.theme-toggle');
+    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    // Initialize theme
+    const currentTheme = localStorage.getItem('theme') || (prefersDarkScheme.matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    
+    themeToggle.addEventListener('click', function() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        
+        // Add smooth transition effect
+        document.body.style.transition = 'background-color 0.3s ease, color 0.3s ease';
+        setTimeout(() => {
+            document.body.style.transition = '';
+        }, 300);
+    });
+
+    // Modern Search Toggle
+    const searchToggle = document.querySelector('.search-toggle');
+    const searchOverlay = document.getElementById('searchOverlay');
+    const searchInput = document.getElementById('searchInput');
+    const searchClose = document.querySelector('.search-close');
+    const suggestionTags = document.querySelectorAll('.suggestion-tag');
+    
+    function openSearch() {
+        searchOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => searchInput.focus(), 300);
+    }
+    
+    function closeSearch() {
+        searchOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+        searchInput.value = '';
+    }
+    
+    searchToggle.addEventListener('click', openSearch);
+    searchClose.addEventListener('click', closeSearch);
+    
+    searchOverlay.addEventListener('click', function(e) {
+        if (e.target === searchOverlay) {
+            closeSearch();
+        }
+    });
+    
+    // Enhanced search functionality
+    searchInput.addEventListener('input', function(e) {
+        const query = e.target.value.toLowerCase();
+        // Add real search functionality here
+        console.log('Searching for:', query);
+    });
+    
+    // Suggestion tag clicks
+    suggestionTags.forEach(tag => {
+        tag.addEventListener('click', function() {
+            searchInput.value = this.textContent;
+            searchInput.focus();
+        });
+    });
+    
+    // Search keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+            e.preventDefault();
+            openSearch();
+        }
+        if (e.key === 'Escape' && searchOverlay.classList.contains('active')) {
+            closeSearch();
+        }
+    });
+
     // Toggle mobile menu
     hamburger.addEventListener('click', function() {
         hamburger.classList.toggle('active');
@@ -275,6 +351,92 @@ document.addEventListener('DOMContentLoaded', function() {
     
     window.addEventListener('scroll', requestParallaxUpdate, { passive: true });
 
+    // Modern micro-interactions
+    const addHoverSound = (element) => {
+        element.addEventListener('mouseenter', () => {
+            // Visual feedback only (no actual sound for accessibility)
+            element.style.filter = 'brightness(1.1)';
+        });
+        element.addEventListener('mouseleave', () => {
+            element.style.filter = '';
+        });
+    };
+
+    // Add subtle hover effects to interactive elements
+    document.querySelectorAll('.nav-link, .cta-button, .learning-item, .about-card').forEach(addHoverSound);
+
+    // Enhanced form interactions
+    const formInputs = document.querySelectorAll('input, textarea');
+    formInputs.forEach(input => {
+        const container = input.parentElement;
+        
+        input.addEventListener('focus', () => {
+            container.style.transform = 'scale(1.02)';
+            container.style.boxShadow = '0 0 0 2px rgba(0, 212, 255, 0.3)';
+        });
+        
+        input.addEventListener('blur', () => {
+            container.style.transform = '';
+            container.style.boxShadow = '';
+        });
+    });
+
+    // Smooth page transitions
+    const pageLinks = document.querySelectorAll('a[href^="/"]');
+    pageLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            if (this.href.includes('/materials/')) {
+                e.preventDefault();
+                
+                // Add page transition effect
+                document.body.style.opacity = '0.8';
+                document.body.style.transition = 'opacity 0.3s ease';
+                
+                setTimeout(() => {
+                    window.location.href = this.href;
+                }, 300);
+            }
+        });
+    });
+
+    // Add modern tooltips to action buttons
+    const tooltipElements = document.querySelectorAll('[title]');
+    tooltipElements.forEach(element => {
+        element.addEventListener('mouseenter', function(e) {
+            const tooltip = document.createElement('div');
+            tooltip.className = 'modern-tooltip';
+            tooltip.textContent = this.getAttribute('title');
+            tooltip.style.cssText = `
+                position: absolute;
+                background: rgba(0, 0, 0, 0.9);
+                color: white;
+                padding: 8px 12px;
+                border-radius: 8px;
+                font-size: 12px;
+                white-space: nowrap;
+                z-index: 10000;
+                pointer-events: none;
+                backdrop-filter: blur(10px);
+                animation: fadeInUp 0.2s ease;
+            `;
+            
+            document.body.appendChild(tooltip);
+            
+            const rect = this.getBoundingClientRect();
+            tooltip.style.left = (rect.left + rect.width / 2 - tooltip.offsetWidth / 2) + 'px';
+            tooltip.style.top = (rect.top - tooltip.offsetHeight - 10) + 'px';
+            
+            this._tooltip = tooltip;
+        });
+        
+        element.addEventListener('mouseleave', function() {
+            if (this._tooltip) {
+                this._tooltip.remove();
+                this._tooltip = null;
+            }
+        });
+    });
+
     // Add loading animation
     window.addEventListener('load', function() {
         document.body.classList.add('loaded');
@@ -318,6 +480,39 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         } else {
             konamiIndex = 0;
+        }
+    });
+
+    // Performance optimization: Preload critical resources
+    const preloadLinks = [
+        '/materials/program-dasar.html',
+        '/materials/asd.html',
+        '/materials/basis-data.html',
+        '/materials/web.html'
+    ];
+    
+    preloadLinks.forEach(href => {
+        const link = document.createElement('link');
+        link.rel = 'prefetch';
+        link.href = href;
+        document.head.appendChild(link);
+    });
+
+    // Modern loading states for CTA buttons
+    const ctaButtons = document.querySelectorAll('.cta-button');
+    ctaButtons.forEach(button => {
+        if (button.href && button.href.includes('/materials/')) {
+            button.addEventListener('click', function(e) {
+                const originalText = this.textContent;
+                this.style.pointerEvents = 'none';
+                this.innerHTML = '<span style="opacity: 0.7;">Memuat...</span>';
+                
+                // Reset after delay (simulate loading)
+                setTimeout(() => {
+                    this.textContent = originalText;
+                    this.style.pointerEvents = '';
+                }, 1000);
+            });
         }
     });
 
