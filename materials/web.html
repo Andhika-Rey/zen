@@ -10,73 +10,98 @@
   <meta name="description" content="Materi ajar Pengembangan Web untuk mahasiswa Ilmu Komputer UNIKOM" />
 </head>
 <body class="aurora-bg">
-  <div id="announcement-bar" class="announcement-bar hidden">
-    <div class="announcement-content">
-      <p class="announcement-text"></p>
-      <a href="#" class="announcement-cta" target="_blank" rel="noopener">Lihat</a>
+    <a href="#main-content" class="skip-link">Lewati ke konten utama</a>
+
+    <div id="announcement-bar" class="announcement-bar hidden">
+        <div class="announcement-content">
+            <p class="announcement-text"></p>
+            <a href="#" class="announcement-cta" target="_blank" rel="noopener">Lihat</a>
+        </div>
+        <button class="announcement-dismiss" aria-label="Tutup pengumuman">×</button>
     </div>
-    <button class="announcement-dismiss" aria-label="Tutup">×</button>
-  </div>
 
-  <nav class="navbar">
-    <div class="nav-container">
-      <a href="/index.html" class="nav-logo">ZENOTIKA</a>
-      <div class="hamburger">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-      </div>
-      <ul class="nav-menu">
-        <li><a href="/index.html#learning" class="nav-link">Kembali ke Materi</a></li>
-      </ul>
-    </div>
-    <div class="progress-bar"></div>
-  </nav>
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="/index.html" class="nav-logo">ZENOTIKA</a>
+            <button class="hamburger" aria-label="Buka atau tutup menu navigasi" aria-expanded="false"
+                aria-controls="nav-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            <nav id="nav-menu" class="nav-menu" role="navigation" aria-label="Navigasi halaman">
+                <ul>
+                    <li><a href="/index.html#learning" class="nav-link">Kembali ke Materi</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="progress-bar"></div>
+    </header>
 
-  <main class="content-page">
-    <h1 class="page-title">Pengembangan Web</h1>
-    <p class="page-subtitle">
-      Materi ini mencakup teknologi fundamental (HTML, CSS, JS), aksesibilitas, performa, dan praktik pengembangan modern.
-    </p>
+    <main id="main-content" class="content-page">
+        <h1 class="page-title">Pengembangan Web</h1>
+        <p class="page-subtitle">
+            Materi ini mencakup dasar-dasar HTML, CSS, dan JavaScript, serta konsep pengembangan web modern.
+        </p>
 
-    <ul class="module-list">
-      <li class="module-item">
-        <h3>Modul 1: HTML Semantik & Aksesibilitas</h3>
-        <p>Membangun struktur dokumen yang kokoh dan memastikan website dapat diakses oleh semua pengguna.</p>
-        <a href="#" class="module-link" download>Unduh PDF</a>
-      </li>
-      <li class="module-item">
-        <h3>Modul 2: CSS Modern Layout</h3>
-        <p>Menguasai Flexbox dan Grid untuk membuat layout yang kompleks dan responsif dengan mudah.</p>
-        <a href="#" class="module-link" download>Unduh PDF</a>
-      </li>
-      <li class="module-item">
-        <h3>Modul 3: Desain Responsif & Mobile-First</h3>
-        <p>Mempelajari strategi dan teknik (media queries, fluid typography) untuk membangun situs yang adaptif.</p>
-        <a href="#" class="module-link" download>Unduh PDF</a>
-      </li>
-      <li class="module-item">
-        <h3>Modul 4: JavaScript DOM Manipulation</h3>
-        <p>Praktik memanipulasi halaman web secara dinamis menggunakan Document Object Model.</p>
-        <a href="#" class="module-link" download>Unduh PDF</a>
-      </li>
-      <li class="module-item">
-        <h3>Modul 5: Asynchronous JavaScript</h3>
-        <p>Memahami konsep asynchronous, Callback, Promise, dan Async/Await untuk menangani operasi seperti fetch API.</p>
-        <a href="#" class="module-link" download>Unduh PDF</a>
-      </li>
-      <li class="module-item">
-        <h3>Modul 6: Performa Web & Best Practices</h3>
-        <p>Belajar teknik optimasi (image, code minification) dan praktik terbaik untuk situs yang cepat dan aman.</p>
-        <a href="#" class="module-link" download>Unduh PDF</a>
-      </li>
-    </ul>
-  </main>
+        <ul class="module-list">
+            <li class="module-item">
+                <h3>Modul 1: HTML - Struktur & Semantik</h3>
+                <p>Membangun fondasi halaman web dengan elemen HTML5 yang semantik dan terstruktur dengan baik.</p>
+                <a href="#" class="module-link" download>
+                    Unduh PDF
+                    <span class="visually-hidden"> untuk Modul 1: HTML - Struktur & Semantik</span>
+                </a>
+            </li>
+            <li class="module-item">
+                <h3>Modul 2: CSS - Styling & Layout</h3>
+                <p>Mendesain halaman dengan CSS, termasuk Flexbox, Grid, dan dasar-dasar desain responsif.</p>
+                <a href="#" class="module-link" download>
+                    Unduh PDF
+                    <span class="visually-hidden"> untuk Modul 2: CSS - Styling & Layout</span>
+                </a>
+            </li>
+            <li class="module-item">
+                <h3>Modul 3: JavaScript - DOM & Interaktivitas</h3>
+                <p>Menambahkan interaktivitas ke halaman web dengan memanipulasi Document Object Model (DOM).</p>
+                <a href="#" class="module-link" download>
+                    Unduh PDF
+                    <span class="visually-hidden"> untuk Modul 3: JavaScript - DOM & Interaktivitas</span>
+                </a>
+            </li>
+            <li class="module-item">
+                <h3>Modul 4: JavaScript - Asynchronous & API</h3>
+                <p>Menggunakan Fetch API untuk mengambil data dari server dan memahami konsep asynchronous JavaScript.
+                </p>
+                <a href="#" class="module-link" download>
+                    Unduh PDF
+                    <span class="visually-hidden"> untuk Modul 4: JavaScript - Asynchronous & API</span>
+                </a>
+            </li>
+            <li class="module-item">
+                <h3>Modul 5: Alat Bantu & Ekosistem</h3>
+                <p>Pengenalan Git untuk kontrol versi, package manager (npm), dan build tools modern.</p>
+                <a href="#" class="module-link" download>
+                    Unduh PDF
+                    <span class="visually-hidden"> untuk Modul 5: Alat Bantu & Ekosistem</span>
+                </a>
+            </li>
+            <li class="module-item">
+                <h3>Modul 6: Konsep Web Modern</h3>
+                <p>Diskusi tentang Progressive Web Apps (PWA), Single Page Applications (SPA), dan arsitektur Jamstack.
+                </p>
+                <a href="#" class="module-link" download>
+                    Unduh PDF
+                    <span class="visually-hidden"> untuk Modul 6: Konsep Web Modern</span>
+                </a>
+            </li>
+        </ul>
+    </main>
 
-  <footer class="footer">
-    <p>&copy; 2025 Zenotika. Dibuat dengan cinta untuk pendidikan.</p>
-  </footer>
+    <footer class="footer">
+        <p>&copy; 2025 Zenotika. Dibuat dengan cinta untuk pendidikan.</p>
+    </footer>
 
-  <script src="../script.js"></script>
+    <script src="../script.js"></script>
 </body>
 </html>

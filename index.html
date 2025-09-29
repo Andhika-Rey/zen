@@ -66,6 +66,13 @@
                     <li><a href="#contact" class="nav-link">Kontak</a></li>
                 </ul>
             </nav>
+            <div class="theme-switcher">
+                <input type="checkbox" id="theme-toggle" class="theme-toggle-checkbox" aria-label="Ganti tema">
+                <label for="theme-toggle" class="theme-toggle-label">
+                    <span class="sun" aria-hidden="true">☀️</span>
+                    <span class="moon" aria-hidden="true">🌙</span>
+                </label>
+            </div>
         </div>
         <div class="progress-bar"></div>
     </header>
@@ -124,34 +131,40 @@
         <section id="learning" class="learning" aria-labelledby="learning-title">
             <h2 id="learning-title" class="section-title">Mulai Perjalanan Belajar Anda</h2>
             <p class="section-subtitle">
-                Pilih salah satu materi untuk memulai.
+                Pilih salah satu materi untuk memulai atau gunakan pencarian.
             </p>
+            <div class="search-container">
+                <input type="search" id="material-search" placeholder="Cari materi, contoh: web, data, dll..."
+                    aria-label="Cari materi ajar">
+            </div>
             <div class="learning-grid">
-                <a href="materials/program-dasar.html" class="learning-item">
+                <a href="materials/program-dasar.html" class="learning-item"
+                    data-tags="pemrograman dasar logika algoritma">
                     <div class="learning-content">
                         <h4>Pemrograman Dasar</h4>
                         <p>Fondasi logika dan algoritma.</p>
                     </div>
                 </a>
-                <a href="materials/asd.html" class="learning-item">
+                <a href="materials/asd.html" class="learning-item" data-tags="algoritma struktur data asd">
                     <div class="learning-content">
                         <h4>Struktur Data</h4>
                         <p>Pengorganisasian data yang efisien.</p>
                     </div>
                 </a>
-                <a href="materials/basis-data.html" class="learning-item">
+                <a href="materials/basis-data.html" class="learning-item" data-tags="basis data database sql">
                     <div class="learning-content">
                         <h4>Basis Data</h4>
                         <p>Manajemen dan kueri data.</p>
                     </div>
                 </a>
-                <a href="materials/web.html" class="learning-item">
+                <a href="materials/web.html" class="learning-item" data-tags="pengembangan web html css javascript">
                     <div class="learning-content">
                         <h4>Pengembangan Web</h4>
-                        <p>Membangun situs dan aplikasi modern.</p>
+                        <p>Dasar-dasar web modern.</p>
                     </div>
                 </a>
             </div>
+            <p id="no-results" class="no-results-message hidden">Tidak ada materi yang cocok dengan pencarian Anda.</p>
         </section>
 
         <!-- Info Section -->

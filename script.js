@@ -1,3 +1,20 @@
+// --- Utility Functions ---
+/**
+ * Debounce function to limit the rate at which a function gets called.
+ * @param {Function} func The function to debounce.
+ * @param {number} delay The delay in milliseconds.
+ * @returns {Function} The debounced function.
+ */
+const debounce = (func, delay) => {
+    let timeoutId;
+    return (...args) => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+            func.apply(this, args);
+        }, delay);
+    };
+};
+
 // --- Modern UI/UX Interactions for Zenotika 2025 ---
 document.addEventListener("DOMContentLoaded", function () {
     const navbar = document.querySelector(".navbar");
@@ -102,10 +119,78 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }, observerOptions);
 
-    document.querySelectorAll('.about-card, .learning-item, .info-card, .contact-info, .contact-form').forEach(el => {
-        el.classList.add('fade-in-element');
+    document.querySelectorAll('.about-card, .learning-item, .info-card, .contact-form, .footer p').forEach(el => {
         fadeInObserver.observe(el);
     });
+
+    // --- Theme Switcher ---
+    const themeToggle = document.getElementById('theme-toggle');
+    const currentTheme = localStorage.getItem('theme') || 'dark';
+
+    const applyTheme = (theme) => {
+        if (theme === 'light') {
+            document.body.classList.add('light-mode');
+            themeToggle.checked = true;
+        } else {
+            document.body.classList.remove('light-mode');
+            themeToggle.checked = false;
+        }
+    };
+
+    applyTheme(currentTheme);
+
+    themeToggle.addEventListener('change', function() {
+        const newTheme = this.checked ? 'light' : 'dark';
+        localStorage.setItem('theme', newTheme);
+        applyTheme(newTheme);
+    });
+
+    // --- Material Search Functionality ---
+    const searchInput = document.getElementById('material-search');
+    const learningItems = document.querySelectorAll('.learning-item');
+    const noResultsMessage = document.getElementById('no-results');
+
+    if (searchInput) {
+        const handleSearch = () => {
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            let visibleItems = 0;
+
+            learningItems.forEach(item => {
+                const tags = item.dataset.tags.toLowerCase();
+                if (tags.includes(searchTerm)) {
+                    item.classList.remove('hidden');
+                    visibleItems++;
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+
+            if (visibleItems === 0 && searchTerm.length > 0) {
+                noResultsMessage.classList.remove('hidden');
+            } else {
+                noResultsMessage.classList.add('hidden');
+            }
+        };
+
+        searchInput.addEventListener('input', debounce(handleSearch, 300));
+    }
+
+    // --- Announcement Bar ---
+    const announcementBar = document.getElementById('announcement-bar');
+    if (announcementBar) {
+        const dismissButton = announcementBar.querySelector('.dismiss-button');
+        dismissButton.addEventListener('click', () => {
+            announcementBar.classList.add('hidden');
+            localStorage.setItem('announcementDismissed', 'true');
+        });
+
+        // Check if the announcement was already dismissed
+        if (localStorage.getItem('announcementDismissed') === 'true') {
+            announcementBar.classList.add('hidden');
+        } else {
+            announcementBar.classList.remove('hidden');
+        }
+    }
 
     // --- Form Submission ---
     const contactForm = document.querySelector('.contact-form form');

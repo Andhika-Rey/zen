@@ -9,51 +9,109 @@
   <link rel="manifest" href="/manifest.json" />
   <meta name="description" content="Materi ajar Pemrograman Dasar untuk mahasiswa Ilmu Komputer UNIKOM" />
 </head>
-<body>
-  <nav class="navbar" role="navigation" aria-label="Navigasi utama">
-    <div class="nav-container">
-      <div class="nav-logo"><a href="/" class="logo-text" style="text-decoration:none">ZENOTIKA</a></div>
-      <ul class="nav-menu">
-        <li class="nav-item"><a href="/index.html#learning" class="nav-link">Kembali</a></li>
-      </ul>
-      <div class="hamburger">
-        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
-      </div>
-    </div>
-  </nav>
+<body class="aurora-bg">
+    <a href="#main-content" class="skip-link">Lewati ke konten utama</a>
 
-  <main class="content-page" style="padding-top:90px">
-    <section class="about" aria-labelledby="title">
-      <div class="container">
-        <h1 id="title" class="section-title">Pemrograman Dasar</h1>
-        <p style="text-align:center;max-width:780px;margin:0 auto 2rem">Struktur materi: konsep fundamental, latihan praktis, dan modul PDF. Gunakan daftar berikut untuk mulai belajar.</p>
-
-        <div class="info-grid" id="materials-list">
-          <article class="info-card">
-            <div class="info-date">Minggu 1</div>
-            <h4>Pengenalan, Variabel, Tipe Data</h4>
-            <p>Konsep dasar, sintaks, dan penggunaan variabel.</p>
-            <p><a href="#" target="_blank">Modul (PDF)</a> • <a href="#" target="_blank">Latihan (Notebook)</a></p>
-          </article>
-
-          <article class="info-card">
-            <div class="info-date">Minggu 2</div>
-            <h4>Kontrol Alur: Kondisional</h4>
-            <p>if/else, operator perbandingan, dan studi kasus.</p>
-            <p><a href="#" target="_blank">Modul (PDF)</a> • <a href="#" target="_blank">Latihan (Notebook)</a></p>
-          </article>
-
-          <article class="info-card">
-            <div class="info-date">Minggu 3</div>
-            <h4>Perulangan</h4>
-            <p>for/while, nested loop, dan pola umum.</p>
-            <p><a href="#" target="_blank">Modul (PDF)</a> • <a href="#" target="_blank">Latihan (Notebook)</a></p>
-          </article>
+    <div id="announcement-bar" class="announcement-bar hidden">
+        <div class="announcement-content">
+            <p class="announcement-text"></p>
+            <a href="#" class="announcement-cta" target="_blank" rel="noopener">Lihat</a>
         </div>
-      </div>
-    </section>
-  </main>
+        <button class="announcement-dismiss" aria-label="Tutup pengumuman">×</button>
+    </div>
 
-  <script src="../script.js"></script>
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="/index.html" class="nav-logo">ZENOTIKA</a>
+            <button class="hamburger" aria-label="Buka atau tutup menu navigasi" aria-expanded="false"
+                aria-controls="nav-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            <nav id="nav-menu" class="nav-menu" role="navigation" aria-label="Navigasi halaman">
+                <ul>
+                    <li><a href="/index.html#learning" class="nav-link">Kembali ke Materi</a></li>
+                </ul>
+            </nav>
+            <div class="theme-switcher">
+                <input type="checkbox" id="theme-toggle" class="theme-toggle-checkbox" aria-label="Ganti tema">
+                <label for="theme-toggle" class="theme-toggle-label">
+                    <span class="sun" aria-hidden="true">☀️</span>
+                    <span class="moon" aria-hidden="true">🌙</span>
+                </label>
+            </div>
+        </div>
+        <div class="progress-bar"></div>
+    </header>
+
+    <main id="main-content" class="content-page">
+        <h1 class="page-title">Pemrograman Dasar</h1>
+        <p class="page-subtitle">
+            Materi ini mencakup konsep fundamental, latihan praktis, dan modul PDF.
+            Gunakan daftar di bawah untuk memulai perjalanan belajar Anda.
+        </p>
+
+        <ul class="module-list">
+            <li class="module-item">
+                <h3>Modul 1: Pengenalan Algoritma</h3>
+                <p>Memahami konsep dasar algoritma, flowchart, dan pseudocode sebagai fondasi logika pemrograman.</p>
+                <a href="#" class="module-link" download>
+                    Unduh PDF
+                    <span class="visually-hidden"> untuk Modul 1: Pengenalan Algoritma</span>
+                </a>
+            </li>
+            <li class="module-item">
+                <h3>Modul 2: Tipe Data dan Variabel</h3>
+                <p>Mempelajari berbagai jenis tipe data, cara deklarasi variabel, dan operator dasar dalam pemrograman.
+                </p>
+                <a href="#" class="module-link" download>
+                    Unduh PDF
+                    <span class="visually-hidden"> untuk Modul 2: Tipe Data dan Variabel</span>
+                </a>
+            </li>
+            <li class="module-item">
+                <h3>Modul 3: Struktur Kontrol Keputusan</h3>
+                <p>Menguasai penggunaan if-else, switch-case, dan operator ternary untuk membuat program yang dinamis.
+                </p>
+                <a href="#" class="module-link" download>
+                    Unduh PDF
+                    <span class="visually-hidden"> untuk Modul 3: Struktur Kontrol Keputusan</span>
+                </a>
+            </li>
+            <li class="module-item">
+                <h3>Modul 4: Struktur Kontrol Perulangan</h3>
+                <p>Mempelajari cara kerja perulangan (for, while, do-while) untuk mengeksekusi blok kode berulang
+                    kali.</p>
+                <a href="#" class="module-link" download>
+                    Unduh PDF
+                    <span class="visually-hidden"> untuk Modul 4: Struktur Kontrol Perulangan</span>
+                </a>
+            </li>
+            <li class="module-item">
+                <h3>Modul 5: Array dan String</h3>
+                <p>Memahami penggunaan array untuk menyimpan kumpulan data dan manipulasi string.</p>
+                <a href="#" class="module-link" download>
+                    Unduh PDF
+                    <span class="visually-hidden"> untuk Modul 5: Array dan String</span>
+                </a>
+            </li>
+            <li class="module-item">
+                <h3>Modul 6: Fungsi dan Prosedur</h3>
+                <p>Belajar membuat dan menggunakan fungsi atau prosedur untuk memecah program menjadi bagian-bagian
+                    kecil.</p>
+                <a href="#" class="module-link" download>
+                    Unduh PDF
+                    <span class="visually-hidden"> untuk Modul 6: Fungsi dan Prosedur</span>
+                </a>
+            </li>
+        </ul>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2025 Zenotika. Dibuat dengan cinta untuk pendidikan.</p>
+    </footer>
+
+    <script src="../script.js"></script>
 </body>
 </html>
