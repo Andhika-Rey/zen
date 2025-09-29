@@ -126,6 +126,60 @@ Website ini sudah siap untuk deploy ke:
 3. Pilih source branch (main)
 4. Website akan available di `https://andhika-rey.github.io/zen/`
 
+## 🔔 Announcement & 📅 Events (Dinamis)
+
+### Pengumuman Mingguan
+Edit `data/config.json` bagian `announcements`:
+
+```
+{
+   "announcements": [
+      { "message": "Pendaftaran mentoring dibuka!", "link": "https://...", "until": "2025-12-31" }
+   ]
+}
+```
+
+Pengumuman bisa ditutup. Pesan yang sama tidak akan tampil lagi (disimpan di localStorage pengguna).
+
+### Acara Dinamis
+Sumber default: `data/events.json` dengan format:
+
+```
+[
+   { "date": "2025-10-05", "title": "Judul", "description": "Deskripsi", "location": "Tempat", "link": "https://..." }
+]
+```
+
+Alternatif: Google Sheets (CSV). Ubah `data/config.json`:
+
+```
+{
+   "events": {
+      "source": "csv",
+      "csvUrl": "https://docs.google.com/spreadsheets/d/ID/export?format=csv"
+   }
+}
+```
+
+Kolom CSV: `date,title,description,location,link`.
+
+## 📚 Materi Ajar
+Halaman awal di folder `materials/`:
+- `materials/program-dasar.html`
+- `materials/asd.html`
+- `materials/basis-data.html`
+- `materials/web.html`
+
+Silakan ganti tautan Modul/Latihan ke resource asli (PDF/GDrive/dsb).
+
+## ⚙️ PWA & Cache
+`sw.js` mencache halaman utama, materi, dan data JSON. Jika menambah file penting, update array `ASSETS` dan naikkan `CACHE_NAME`.
+
+## 🚀 Netlify
+1. Hubungkan repo ke Netlify.
+2. Build command: kosong. Publish directory: `.` (dikontrol `netlify.toml`).
+3. Deploy akan melayani SPA fallback ke `index.html`.
+
 ## 🎓 Target Audience
 
 - 450+ Mahasiswa Jurusan Ilmu Komputer UNIKOM
