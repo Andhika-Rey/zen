@@ -1,0 +1,23 @@
+[
+  {
+    "date": "2025-10-05",
+    "title": "Workshop Git Dasar",
+    "description": "Belajar version control untuk kolaborasi proyek.",
+    "location": "Lab 3 UNIKOM",
+    "link": "https://example.com/daftar-git"
+  },
+  {
+    "date": "2025-10-12",
+    "title": "Kelas Algoritma Greedy",
+    "description": "Strategi greedy dan contoh soal kompetitif.",
+    "location": "Online (Zoom)",
+    "link": "https://example.com/greedy"
+  },
+  {
+    "date": "2025-11-02",
+    "title": "Seminar Karir Software Engineer",
+    "description": "Diskusi pathway karir dan portfolio.",
+    "location": "Aula UNIKOM",
+    "link": "https://example.com/se-karir"
+  }
+]

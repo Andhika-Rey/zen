@@ -272,6 +272,9 @@ document.addEventListener('DOMContentLoaded', function() {
             konamiIndex = 0;
         }
     });
+
+    // Dynamic: Announcement Bar and Events
+    initDynamicContent();
 });
 
 // Additional CSS for animations
@@ -313,3 +316,141 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
+
+// --- Dynamic content loader ---
+async function initDynamicContent() {
+    try {
+        const cfg = await fetchJson('/data/config.json');
+        if (cfg) {
+            setupAnnouncement(cfg.announcements || []);
+            await setupEvents(cfg.events || {});
+        }
+    } catch (e) {
+        // ignore dynamic failures to keep page working offline
+    }
+}
+
+async function fetchJson(url) {
+    const res = await fetch(url, { cache: 'no-store' });
+    if (!res.ok) throw new Error('fetch failed');
+    return res.json();
+}
+
+function setupAnnouncement(announcements) {
+    const bar = document.getElementById('announcement-bar');
+    if (!bar || !announcements.length) return;
+
+    const today = new Date();
+    const active = announcements.find(a => !a.until || new Date(a.until) >= today);
+    if (!active) return;
+
+    const textEl = bar.querySelector('.announcement-text');
+    const cta = bar.querySelector('.announcement-cta');
+    const dismiss = bar.querySelector('.announcement-dismiss');
+
+    textEl.textContent = active.message;
+    if (active.link) {
+        cta.href = active.link;
+        cta.style.display = 'inline-flex';
+    } else {
+        cta.style.display = 'none';
+    }
+
+    const dismissed = localStorage.getItem('zen_announce_dismissed');
+    if (dismissed === active.message) return; // already dismissed current message
+
+    bar.classList.remove('hidden');
+    dismiss.addEventListener('click', () => {
+        bar.classList.add('hidden');
+        localStorage.setItem('zen_announce_dismissed', active.message);
+    });
+}
+
+async function setupEvents(eventsCfg) {
+    const grid = document.getElementById('events');
+    const empty = document.getElementById('events-empty');
+    if (!grid) return;
+
+    let items = [];
+    try {
+        if (eventsCfg.source === 'csv' && eventsCfg.csvUrl) {
+            const csv = await (await fetch(eventsCfg.csvUrl, { cache: 'no-store' })).text();
+            items = parseCSV(csv);
+        } else if (eventsCfg.jsonUrl) {
+            items = await fetchJson(eventsCfg.jsonUrl);
+        }
+    } catch (e) {
+        // ignore load error
+    }
+
+    // filter upcoming events
+    const now = new Date();
+    const upcoming = (items || []).filter(ev => {
+        try { return new Date(ev.date) >= new Date(now.toDateString()); } catch { return false; }
+    }).sort((a, b) => new Date(a.date) - new Date(b.date));
+
+    if (!upcoming.length) {
+        if (empty) empty.hidden = false;
+        return;
+    }
+
+    const frag = document.createDocumentFragment();
+    upcoming.forEach(ev => {
+        const card = document.createElement('div');
+        card.className = 'info-card';
+        const d = new Date(ev.date);
+        const dateStr = d.toLocaleDateString('id-ID', { weekday: 'long', day: '2-digit', month: 'short' });
+        card.innerHTML = `
+            <div class="info-date">${dateStr}</div>
+            <h4>${escapeHtml(ev.title || 'Acara')}</h4>
+            <p>${escapeHtml(ev.description || '')}</p>
+            ${ev.location ? `<p><strong>Lokasi:</strong> ${escapeHtml(ev.location)}</p>` : ''}
+            ${ev.link ? `<p><a href="${ev.link}" target="_blank" rel="noopener">Detail/Daftar</a></p>` : ''}
+        `;
+        frag.appendChild(card);
+    });
+    grid.appendChild(frag);
+}
+
+function parseCSV(text) {
+    // Expect header: date,title,description,location,link
+    const lines = text.split(/\r?\n/).filter(Boolean);
+    if (!lines.length) return [];
+    const header = lines[0].split(',').map(h => h.trim());
+    const idx = (k) => header.indexOf(k);
+    const out = [];
+    for (let i = 1; i < lines.length; i++) {
+        const cols = splitCsvLine(lines[i]);
+        out.push({
+            date: cols[idx('date')] || '',
+            title: cols[idx('title')] || '',
+            description: cols[idx('description')] || '',
+            location: cols[idx('location')] || '',
+            link: cols[idx('link')] || ''
+        });
+    }
+    return out;
+}
+
+function splitCsvLine(line) {
+    const res = [];
+    let cur = '';
+    let inQuotes = false;
+    for (let i = 0; i < line.length; i++) {
+        const ch = line[i];
+        if (ch === '"') {
+            if (inQuotes && line[i + 1] === '"') { cur += '"'; i++; }
+            else { inQuotes = !inQuotes; }
+        } else if (ch === ',' && !inQuotes) {
+            res.push(cur); cur = '';
+        } else {
+            cur += ch;
+        }
+    }
+    res.push(cur);
+    return res.map(s => s.trim());
+}
+
+function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c]));
+}

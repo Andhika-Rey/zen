@@ -1,11 +1,17 @@
-const CACHE_NAME = 'zenotika-cache-v1';
+const CACHE_NAME = 'zenotika-cache-v2';
 const ASSETS = [
   '/',
   '/index.html',
   '/styles.css',
   '/script.js',
   '/icon.svg',
-  '/manifest.json'
+  '/manifest.json',
+  '/materials/program-dasar.html',
+  '/materials/asd.html',
+  '/materials/basis-data.html',
+  '/materials/web.html',
+  '/data/config.json',
+  '/data/events.json'
 ];
 
 self.addEventListener('install', (event) => {

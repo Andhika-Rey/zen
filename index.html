@@ -54,6 +54,17 @@
         </div>
     </nav>
 
+    <!-- Announcement Bar (dynamic) -->
+    <div id="announcement-bar" class="announcement hidden" role="status" aria-live="polite">
+        <div class="container announcement-inner">
+            <div class="announcement-text"></div>
+            <div class="announcement-actions">
+                <a class="announcement-cta" href="#" target="_blank" rel="noopener">Lihat</a>
+                <button class="announcement-dismiss" aria-label="Tutup pengumuman">✕</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Hero Section -->
     <section id="home" class="hero" aria-labelledby="site-title">
         <div class="hero-content" role="banner">
@@ -131,22 +142,22 @@
         <div class="container">
             <h2 id="learning-title" class="section-title">Media Pembelajaran</h2>
             <div class="learning-grid">
-                <div class="learning-item">
+                <a class="learning-item" href="/materials/program-dasar.html">
                     <h4>Pemrograman Dasar</h4>
                     <p>Tutorial dan latihan pemrograman untuk pemula hingga mahir</p>
-                </div>
-                <div class="learning-item">
+                </a>
+                <a class="learning-item" href="/materials/asd.html">
                     <h4>Algoritma & Struktur Data</h4>
                     <p>Materi lengkap dengan visualisasi dan contoh implementasi</p>
-                </div>
-                <div class="learning-item">
+                </a>
+                <a class="learning-item" href="/materials/basis-data.html">
                     <h4>Basis Data</h4>
                     <p>Panduan desain dan implementasi sistem basis data</p>
-                </div>
-                <div class="learning-item">
+                </a>
+                <a class="learning-item" href="/materials/web.html">
                     <h4>Pengembangan Web</h4>
                     <p>Teknologi web terkini untuk membangun aplikasi modern</p>
-                </div>
+                </a>
             </div>
         </div>
     </section>
@@ -155,23 +166,10 @@
     <section id="info" class="info" aria-labelledby="info-title">
         <div class="container">
             <h2 id="info-title" class="section-title">Informasi Terkini</h2>
-            <div class="info-grid">
-                <div class="info-card">
-                    <div class="info-date">Hari Ini</div>
-                    <h4>Pendaftaran Lomba Programming</h4>
-                    <p>Daftarkan diri Anda dalam kompetisi programming tahunan UNIKOM</p>
-                </div>
-                <div class="info-card">
-                    <div class="info-date">Minggu Ini</div>
-                    <h4>Workshop AI & Machine Learning</h4>
-                    <p>Pelajari dasar-dasar kecerdasan buatan dan pembelajaran mesin</p>
-                </div>
-                <div class="info-card">
-                    <div class="info-date">Bulan Ini</div>
-                    <h4>Seminar Teknologi Terbaru</h4>
-                    <p>Diskusi tentang tren teknologi dan peluang karir di bidang IT</p>
-                </div>
+            <div id="events" class="info-grid" data-source="config"> 
+                <!-- Konten acara akan dimuat dinamis dari /data/config.json -->
             </div>
+            <div id="events-empty" class="events-empty" hidden>Tidak ada acara mendatang. Cek lagi nanti ya.</div>
         </div>
     </section>
 

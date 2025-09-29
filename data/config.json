@@ -1,0 +1,14 @@
+{
+  "announcements": [
+    {
+      "message": "Pendaftaran mentoring mingguan dibuka. Kuota terbatas!",
+      "link": "https://forms.gle/example",
+      "until": "2099-12-31"
+    }
+  ],
+  "events": {
+    "source": "json",
+    "jsonUrl": "/data/events.json",
+    "csvUrl": ""
+  }
+}
