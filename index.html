@@ -5,269 +5,213 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description"
-        content="Zenotika - Rumah Digital untuk Mahasiswa Ilmu Komputer Universitas Komputer Indonesia" />
-    <meta name="keywords" content="Zenotika, Rumah Digital, Computer Science, UNIKOM, Universitas Komputer Indonesia" />
+        content="Zenotika - Rumah Digital modern untuk Mahasiswa Ilmu Komputer Universitas Komputer Indonesia." />
+    <meta name="keywords" content="Zenotika, Rumah Digital, Computer Science, UNIKOM, Universitas Komputer Indonesia, Belajar, Materi Ajar" />
     <meta name="author" content="Zenotika" />
-    <meta name="theme-color" content="#0a0e27" />
-    <meta property="og:title" content="Zenotika - Rumah Digital Mahasiswa Ilmu Komputer UNIKOM" />
-    <meta property="og:description"
-        content="Media Informasi & Media Ajar untuk 450+ mahasiswa Ilmu Komputer UNIKOM. Belajar, berbagi, bertumbuh." />
+    <meta name="theme-color" content="#0B0B1A" />
+
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://zenotika.example" />
-    <meta property="og:image" content="/icon.svg" />
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="og:url" content="https://andhika-rey.github.io/zen/" />
+    <meta property="og:title" content="Zenotika 2025 - Digital Aurora" />
+    <meta property="og:description"
+        content="Rumah digital modern untuk belajar, berbagi, dan bertumbuh bagi mahasiswa Ilmu Komputer UNIKOM." />
+    <meta property="og:image" content="https://andhika-rey.github.io/zen/assets/og-image.png" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://andhika-rey.github.io/zen/" />
+    <meta property="twitter:title" content="Zenotika 2025 - Digital Aurora" />
+    <meta property="twitter:description"
+        content="Rumah digital modern untuk belajar, berbagi, dan bertumbuh bagi mahasiswa Ilmu Komputer UNIKOM." />
+    <meta property="twitter:image" content="https://andhika-rey.github.io/zen/assets/og-image.png" />
+
     <title>Zenotika - Rumah Digital</title>
-    <link rel="stylesheet" href="styles.css" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Syne:wght@800&display=swap"
         rel="stylesheet" />
+
+    <link rel="stylesheet" href="styles.css" />
     <link rel="icon" href="/icon.svg" type="image/svg+xml" />
     <link rel="manifest" href="/manifest.json" />
 </head>
 
-<body>
-    <a class="skip-link" href="#main">Lewati ke konten utama</a>
-    <!-- Navigation -->
-    <nav class="navbar" role="navigation" aria-label="Navigasi utama">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <span class="logo-text">ZENOTIKA</span>
-            </div>
-            <ul class="nav-menu">
-                <li class="nav-item">
-                    <a href="#home" class="nav-link">Beranda</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#about" class="nav-link">Tentang</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#learning" class="nav-link">Media Ajar</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#info" class="nav-link">Informasi</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#contact" class="nav-link">Kontak</a>
-                </li>
-            </ul>
-            <div class="hamburger">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
-        </div>
-    </nav>
+<body class="aurora-bg">
+    <a href="#main-content" class="skip-link">Lewati ke konten utama</a>
 
-    <!-- Announcement Bar (dynamic) -->
-    <div id="announcement-bar" class="announcement hidden" role="status" aria-live="polite">
-        <div class="container announcement-inner">
-            <div class="announcement-text"></div>
-            <div class="announcement-actions">
-                <a class="announcement-cta" href="#" target="_blank" rel="noopener">Lihat</a>
-                <button class="announcement-dismiss" aria-label="Tutup pengumuman">
-                    ✕
-                </button>
-            </div>
+    <div id="announcement-bar" class="announcement-bar hidden">
+        <div class="announcement-content">
+            <p class="announcement-text"></p>
+            <a href="#" class="announcement-cta" target="_blank" rel="noopener">Lihat</a>
         </div>
+        <button class="announcement-dismiss" aria-label="Tutup pengumuman">×</button>
     </div>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero" aria-labelledby="site-title">
-        <div class="hero-content" role="banner">
-            <div class="hero-title">
-                <h1 id="site-title" class="zenotika-title">ZENOTIKA</h1>
-                <p class="hero-subtitle">Teknik Informatika 2024</p>
-            </div>
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="/index.html" class="nav-logo">ZENOTIKA</a>
+            <button class="hamburger" aria-label="Buka menu" aria-expanded="false" aria-controls="nav-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            <nav id="nav-menu" class="nav-menu">
+                <ul>
+                    <li><a href="#home" class="nav-link active">Beranda</a></li>
+                    <li><a href="#about" class="nav-link">Tentang</a></li>
+                    <li><a href="#learning" class="nav-link">Materi</a></li>
+                    <li><a href="#info" class="nav-link">Info</a></li>
+                    <li><a href="#contact" class="nav-link">Kontak</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="progress-bar"></div>
+    </header>
 
-            <!-- 3D Character -->
-            <div class="character-container">
-                <div class="character-3d" role="img" aria-label="Karakter 3D Zenotika, ikon utama Zenotika">
-                    <div class="character-body">
-                        <div class="character-head">
-                            <div class="character-face">
-                                <div class="eye left-eye"></div>
-                                <div class="eye right-eye"></div>
-                                <div class="mouth"></div>
-                            </div>
-                        </div>
-                        <div class="character-torso">
-                            <div class="zen-logo">Z</div>
-                        </div>
-                        <div class="character-arms">
-                            <div class="arm left-arm"></div>
-                            <div class="arm right-arm"></div>
-                        </div>
-                        <div class="character-legs">
-                            <div class="leg left-leg"></div>
-                            <div class="leg right-leg"></div>
-                        </div>
-                    </div>
+    <main id="main-content">
+        <!-- Hero Section -->
+        <section id="home" class="hero" aria-labelledby="hero-title">
+            <div class="hero-content">
+                <h1 id="hero-title" class="zenotika-title">ZENOTIKA</h1>
+                <p class="hero-subtitle">Rumah Digital Mahasiswa Ilmu Komputer</p>
+                <div class="character-3d" role="img" aria-label="Ikon karakter 3D Zenotika">
+                    <div class="character-body"></div>
                     <div class="character-shadow"></div>
                 </div>
+                <p class="hero-description">
+                    Platform modern untuk belajar, berbagi, dan bertumbuh bersama.
+                </p>
+                <div class="hero-cta">
+                    <a href="#learning" class="cta-button">Jelajahi Materi</a>
+                </div>
             </div>
+        </section>
 
-            <div class="hero-description">
-                <p>Platform digital untuk 450+ mahasiswa Jurusan Ilmu Komputer</p>
-                <p>Universitas Komputer Indonesia</p>
-            </div>
-
-            <div class="hero-cta">
-                <a href="#learning" class="cta-button primary" role="button"
-                    aria-label="Pergi ke media pembelajaran">Mulai Belajar</a>
-                <a href="#about" class="cta-button secondary" role="button"
-                    aria-label="Pelajari lebih lanjut tentang Zenotika">Pelajari Lebih Lanjut</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <main id="main">
+        <!-- About Section -->
         <section id="about" class="about" aria-labelledby="about-title">
-            <div class="container">
-                <h2 id="about-title" class="section-title">Tentang Zenotika</h2>
-                <div class="about-grid">
-                    <div class="about-card">
-                        <div class="card-icon">📚</div>
-                        <h3>Media Informasi</h3>
-                        <p>
-                            Portal informasi terpadu untuk mahasiswa Ilmu Komputer UNIKOM
-                            dengan update terkini seputar akademik dan teknologi.
-                        </p>
-                    </div>
-                    <div class="about-card">
-                        <div class="card-icon">🎓</div>
-                        <h3>Media Ajar</h3>
-                        <p>
-                            Platform pembelajaran interaktif dengan materi berkualitas,
-                            tutorial, dan sumber daya untuk mendukung perkuliahan.
-                        </p>
-                    </div>
-                    <div class="about-card">
-                        <div class="card-icon">🤝</div>
-                        <h3>Komunitas</h3>
-                        <p>
-                            Membangun komunitas mahasiswa yang saling mendukung dalam
-                            perjalanan akademik dan pengembangan karir.
-                        </p>
-                    </div>
+            <h2 id="about-title" class="section-title">Digital, Modern, Terintegrasi</h2>
+            <p class="section-subtitle">
+                Zenotika dirancang untuk menjadi pusat aktivitas digital Anda.
+            </p>
+            <div class="about-grid">
+                <div class="about-card">
+                    <h3 class="card-title"><span aria-hidden="true">📚</span> Media Ajar</h3>
+                    <p>
+                        Akses materi ajar berkualitas yang disusun secara terstruktur,
+                        dari dasar hingga tingkat lanjut.
+                    </p>
+                </div>
+                <div class="about-card">
+                    <h3 class="card-title"><span aria-hidden="true">📢</span> Pusat Informasi</h3>
+                    <p>
+                        Jangan lewatkan pengumuman penting, jadwal acara, dan berita
+                        terkini seputar dunia akademik dan teknologi.
+                    </p>
+                </div>
+                <div class="about-card">
+                    <h3 class="card-title"><span aria-hidden="true">🤝</span> Ruang Komunitas</h3>
+                    <p>
+                        Terhubung dengan sesama mahasiswa, berkolaborasi dalam proyek,
+                        dan tumbuh bersama dalam satu wadah.
+                    </p>
                 </div>
             </div>
         </section>
 
         <!-- Learning Section -->
         <section id="learning" class="learning" aria-labelledby="learning-title">
-            <div class="container">
-                <h2 id="learning-title" class="section-title">Media Pembelajaran</h2>
-                <div class="learning-grid">
-                    <a class="learning-item" href="/materials/program-dasar.html">
+            <h2 id="learning-title" class="section-title">Mulai Perjalanan Belajar Anda</h2>
+            <p class="section-subtitle">
+                Pilih salah satu materi untuk memulai.
+            </p>
+            <div class="learning-grid">
+                <a href="materials/program-dasar.html" class="learning-item">
+                    <div class="learning-content">
                         <h4>Pemrograman Dasar</h4>
-                        <p>Tutorial dan latihan pemrograman untuk pemula hingga mahir</p>
-                    </a>
-                    <a class="learning-item" href="/materials/asd.html">
-                        <h4>Algoritma & Struktur Data</h4>
-                        <p>Materi lengkap dengan visualisasi dan contoh implementasi</p>
-                    </a>
-                    <a class="learning-item" href="/materials/basis-data.html">
+                        <p>Fondasi logika dan algoritma.</p>
+                    </div>
+                </a>
+                <a href="materials/asd.html" class="learning-item">
+                    <div class="learning-content">
+                        <h4>Struktur Data</h4>
+                        <p>Pengorganisasian data yang efisien.</p>
+                    </div>
+                </a>
+                <a href="materials/basis-data.html" class="learning-item">
+                    <div class="learning-content">
                         <h4>Basis Data</h4>
-                        <p>Panduan desain dan implementasi sistem basis data</p>
-                    </a>
-                    <a class="learning-item" href="/materials/web.html">
+                        <p>Manajemen dan kueri data.</p>
+                    </div>
+                </a>
+                <a href="materials/web.html" class="learning-item">
+                    <div class="learning-content">
                         <h4>Pengembangan Web</h4>
-                        <p>Teknologi web terkini untuk membangun aplikasi modern</p>
-                    </a>
-                </div>
+                        <p>Membangun situs dan aplikasi modern.</p>
+                    </div>
+                </a>
             </div>
         </section>
 
         <!-- Info Section -->
         <section id="info" class="info" aria-labelledby="info-title">
-            <div class="container">
-                <h2 id="info-title" class="section-title">Informasi Terkini</h2>
-                <div id="events" class="info-grid" data-source="config">
-                    <!-- Konten acara akan dimuat dinamis dari /data/config.json -->
-                </div>
-                <div id="events-empty" class="events-empty" hidden>
-                    Tidak ada acara mendatang. Cek lagi nanti ya.
+            <h2 id="info-title" class="section-title">Acara & Informasi</h2>
+            <p class="section-subtitle">
+                Ikuti terus jadwal dan kegiatan terbaru dari komunitas.
+            </p>
+            <div id="events" class="info-grid">
+                <!-- Dynamic content will be loaded here -->
+            </div>
+            <div id="events-empty" class="info-card" hidden>
+                <div class="info-details">
+                    <h4>Belum Ada Acara</h4>
+                    <p>Saat ini belum ada acara yang dijadwalkan. Cek kembali nanti!</p>
                 </div>
             </div>
         </section>
 
         <!-- Contact Section -->
         <section id="contact" class="contact" aria-labelledby="contact-title">
-            <div class="container">
-                <h2 id="contact-title" class="section-title">Hubungi Kami</h2>
-                <div class="contact-content">
-                    <div class="contact-info">
-                        <h4>Zenotika Digital House</h4>
-                        <p>Universitas Komputer Indonesia</p>
-                        <p>Jl. Dipatiukur No.112-116, Bandung</p>
-                        <p>Email: info@zenotika.id</p>
-                        <div class="social-links">
-                            <a href="https://www.instagram.com/zenotika/" target="_blank" class="social-link">
-                                Instagram @zenotika
-                            </a>
+            <h2 id="contact-title" class="section-title">Terhubung Dengan Kami</h2>
+            <p class="section-subtitle">
+                Punya pertanyaan, saran, atau ingin berkontribusi?
+            </p>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>Informasi Kontak</h3>
+                    <p>
+                        Untuk kolaborasi atau pertanyaan umum, silakan hubungi kami melalui
+                        email.
+                    </p>
+                    <a href="mailto:kontak@zenotika.example" class="email-link">kontak@zenotika.example</a>
+                </div>
+                <div class="contact-form">
+                    <form action="#">
+                        <div class="form-group">
+                            <label for="name">Nama</label>
+                            <input type="text" id="name" name="name" required />
                         </div>
-                    </div>
-                    <div class="contact-form">
-                        <form aria-label="Formulir kontak">
-                            <label class="visually-hidden" for="name">Nama Lengkap</label>
-                            <input id="name" name="name" type="text" placeholder="Nama Lengkap" required />
-                            <label class="visually-hidden" for="email">Email</label>
-                            <input id="email" name="email" type="email" placeholder="Email" required />
-                            <label class="visually-hidden" for="message">Pesan</label>
-                            <textarea id="message" name="message" placeholder="Pesan Anda" rows="5" required></textarea>
-                            <button type="submit" class="submit-btn">Kirim Pesan</button>
-                        </form>
-                    </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Pesan</label>
+                            <textarea id="message" name="message" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">Kirim Pesan</button>
+                    </form>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="footer" role="contentinfo">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <span class="logo-text">ZENOTIKA</span>
-                    <p>Rumah Digital untuk Mahasiswa Ilmu Komputer</p>
-                </div>
-                <div class="footer-links">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="#about">Tentang</a></li>
-                        <li><a href="#learning">Media Ajar</a></li>
-                        <li><a href="#info">Informasi</a></li>
-                        <li><a href="#contact">Kontak</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>
-                    &copy; 2024 Zenotika. Made with ❤️ for UNIKOM Computer Science
-                    Students
-                </p>
-            </div>
-        </div>
+    <footer class="footer">
+        <p>&copy; 2025 Zenotika. Dibuat dengan cinta untuk pendidikan.</p>
     </footer>
 
     <script src="script.js"></script>
-    <script>
-        if ("serviceWorker" in navigator) {
-            window.addEventListener("load", function () {
-                const isLocal = ["localhost", "127.0.0.1"].includes(
-                    location.hostname
-                );
-                if (!isLocal) {
-                    navigator.serviceWorker
-                        .register("./sw.js", { scope: "./" })
-                        .catch(() => { });
-                }
-            });
-        }
-    </script>
 </body>
 
 </html>

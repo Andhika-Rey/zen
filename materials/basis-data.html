@@ -9,50 +9,73 @@
   <link rel="manifest" href="/manifest.json" />
   <meta name="description" content="Materi ajar Basis Data untuk mahasiswa Ilmu Komputer UNIKOM" />
 </head>
-<body>
-  <nav class="navbar" role="navigation" aria-label="Navigasi utama">
-    <div class="nav-container">
-      <div class="nav-logo"><a href="/" class="logo-text" style="text-decoration:none">ZENOTIKA</a></div>
-      <ul class="nav-menu">
-        <li class="nav-item"><a href="/index.html#learning" class="nav-link">Kembali</a></li>
-      </ul>
-      <div class="hamburger">
-        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
-      </div>
+<body class="aurora-bg">
+  <div id="announcement-bar" class="announcement-bar hidden">
+    <div class="announcement-content">
+      <p class="announcement-text"></p>
+      <a href="#" class="announcement-cta" target="_blank" rel="noopener">Lihat</a>
     </div>
+    <button class="announcement-dismiss" aria-label="Tutup">×</button>
+  </div>
+
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="/index.html" class="nav-logo">ZENOTIKA</a>
+      <div class="hamburger">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+      <ul class="nav-menu">
+        <li><a href="/index.html#learning" class="nav-link">Kembali ke Materi</a></li>
+      </ul>
+    </div>
+    <div class="progress-bar"></div>
   </nav>
 
-  <main class="content-page" style="padding-top:90px">
-    <section class="about" aria-labelledby="title">
-      <div class="container">
-        <h1 id="title" class="section-title">Basis Data</h1>
-        <p style="text-align:center;max-width:780px;margin:0 auto 2rem">Desain relasional, normalisasi, SQL, dan praktik implementasi.</p>
+  <main class="content-page">
+    <h1 class="page-title">Basis Data</h1>
+    <p class="page-subtitle">
+      Materi ini berfokus pada desain database relasional, normalisasi, SQL, dan praktik implementasi terbaik.
+    </p>
 
-        <div class="info-grid" id="materials-list">
-          <article class="info-card">
-            <div class="info-date">Minggu 1</div>
-            <h4>ERD & Normalisasi</h4>
-            <p>Konsep entitas, relasi, dan bentuk normal.</p>
-            <p><a href="#" target="_blank">Modul (PDF)</a> • <a href="#" target="_blank">Latihan (SQL)</a></p>
-          </article>
-
-          <article class="info-card">
-            <div class="info-date">Minggu 2</div>
-            <h4>SQL Dasar</h4>
-            <p>SELECT, INSERT, UPDATE, DELETE, JOIN.</p>
-            <p><a href="#" target="_blank">Modul (PDF)</a> • <a href="#" target="_blank">Latihan (SQL)</a></p>
-          </article>
-
-          <article class="info-card">
-            <div class="info-date">Minggu 3</div>
-            <h4>Transaksi & Index</h4>
-            <p>ACID, indexing, dan optimasi query.</p>
-            <p><a href="#" target="_blank">Modul (PDF)</a> • <a href="#" target="_blank">Latihan (SQL)</a></p>
-          </article>
-        </div>
-      </div>
-    </section>
+    <ul class="module-list">
+      <li class="module-item">
+        <h3>Modul 1: Model Data Relasional</h3>
+        <p>Memahami konsep entitas, atribut, relasi, dan membuat Entity-Relationship Diagram (ERD).</p>
+        <a href="#" class="module-link" download>Unduh PDF</a>
+      </li>
+      <li class="module-item">
+        <h3>Modul 2: Normalisasi Database</h3>
+        <p>Mempelajari bentuk normal (1NF, 2NF, 3NF) untuk merancang database yang efisien dan bebas anomali.</p>
+        <a href="#" class="module-link" download>Unduh PDF</a>
+      </li>
+      <li class="module-item">
+        <h3>Modul 3: SQL - Data Definition Language (DDL)</h3>
+        <p>Menguasai perintah CREATE, ALTER, dan DROP untuk mendefinisikan struktur database.</p>
+        <a href="#" class="module-link" download>Unduh PDF</a>
+      </li>
+      <li class="module-item">
+        <h3>Modul 4: SQL - Data Manipulation Language (DML)</h3>
+        <p>Praktik penggunaan SELECT, INSERT, UPDATE, dan DELETE untuk mengelola data.</p>
+        <a href="#" class="module-link" download>Unduh PDF</a>
+      </li>
+      <li class="module-item">
+        <h3>Modul 5: SQL - Advanced Query</h3>
+        <p>Mempelajari JOIN, subquery, agregasi (GROUP BY), dan fungsi window untuk query yang kompleks.</p>
+        <a href="#" class="module-link" download>Unduh PDF</a>
+      </li>
+      <li class="module-item">
+        <h3>Modul 6: Transaksi dan Indexing</h3>
+        <p>Memahami properti ACID, manajemen transaksi, dan pentingnya indexing untuk optimasi performa query.</p>
+        <a href="#" class="module-link" download>Unduh PDF</a>
+      </li>
+    </ul>
   </main>
+
+  <footer class="footer">
+    <p>&copy; 2025 Zenotika. Dibuat dengan cinta untuk pendidikan.</p>
+  </footer>
 
   <script src="../script.js"></script>
 </body>

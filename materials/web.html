@@ -9,50 +9,73 @@
   <link rel="manifest" href="/manifest.json" />
   <meta name="description" content="Materi ajar Pengembangan Web untuk mahasiswa Ilmu Komputer UNIKOM" />
 </head>
-<body>
-  <nav class="navbar" role="navigation" aria-label="Navigasi utama">
-    <div class="nav-container">
-      <div class="nav-logo"><a href="/" class="logo-text" style="text-decoration:none">ZENOTIKA</a></div>
-      <ul class="nav-menu">
-        <li class="nav-item"><a href="/index.html#learning" class="nav-link">Kembali</a></li>
-      </ul>
-      <div class="hamburger">
-        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
-      </div>
+<body class="aurora-bg">
+  <div id="announcement-bar" class="announcement-bar hidden">
+    <div class="announcement-content">
+      <p class="announcement-text"></p>
+      <a href="#" class="announcement-cta" target="_blank" rel="noopener">Lihat</a>
     </div>
+    <button class="announcement-dismiss" aria-label="Tutup">×</button>
+  </div>
+
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="/index.html" class="nav-logo">ZENOTIKA</a>
+      <div class="hamburger">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+      <ul class="nav-menu">
+        <li><a href="/index.html#learning" class="nav-link">Kembali ke Materi</a></li>
+      </ul>
+    </div>
+    <div class="progress-bar"></div>
   </nav>
 
-  <main class="content-page" style="padding-top:90px">
-    <section class="about" aria-labelledby="title">
-      <div class="container">
-        <h1 id="title" class="section-title">Pengembangan Web</h1>
-        <p style="text-align:center;max-width:780px;margin:0 auto 2rem">HTML/CSS/JS, aksesibilitas, performa, dan praktik modern.</p>
+  <main class="content-page">
+    <h1 class="page-title">Pengembangan Web</h1>
+    <p class="page-subtitle">
+      Materi ini mencakup teknologi fundamental (HTML, CSS, JS), aksesibilitas, performa, dan praktik pengembangan modern.
+    </p>
 
-        <div class="info-grid" id="materials-list">
-          <article class="info-card">
-            <div class="info-date">Minggu 1</div>
-            <h4>Dasar HTML & Aksesibilitas</h4>
-            <p>Struktur semantik, landmark, ARIA, form yang aksesibel.</p>
-            <p><a href="#" target="_blank">Modul (PDF)</a> • <a href="#" target="_blank">Latihan</a></p>
-          </article>
-
-          <article class="info-card">
-            <div class="info-date">Minggu 2</div>
-            <h4>CSS Layout & Responsif</h4>
-            <p>Flexbox, Grid, breakpoint, dan design tokens.</p>
-            <p><a href="#" target="_blank">Modul (PDF)</a> • <a href="#" target="_blank">Latihan</a></p>
-          </article>
-
-          <article class="info-card">
-            <div class="info-date">Minggu 3</div>
-            <h4>JavaScript Dasar</h4>
-            <p>DOM, event, fetch API, dan praktik aman.</p>
-            <p><a href="#" target="_blank">Modul (PDF)</a> • <a href="#" target="_blank">Latihan</a></p>
-          </article>
-        </div>
-      </div>
-    </section>
+    <ul class="module-list">
+      <li class="module-item">
+        <h3>Modul 1: HTML Semantik & Aksesibilitas</h3>
+        <p>Membangun struktur dokumen yang kokoh dan memastikan website dapat diakses oleh semua pengguna.</p>
+        <a href="#" class="module-link" download>Unduh PDF</a>
+      </li>
+      <li class="module-item">
+        <h3>Modul 2: CSS Modern Layout</h3>
+        <p>Menguasai Flexbox dan Grid untuk membuat layout yang kompleks dan responsif dengan mudah.</p>
+        <a href="#" class="module-link" download>Unduh PDF</a>
+      </li>
+      <li class="module-item">
+        <h3>Modul 3: Desain Responsif & Mobile-First</h3>
+        <p>Mempelajari strategi dan teknik (media queries, fluid typography) untuk membangun situs yang adaptif.</p>
+        <a href="#" class="module-link" download>Unduh PDF</a>
+      </li>
+      <li class="module-item">
+        <h3>Modul 4: JavaScript DOM Manipulation</h3>
+        <p>Praktik memanipulasi halaman web secara dinamis menggunakan Document Object Model.</p>
+        <a href="#" class="module-link" download>Unduh PDF</a>
+      </li>
+      <li class="module-item">
+        <h3>Modul 5: Asynchronous JavaScript</h3>
+        <p>Memahami konsep asynchronous, Callback, Promise, dan Async/Await untuk menangani operasi seperti fetch API.</p>
+        <a href="#" class="module-link" download>Unduh PDF</a>
+      </li>
+      <li class="module-item">
+        <h3>Modul 6: Performa Web & Best Practices</h3>
+        <p>Belajar teknik optimasi (image, code minification) dan praktik terbaik untuk situs yang cepat dan aman.</p>
+        <a href="#" class="module-link" download>Unduh PDF</a>
+      </li>
+    </ul>
   </main>
+
+  <footer class="footer">
+    <p>&copy; 2025 Zenotika. Dibuat dengan cinta untuk pendidikan.</p>
+  </footer>
 
   <script src="../script.js"></script>
 </body>

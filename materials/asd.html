@@ -9,50 +9,73 @@
   <link rel="manifest" href="/manifest.json" />
   <meta name="description" content="Materi ajar Algoritma & Struktur Data untuk mahasiswa Ilmu Komputer UNIKOM" />
 </head>
-<body>
-  <nav class="navbar" role="navigation" aria-label="Navigasi utama">
-    <div class="nav-container">
-      <div class="nav-logo"><a href="/" class="logo-text" style="text-decoration:none">ZENOTIKA</a></div>
-      <ul class="nav-menu">
-        <li class="nav-item"><a href="/index.html#learning" class="nav-link">Kembali</a></li>
-      </ul>
-      <div class="hamburger">
-        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
-      </div>
+<body class="aurora-bg">
+  <div id="announcement-bar" class="announcement-bar hidden">
+    <div class="announcement-content">
+      <p class="announcement-text"></p>
+      <a href="#" class="announcement-cta" target="_blank" rel="noopener">Lihat</a>
     </div>
+    <button class="announcement-dismiss" aria-label="Tutup">×</button>
+  </div>
+
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="/index.html" class="nav-logo">ZENOTIKA</a>
+      <div class="hamburger">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+      <ul class="nav-menu">
+        <li><a href="/index.html#learning" class="nav-link">Kembali ke Materi</a></li>
+      </ul>
+    </div>
+    <div class="progress-bar"></div>
   </nav>
 
-  <main class="content-page" style="padding-top:90px">
-    <section class="about" aria-labelledby="title">
-      <div class="container">
-        <h1 id="title" class="section-title">Algoritma & Struktur Data</h1>
-        <p style="text-align:center;max-width:780px;margin:0 auto 2rem">Materi meliputi analisis kompleksitas, struktur data dasar hingga lanjutan, dengan contoh implementasi.</p>
+  <main class="content-page">
+    <h1 class="page-title">Algoritma & Struktur Data</h1>
+    <p class="page-subtitle">
+      Materi meliputi analisis kompleksitas, struktur data dasar hingga lanjutan, dengan contoh implementasi praktis.
+    </p>
 
-        <div class="info-grid" id="materials-list">
-          <article class="info-card">
-            <div class="info-date">Minggu 1</div>
-            <h4>Kompleksitas Waktu & Ruang</h4>
-            <p>Big-O notation dan analisis sederhana.</p>
-            <p><a href="#" target="_blank">Modul (PDF)</a> • <a href="#" target="_blank">Latihan (Notebook)</a></p>
-          </article>
-
-          <article class="info-card">
-            <div class="info-date">Minggu 2</div>
-            <h4>Array, Linked List</h4>
-            <p>Operasi dasar dan trade-off.</p>
-            <p><a href="#" target="_blank">Modul (PDF)</a> • <a href="#" target="_blank">Latihan (Notebook)</a></p>
-          </article>
-
-          <article class="info-card">
-            <div class="info-date">Minggu 3</div>
-            <h4>Stack & Queue</h4>
-            <p>Pola penggunaan dan implementasi.</p>
-            <p><a href="#" target="_blank">Modul (PDF)</a> • <a href="#" target="_blank">Latihan (Notebook)</a></p>
-          </article>
-        </div>
-      </div>
-    </section>
+    <ul class="module-list">
+      <li class="module-item">
+        <h3>Modul 1: Kompleksitas Waktu & Ruang</h3>
+        <p>Pengenalan Big-O notation dan cara menganalisis efisiensi sebuah algoritma.</p>
+        <a href="#" class="module-link" download>Unduh PDF</a>
+      </li>
+      <li class="module-item">
+        <h3>Modul 2: Struktur Data Linear</h3>
+        <p>Mempelajari Array, Linked List, Stack, dan Queue beserta operasi dan trade-off-nya.</p>
+        <a href="#" class="module-link" download>Unduh PDF</a>
+      </li>
+      <li class="module-item">
+        <h3>Modul 3: Struktur Data Non-Linear</h3>
+        <p>Menguasai konsep Tree, Binary Search Tree (BST), dan Heap untuk data hirarkis.</p>
+        <a href="#" class="module-link" download>Unduh PDF</a>
+      </li>
+      <li class="module-item">
+        <h3>Modul 4: Hash Table</h3>
+        <p>Memahami cara kerja Hash Table untuk penyimpanan dan pencarian data yang sangat cepat.</p>
+        <a href="#" class="module-link" download>Unduh PDF</a>
+      </li>
+      <li class="module-item">
+        <h3>Modul 5: Graph</h3>
+        <p>Pengenalan struktur data Graph serta algoritma traversal dasar seperti BFS dan DFS.</p>
+        <a href="#" class="module-link" download>Unduh PDF</a>
+      </li>
+      <li class="module-item">
+        <h3>Modul 6: Algoritma Sorting & Searching</h3>
+        <p>Implementasi dan analisis berbagai algoritma sorting (Bubble, Merge, Quick) dan searching (Binary Search).</p>
+        <a href="#" class="module-link" download>Unduh PDF</a>
+      </li>
+    </ul>
   </main>
+
+  <footer class="footer">
+    <p>&copy; 2025 Zenotika. Dibuat dengan cinta untuk pendidikan.</p>
+  </footer>
 
   <script src="../script.js"></script>
 </body>

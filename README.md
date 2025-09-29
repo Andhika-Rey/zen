@@ -1,211 +1,112 @@
-# Zenotika - Rumah Digital
+# Zenotika 2025 - Digital Aurora
 
-🏠 **Website untuk Rumah Digital Zenotika** - Platform digital yang dirancang khusus untuk 450+ mahasiswa Jurusan Ilmu Komputer Universitas Komputer Indonesia (UNIKOM).
+🏠 **Zenotika adalah sebuah rumah digital modern** yang dirancang sebagai pusat informasi, pembelajaran, dan komunitas untuk 450+ mahasiswa Ilmu Komputer di Universitas Komputer Indonesia (UNIKOM).
 
-![Zenotika Homepage](https://github.com/user-attachments/assets/2e606710-0fa1-42f5-8294-2f4f93738794)
-
-## 🎯 Tujuan
-
-Zenotika adalah platform digital yang berfungsi sebagai:
-- **Media Informasi** - Portal informasi terpadu untuk mahasiswa
-- **Media Ajar** - Platform pembelajaran interaktif dengan materi berkualitas
-- **Komunitas** - Membangun komunitas mahasiswa yang saling mendukung
-
-## ✨ Fitur Utama
-
-### 🤖 Karakter 3D Interaktif
-- Karakter 3D sebagai ikon utama Zenotika
-- Animasi floating dan interaksi mouse
-- Responsif di semua perangkat
-
-### 📱 Fully Responsive Design
-- Optimized untuk desktop, tablet, dan mobile
-- Mobile-first approach
-- Hamburger menu untuk navigasi mobile
-
-![Mobile Version](https://github.com/user-attachments/assets/e0950831-9e4c-43fa-b446-b4a0b5d822dc)
-
-### 🎨 Modern UI/UX
-- Gradient colors dengan tema blue dan orange
-- Smooth animations dan transitions
-- Interactive elements dengan hover effects
-- Typography menggunakan Orbitron dan Inter fonts
-
-### ⚡ Performance Optimized
-- Pure HTML, CSS, dan JavaScript (no frameworks)
-- Lightweight dan fast loading
-- Progressive Web App ready
-- SEO optimized
-
-## 🛠️ Tech Stack
-
-**Frontend:**
-- HTML5 (Semantic markup)
-- CSS3 (Grid, Flexbox, 3D Transforms, Animations)
-- Vanilla JavaScript (ES6+)
-- Google Fonts (Orbitron, Inter)
-
-**Features:**
-- CSS 3D Transforms untuk karakter
-- CSS Grid & Flexbox untuk layout
-- Intersection Observer untuk scroll animations
-- Smooth scrolling navigation
-- Mobile responsive design
-
-## 🚀 Quick Start
-
-1. **Clone repository:**
-   ```bash
-   git clone https://github.com/Andhika-Rey/zen.git
-   cd zen
-   ```
-
-2. **Jalankan local server:**
-   ```bash
-   # Menggunakan Python
-   python3 -m http.server 8000
-   
-   # Atau menggunakan Node.js
-   npx serve .
-   
-   # Atau menggunakan Live Server di VS Code
-   ```
-
-3. **Buka di browser:**
-   ```
-   http://localhost:8000
-   ```
-
-## 📁 Struktur File
-
-```
-zen/
-├── index.html          # Main HTML file
-├── styles.css          # CSS styles dan animations
-├── script.js           # JavaScript functionality
-└── README.md           # Documentation
-```
-
-## 🎮 Interactive Features
-
-- **3D Character Animation** - Karakter floating dengan animasi kontinyu
-- **Mouse Interaction** - Karakter merespons pergerakan mouse
-- **Click Animation** - Karakter berputar 360° saat diklik
-- **Smooth Navigation** - Scroll smooth ke section yang dipilih
-- **Form Animation** - Interactive form dengan feedback visual
-- **Easter Egg** - Konami code untuk surprise effect
-
-## 📱 Responsive Breakpoints
-
-- **Desktop:** ≥ 1200px
-- **Tablet:** 768px - 1199px
-- **Mobile:** ≤ 767px
-- **Small Mobile:** ≤ 480px
-
-## 🎨 Color Palette
-
-```css
-Primary: #00d4ff (Cyan blue)
-Secondary: #0066cc (Dark blue)
-Accent: #ff6b35 (Orange)
-Dark BG: #0a0e27 (Navy)
-Light BG: #f8faff (Light blue)
-```
-
-## 🌐 Deployment
-
-Website ini sudah siap untuk deploy ke:
-- **GitHub Pages** (Gratis)
-- **Netlify** (Gratis)
-- **Vercel** (Gratis)
-- **Firebase Hosting** (Gratis)
-
-### Deploy ke GitHub Pages:
-1. Push code ke repository GitHub
-2. Ke Settings > Pages
-3. Pilih source branch (main)
-4. Website akan available di `https://andhika-rey.github.io/zen/`
-
-## 🔔 Announcement & 📅 Events (Dinamis)
-
-### Pengumuman Mingguan
-Edit `data/config.json` bagian `announcements`:
-
-```
-{
-   "announcements": [
-      { "message": "Pendaftaran mentoring dibuka!", "link": "https://...", "until": "2025-12-31" }
-   ]
-}
-```
-
-Pengumuman bisa ditutup. Pesan yang sama tidak akan tampil lagi (disimpan di localStorage pengguna).
-
-### Acara Dinamis
-Sumber default: `data/events.json` dengan format:
-
-```
-[
-   { "date": "2025-10-05", "title": "Judul", "description": "Deskripsi", "location": "Tempat", "link": "https://..." }
-]
-```
-
-Alternatif: Google Sheets (CSV). Ubah `data/config.json`:
-
-```
-{
-   "events": {
-      "source": "csv",
-      "csvUrl": "https://docs.google.com/spreadsheets/d/ID/export?format=csv"
-   }
-}
-```
-
-Kolom CSV: `date,title,description,location,link`.
-
-## 📚 Materi Ajar
-Halaman awal di folder `materials/`:
-- `materials/program-dasar.html`
-- `materials/asd.html`
-- `materials/basis-data.html`
-- `materials/web.html`
-
-Silakan ganti tautan Modul/Latihan ke resource asli (PDF/GDrive/dsb).
-
-## ⚙️ PWA & Cache
-`sw.js` mencache halaman utama, materi, dan data JSON. Jika menambah file penting, update array `ASSETS` dan naikkan `CACHE_NAME`.
-
-## 🚀 Netlify
-1. Hubungkan repo ke Netlify.
-2. Build command: kosong. Publish directory: `.` (dikontrol `netlify.toml`).
-3. Deploy akan melayani SPA fallback ke `index.html`.
-
-## 🎓 Target Audience
-
-- 450+ Mahasiswa Jurusan Ilmu Komputer UNIKOM
-- Dosen dan staff akademik
-- Calon mahasiswa dan alumni
-- Komunitas developer Indonesia
-
-## 📞 Contact & Social Media
-
-- **Instagram:** [@zenotika](https://www.instagram.com/zenotika/)
-- **Email:** info@zenotika.id
-- **Location:** Universitas Komputer Indonesia, Bandung
-
-## 🤝 Contributing
-
-Kontribusi sangat diterima! Silakan:
-1. Fork repository
-2. Buat feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to branch (`git push origin feature/AmazingFeature`)
-5. Open Pull Request
-
-## 📝 License
-
-Made with ❤️ for UNIKOM Computer Science Students
+*Versi ini merupakan transformasi total dari desain sebelumnya, mengusung tema "Digital Aurora" untuk pengalaman pengguna yang profesional, modern, dan imersif di tahun 2025.*
 
 ---
 
-**Zenotika Digital House** - Membangun masa depan digital mahasiswa Ilmu Komputer Indonesia
+## 🎯 Tujuan Proyek
+
+Zenotika berfungsi sebagai platform digital multifungsi:
+- **Pusat Informasi**: Menyediakan pengumuman dan jadwal acara penting secara dinamis.
+- **Media Pembelajaran**: Menawarkan akses terstruktur ke materi ajar untuk berbagai mata kuliah.
+- **Identitas Digital**: Membangun citra komunitas yang modern, profesional, dan berorientasi pada masa depan.
+
+## ✨ Arsitektur & Fitur Unggulan
+
+Dibangun dengan stack yang ringan dan efisien (Vanilla HTML, CSS, JS), Zenotika 2025 memaksimalkan pengalaman pengguna tanpa mengorbankan performa.
+
+### 🎨 UI/UX "Digital Aurora"
+- **Glassmorphism**: Efek tembus pandang seperti kaca pada elemen UI (navbar, kartu) untuk menciptakan kedalaman visual.
+- **Aurora Background**: Latar belakang gradien animasi yang halus dan dinamis, memberikan nuansa modern dan menenangkan.
+- **Tipografi Profesional**: Kombinasi font **Manrope** (untuk teks) dan **Syne** (untuk judul) yang elegan dan mudah dibaca.
+- **Skema Warna Baru**: Palet warna yang terinspirasi dari aurora, dengan aksen cerah untuk interaktivitas.
+
+### 🚀 Interaksi Modern
+- **Scroll Progress Bar**: Indikator visual di bagian atas yang menunjukkan progres pembacaan halaman.
+- **Active Nav Highlighting**: Tautan navigasi aktif secara otomatis saat menggulir ke bagian terkait.
+- **Card Spotlight Effect**: Efek cahaya interaktif yang mengikuti kursor mouse saat berada di atas kartu, memberikan feedback visual yang memuaskan.
+- **Animasi Fade-In**: Elemen-elemen halaman muncul secara halus saat digulir, menciptakan pengalaman yang dinamis.
+
+### ⚙️ Fitur Fungsional
+- **Konten Dinamis**: Pengumuman dan daftar acara dikelola melalui file JSON (`/data/config.json` & `/data/events.json`), memungkinkan pembaruan tanpa mengubah kode.
+- **Desain Responsif**: Tampilan yang dioptimalkan untuk semua perangkat, dari desktop hingga mobile.
+- **PWA Ready**: Dapat di-cache untuk akses offline berkat Service Worker.
+- **Halaman Materi**: Struktur halaman yang bersih dan terorganisir untuk setiap mata kuliah.
+
+## 🛠️ Panduan Pengembangan Lokal
+
+Untuk menjalankan dan mengembangkan situs ini di komputer Anda:
+
+1.  **Prasyarat**: Anda memerlukan `python` atau `node.js` terinstal untuk menjalankan server lokal sederhana.
+
+2.  **Clone Repositori**:
+    ```bash
+    git clone https://github.com/Andhika-Rey/zen.git
+    cd zen
+    ```
+
+3.  **Jalankan Server Lokal**:
+    Pilih salah satu dari perintah berikut, tergantung pada apa yang Anda miliki.
+
+    *   **Menggunakan Python**:
+        ```bash
+        # Jika Anda menggunakan Python 3
+        python -m http.server
+        ```
+        Situs akan tersedia di `http://localhost:8000`.
+
+    *   **Menggunakan Node.js (dengan `serve`)**:
+        Jika Anda belum memiliki `serve`, instal terlebih dahulu: `npm install -g serve`.
+        ```bash
+        serve
+        ```
+        Situs akan tersedia di alamat yang ditampilkan di terminal (biasanya `http://localhost:3000`).
+
+4.  **Selesai!** Buka browser dan kunjungi alamat tersebut untuk melihat situsnya. Setiap perubahan pada file HTML, CSS, atau JS akan langsung terlihat setelah Anda me-refresh halaman.
+
+## 📂 Struktur Direktori
+
+```
+/
+├── index.html              # Halaman utama
+├── styles.css              # Stylesheet utama (termasuk semua gaya Aurora)
+├── script.js               # Logika interaksi dan pemuat konten dinamis
+├── README.md               # Anda sedang membaca ini
+│
+├── data/
+│   ├── config.json         # Konfigurasi untuk pengumuman & sumber acara
+│   └── events.json         # Daftar acara dalam format JSON
+│
+├── materials/
+│   ├── program-dasar.html  # Halaman materi Pemrograman Dasar
+│   ├── asd.html            # Halaman materi Algoritma & Struktur Data
+│   ├── basis-data.html     # Halaman materi Basis Data
+│   └── web.html            # Halaman materi Pengembangan Web
+│
+├── assets/                 # (Direkomendasikan) Untuk menyimpan gambar atau ikon
+│
+├── sw.js                   # Service Worker untuk caching PWA
+└── manifest.json           # Manifest untuk PWA
+```
+
+## 🚀 Panduan Deployment
+
+Situs ini dirancang untuk deployment yang mudah di platform hosting statis.
+
+### GitHub Pages
+1.  Pastikan kode Anda ada di repositori GitHub.
+2.  Pergi ke `Settings` > `Pages`.
+3.  Di bawah `Build and deployment`, pilih `Source` sebagai `Deploy from a branch`.
+4.  Pilih branch `main` dan folder `/ (root)`.
+5.  Klik `Save`. Situs Anda akan tersedia di `https://<username>.github.io/<repository-name>/`.
+
+### Netlify
+1.  Hubungkan akun GitHub Anda ke Netlify.
+2.  Pilih repositori ini.
+3.  Netlify akan secara otomatis mendeteksi bahwa ini adalah situs statis. Pengaturan build dapat dibiarkan kosong.
+4.  Klik `Deploy site`.
+
+---
+*Dibuat dengan cinta untuk pendidikan dan kemajuan teknologi. © 2025 Zenotika.*
