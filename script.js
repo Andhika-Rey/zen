@@ -1,42 +1,86 @@
-// Mobile Navigation Toggle
+// Modern Navigation with Enhanced Interactions
 document.addEventListener('DOMContentLoaded', function() {
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
     const navLinks = document.querySelectorAll('.nav-link');
-
-    // Toggle mobile menu
-    hamburger.addEventListener('click', function() {
-        hamburger.classList.toggle('active');
-        navMenu.classList.toggle('active');
+    const navbar = document.querySelector('.navbar');
+    const scrollProgress = document.querySelector('.scroll-progress');
+    
+    // Modern scroll progress indicator
+    function updateScrollProgress() {
+        const scrollTop = window.pageYOffset;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = (scrollTop / docHeight) * 100;
         
-        // Animate hamburger bars
-        const bars = hamburger.querySelectorAll('.bar');
-        if (hamburger.classList.contains('active')) {
-            bars[0].style.transform = 'rotate(-45deg) translate(-5px, 6px)';
-            bars[1].style.opacity = '0';
-            bars[2].style.transform = 'rotate(45deg) translate(-5px, -6px)';
-        } else {
-            bars[0].style.transform = 'none';
-            bars[1].style.opacity = '1';
-            bars[2].style.transform = 'none';
+        if (scrollProgress) {
+            scrollProgress.style.width = scrollPercent + '%';
         }
-    });
+    }
+    
+    // Enhanced navbar scroll effects
+    let lastScrollTop = 0;
+    let scrollTimeout;
+    
+    function updateNavbar() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // Add scrolled class for styling
+        if (scrollTop > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+        
+        // Hide/show navbar on scroll (improved logic)
+        if (scrollTop > lastScrollTop && scrollTop > 100) {
+            // Scrolling down
+            navbar.style.transform = 'translateY(-100%)';
+        } else if (scrollTop < lastScrollTop || scrollTop <= 100) {
+            // Scrolling up or near top
+            navbar.style.transform = 'translateY(0)';
+        }
+        
+        lastScrollTop = scrollTop;
+        
+        // Update scroll progress
+        updateScrollProgress();
+    }
+    
+    // Throttled scroll handler for better performance
+    window.addEventListener('scroll', function() {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(updateNavbar, 8);
+    }, { passive: true });
+
+    // Enhanced mobile menu toggle with modern animations
+    if (hamburger && navMenu) {
+        hamburger.addEventListener('click', function() {
+            const isActive = hamburger.classList.contains('active');
+            
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+            
+            // Enhanced body scroll prevention
+            if (!isActive) {
+                document.body.style.overflow = 'hidden';
+                document.body.style.height = '100vh';
+            } else {
+                document.body.style.overflow = '';
+                document.body.style.height = '';
+            }
+        });
+    }
 
     // Close mobile menu when clicking on nav links
     navLinks.forEach(link => {
         link.addEventListener('click', () => {
             hamburger.classList.remove('active');
             navMenu.classList.remove('active');
-            
-            // Reset hamburger bars
-            const bars = hamburger.querySelectorAll('.bar');
-            bars[0].style.transform = 'none';
-            bars[1].style.opacity = '1';
-            bars[2].style.transform = 'none';
+            document.body.style.overflow = '';
         });
     });
 
-    // Smooth scrolling for navigation links
+    // Enhanced smooth scrolling with offset calculation
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
@@ -44,46 +88,124 @@ document.addEventListener('DOMContentLoaded', function() {
             const targetSection = document.querySelector(targetId);
             
             if (targetSection) {
-                const offsetTop = targetSection.offsetTop - 80; // Account for fixed navbar
+                const navbarHeight = navbar.offsetHeight;
+                const offsetTop = targetSection.offsetTop - navbarHeight - 20;
+                
                 window.scrollTo({
                     top: offsetTop,
                     behavior: 'smooth'
                 });
+                
+                // Add active state animation
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            }
+    });
+    
+    // Modern Intersection Observer for animations
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const animationObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.animationPlayState = 'running';
+                entry.target.classList.add('animate-in');
             }
         });
-    });
-
-    // Navbar scroll effect
-    let lastScrollTop = 0;
-    const navbar = document.querySelector('.navbar');
+    }, observerOptions);
     
-    window.addEventListener('scroll', function() {
-        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        
-        if (scrollTop > lastScrollTop && scrollTop > 100) {
-            // Scrolling down
-            navbar.style.transform = 'translateY(-100%)';
-        } else {
-            // Scrolling up
-            navbar.style.transform = 'translateY(0)';
-        }
-        
-        lastScrollTop = scrollTop;
-        
-        // Add background blur on scroll
-        if (scrollTop > 50) {
-            navbar.style.background = 'rgba(10, 14, 39, 0.98)';
-        } else {
-            navbar.style.background = 'rgba(10, 14, 39, 0.95)';
-        }
+    // Observe elements for animations
+    const animateElements = document.querySelectorAll('.about-card, .learning-item, .info-card, .section-title');
+    animateElements.forEach(el => {
+        animationObserver.observe(el);
     });
 
-    // Character interaction
+    // Enhanced Character Interactions
     const character = document.querySelector('.character-3d');
     let isAnimating = false;
     
     if (character) {
-        character.addEventListener('click', function() {
+        // Advanced click interaction with bounce effect
+        character.addEventListener('click', function(e) {
+            if (!isAnimating) {
+                isAnimating = true;
+                
+                // Create ripple effect at click position
+                const rect = this.getBoundingClientRect();
+                const ripple = document.createElement('div');
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.cssText = `
+                    position: absolute;
+                    width: ${size}px;
+                    height: ${size}px;
+                    background: rgba(0, 212, 255, 0.3);
+                    border-radius: 50%;
+                    transform: scale(0);
+                    animation: rippleEffect 0.6s linear;
+                    left: ${x}px;
+                    top: ${y}px;
+                    pointer-events: none;
+                `;
+                
+                this.appendChild(ripple);
+                
+                // Character animation sequence
+                this.style.animation = 'none';
+                this.style.transform = 'scale(1.2) rotateY(720deg)';
+                this.style.filter = 'drop-shadow(0 15px 30px rgba(0, 212, 255, 0.6))';
+                
+                setTimeout(() => {
+                    this.style.animation = 'floatAnimation 6s ease-in-out infinite';
+                    this.style.transform = '';
+                    this.style.filter = '';
+                    ripple.remove();
+                    isAnimating = false;
+                }, 1000);
+            }
+        });
+        
+        // Enhanced mouse tracking with smoother movement
+        let mouseX = 0, mouseY = 0;
+        let charX = 0, charY = 0;
+        
+        character.addEventListener('mousemove', function(e) {
+            if (!isAnimating) {
+                const rect = this.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+                
+                mouseX = (e.clientX - centerX) / rect.width * 30;
+                mouseY = (e.clientY - centerY) / rect.height * 30;
+            }
+        });
+        
+        // Smooth character movement animation
+        function animateCharacter() {
+            if (!isAnimating) {
+                charX += (mouseX - charX) * 0.1;
+                charY += (mouseY - charY) * 0.1;
+                
+                character.style.transform = `rotateY(${charX}deg) rotateX(${-charY}deg)`;
+            }
+            requestAnimationFrame(animateCharacter);
+        }
+        animateCharacter();
+        
+        character.addEventListener('mouseleave', function() {
+            if (!isAnimating) {
+                mouseX = 0;
+                mouseY = 0;
+            }
+        });
+    }
             if (!isAnimating) {
                 isAnimating = true;
                 this.style.animation = 'none';
