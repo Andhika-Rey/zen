@@ -38,6 +38,7 @@ html {
     height: 1px;
     overflow: hidden;
 }
+
 .skip-link:focus {
     left: 16px;
     top: 16px;
@@ -52,7 +53,8 @@ html {
 
 .visually-hidden {
     position: absolute !important;
-    height: 1px; width: 1px;
+    height: 1px;
+    width: 1px;
     overflow: hidden;
     clip: rect(1px, 1px, 1px, 1px);
     white-space: nowrap;
@@ -167,7 +169,7 @@ html {
     left: 0;
     right: 0;
     bottom: 0;
-    background: 
+    background:
         radial-gradient(circle at 20% 80%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
         radial-gradient(circle at 80% 20%, rgba(255, 107, 53, 0.1) 0%, transparent 50%),
         radial-gradient(circle at 40% 40%, rgba(0, 102, 204, 0.05) 0%, transparent 50%);
@@ -200,6 +202,7 @@ html {
     from {
         filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.7));
     }
+
     to {
         filter: drop-shadow(0 0 40px rgba(0, 212, 255, 0.9));
     }
@@ -229,15 +232,20 @@ html {
 }
 
 @keyframes floatAnimation {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: translateY(0) rotateY(0deg);
     }
+
     25% {
         transform: translateY(-10px) rotateY(5deg);
     }
+
     50% {
         transform: translateY(-5px) rotateY(0deg);
     }
+
     75% {
         transform: translateY(-10px) rotateY(-5deg);
     }
@@ -297,9 +305,13 @@ html {
 }
 
 @keyframes blink {
-    0%, 90%, 100% {
+
+    0%,
+    90%,
+    100% {
         transform: scaleY(1);
     }
+
     95% {
         transform: scaleY(0.1);
     }
@@ -356,9 +368,12 @@ html {
 }
 
 @keyframes armSwing {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: rotate(0deg) translateZ(10px);
     }
+
     50% {
         transform: rotate(15deg) translateZ(10px);
     }
@@ -393,10 +408,13 @@ html {
 }
 
 @keyframes shadowPulse {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: translateX(-50%) scale(1);
         opacity: 0.3;
     }
+
     50% {
         transform: translateX(-50%) scale(1.1);
         opacity: 0.2;
@@ -456,21 +474,35 @@ html {
     position: sticky;
     top: 0;
     width: 100%;
-    background: linear-gradient(90deg, rgba(255,107,53,0.15), rgba(0,212,255,0.15));
+    background: linear-gradient(90deg, rgba(255, 107, 53, 0.15), rgba(0, 212, 255, 0.15));
     color: #fff;
     backdrop-filter: blur(6px);
     z-index: 1000;
-    border-bottom: 1px solid rgba(255,255,255,0.15);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
-.announcement.hidden { display: none; }
+
+.announcement.hidden {
+    display: none;
+}
+
 .announcement-inner {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0.6rem 0;
 }
-.announcement-text { color: #fff; font-weight: 600; }
-.announcement-actions { display:flex; align-items:center; gap: 8px; }
+
+.announcement-text {
+    color: #fff;
+    font-weight: 600;
+}
+
+.announcement-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
 .announcement-cta {
     color: #000;
     background: #fff;
@@ -479,6 +511,7 @@ html {
     text-decoration: none;
     font-weight: 600;
 }
+
 .announcement-dismiss {
     background: transparent;
     border: none;
@@ -789,7 +822,7 @@ html {
     .hamburger {
         display: flex;
     }
-    
+
     .nav-menu {
         position: fixed;
         left: -100%;
@@ -801,52 +834,52 @@ html {
         transition: 0.3s;
         padding: 2rem 0;
     }
-    
+
     .nav-menu.active {
         left: 0;
     }
-    
+
     .nav-menu li {
         margin: 1rem 0;
     }
-    
+
     .zenotika-title {
         font-size: 3rem;
     }
-    
+
     .hero-cta {
         flex-direction: column;
         align-items: center;
     }
-    
+
     .cta-button {
         width: 100%;
         max-width: 300px;
     }
-    
+
     .character-container {
         height: 300px;
     }
-    
+
     .character-head {
         width: 60px;
         height: 60px;
     }
-    
+
     .character-torso {
         width: 80px;
         height: 100px;
     }
-    
+
     .zen-logo {
         font-size: 2rem;
     }
-    
+
     .contact-content {
         grid-template-columns: 1fr;
         gap: 2rem;
     }
-    
+
     .footer-content {
         grid-template-columns: 1fr;
         text-align: center;
@@ -858,15 +891,15 @@ html {
         font-size: 2.5rem;
         letter-spacing: 2px;
     }
-    
+
     .hero-subtitle {
         font-size: 1.1rem;
     }
-    
+
     .section-title {
         font-size: 2rem;
     }
-    
+
     .container {
         padding: 0 15px;
     }
