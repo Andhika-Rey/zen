@@ -1,0 +1,12 @@
+{
+  "name": "Zenotika - Rumah Digital",
+  "short_name": "Zenotika",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0e27",
+  "theme_color": "#0a0e27",
+  "description": "Media Informasi & Media Ajar untuk 450+ mahasiswa Ilmu Komputer UNIKOM.",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

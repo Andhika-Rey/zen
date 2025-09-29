@@ -6,15 +6,25 @@
     <meta name="description" content="Zenotika - Rumah Digital untuk Mahasiswa Ilmu Komputer Universitas Komputer Indonesia">
     <meta name="keywords" content="Zenotika, Rumah Digital, Computer Science, UNIKOM, Universitas Komputer Indonesia">
     <meta name="author" content="Zenotika">
+    <meta name="theme-color" content="#0a0e27">
+    <meta property="og:title" content="Zenotika - Rumah Digital Mahasiswa Ilmu Komputer UNIKOM">
+    <meta property="og:description" content="Media Informasi & Media Ajar untuk 450+ mahasiswa Ilmu Komputer UNIKOM. Belajar, berbagi, bertumbuh.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://zenotika.example"> 
+    <meta property="og:image" content="/icon.svg">
+    <meta name="twitter:card" content="summary_large_image">
     <title>Zenotika - Rumah Digital</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="manifest" href="/manifest.json">
 </head>
 <body>
+    <a class="skip-link" href="#main">Lewati ke konten utama</a>
     <!-- Navigation -->
-    <nav class="navbar">
+    <nav class="navbar" role="navigation" aria-label="Navigasi utama">
         <div class="nav-container">
             <div class="nav-logo">
                 <span class="logo-text">ZENOTIKA</span>
@@ -45,16 +55,16 @@
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-content">
+    <section id="home" class="hero" aria-labelledby="site-title">
+        <div class="hero-content" role="banner">
             <div class="hero-title">
-                <h1 class="zenotika-title">ZENOTIKA</h1>
+                <h1 id="site-title" class="zenotika-title">ZENOTIKA</h1>
                 <p class="hero-subtitle">Teknik Informatika 2024</p>
             </div>
             
             <!-- 3D Character -->
             <div class="character-container">
-                <div class="character-3d">
+                <div class="character-3d" role="img" aria-label="Karakter 3D Zenotika, ikon utama Zenotika">
                     <div class="character-body">
                         <div class="character-head">
                             <div class="character-face">
@@ -85,16 +95,17 @@
             </div>
 
             <div class="hero-cta">
-                <button class="cta-button primary">Mulai Belajar</button>
-                <button class="cta-button secondary">Pelajari Lebih Lanjut</button>
+                <a href="#learning" class="cta-button primary" role="button" aria-label="Pergi ke media pembelajaran">Mulai Belajar</a>
+                <a href="#about" class="cta-button secondary" role="button" aria-label="Pelajari lebih lanjut tentang Zenotika">Pelajari Lebih Lanjut</a>
             </div>
         </div>
     </section>
 
     <!-- About Section -->
-    <section id="about" class="about">
+    <main id="main">
+    <section id="about" class="about" aria-labelledby="about-title">
         <div class="container">
-            <h2 class="section-title">Tentang Zenotika</h2>
+            <h2 id="about-title" class="section-title">Tentang Zenotika</h2>
             <div class="about-grid">
                 <div class="about-card">
                     <div class="card-icon">📚</div>
@@ -116,9 +127,9 @@
     </section>
 
     <!-- Learning Section -->
-    <section id="learning" class="learning">
+    <section id="learning" class="learning" aria-labelledby="learning-title">
         <div class="container">
-            <h2 class="section-title">Media Pembelajaran</h2>
+            <h2 id="learning-title" class="section-title">Media Pembelajaran</h2>
             <div class="learning-grid">
                 <div class="learning-item">
                     <h4>Pemrograman Dasar</h4>
@@ -141,9 +152,9 @@
     </section>
 
     <!-- Info Section -->
-    <section id="info" class="info">
+    <section id="info" class="info" aria-labelledby="info-title">
         <div class="container">
-            <h2 class="section-title">Informasi Terkini</h2>
+            <h2 id="info-title" class="section-title">Informasi Terkini</h2>
             <div class="info-grid">
                 <div class="info-card">
                     <div class="info-date">Hari Ini</div>
@@ -165,9 +176,9 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="contact">
+    <section id="contact" class="contact" aria-labelledby="contact-title">
         <div class="container">
-            <h2 class="section-title">Hubungi Kami</h2>
+            <h2 id="contact-title" class="section-title">Hubungi Kami</h2>
             <div class="contact-content">
                 <div class="contact-info">
                     <h4>Zenotika Digital House</h4>
@@ -181,19 +192,23 @@
                     </div>
                 </div>
                 <div class="contact-form">
-                    <form>
-                        <input type="text" placeholder="Nama Lengkap" required>
-                        <input type="email" placeholder="Email" required>
-                        <textarea placeholder="Pesan Anda" rows="5" required></textarea>
+                    <form aria-label="Formulir kontak">
+                        <label class="visually-hidden" for="name">Nama Lengkap</label>
+                        <input id="name" name="name" type="text" placeholder="Nama Lengkap" required>
+                        <label class="visually-hidden" for="email">Email</label>
+                        <input id="email" name="email" type="email" placeholder="Email" required>
+                        <label class="visually-hidden" for="message">Pesan</label>
+                        <textarea id="message" name="message" placeholder="Pesan Anda" rows="5" required></textarea>
                         <button type="submit" class="submit-btn">Kirim Pesan</button>
                     </form>
                 </div>
             </div>
         </div>
     </section>
+    </main>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer" role="contentinfo">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-logo">
@@ -217,5 +232,12 @@
     </footer>
 
     <script src="script.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('/sw.js').catch(() => {});
+        });
+      }
+    </script>
 </body>
 </html>
