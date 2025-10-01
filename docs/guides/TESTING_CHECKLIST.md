@@ -24,12 +24,12 @@
 - [ ] Doesn't trigger when in form fields
 - [ ] Works with modifier keys (Ctrl+/)
 
-### Shortcut: `t` (Toggle Theme)
-- [ ] Press `t` to switch themes
+### Shortcut: `Ctrl/Cmd + Shift + X` (Toggle Theme)
+- [ ] Press `Ctrl/Cmd + Shift + X` to switch themes
 - [ ] Dark mode activates smoothly
 - [ ] Light mode restores correctly
 - [ ] Theme persists on page reload
-- [ ] Doesn't trigger when typing in forms
+- [ ] Doesn't trigger when typing di form input
 
 ### Shortcut: `?` (Open Shortcuts Modal)
 - [ ] Press `?` to open modal
@@ -69,9 +69,9 @@ Navigate to **Kontak** page and test the contact form:
 - [ ] Empty email shows error
 - [ ] Invalid format shows error (e.g., "test@")
 - [ ] Non-UNIKOM email shows error (e.g., "test@gmail.com")
-- [ ] Valid UNIKOM email passes (e.g., "student@unikom.ac.id")
-- [ ] Error message: "Email harus dari domain @unikom.ac.id"
-- [ ] Pattern: `^[^@\s]+@unikom\.ac\.id$` enforced
+- [ ] Valid UNIKOM email passes (e.g., "student@mahasiswa.unikom.ac.id")
+- [ ] Error message: "Email harus dari domain @mahasiswa.unikom.ac.id"
+- [ ] Pattern: `^[^@\s]+@mahasiswa\.unikom\.ac\.id$` enforced
 - [ ] Auto-suggest works (autocomplete="email")
 
 #### Message Field

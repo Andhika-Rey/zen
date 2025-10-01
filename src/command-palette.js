@@ -4,7 +4,7 @@
  * 
  * Features:
  * - Fuzzy search across pages, materials, and actions
- * - Keyboard navigation (Cmd/Ctrl+K, arrows, enter, esc)
+ * - Keyboard navigation (Cmd/Ctrl+Shift+K, arrows, enter, esc)
  * - Recent pages history
  * - Quick actions (theme toggle, copy link, etc.)
  * - Mobile responsive
@@ -106,10 +106,10 @@ class CommandPalette {
     }
     
     attachEventListeners() {
-        // Global keyboard shortcut (Cmd/Ctrl+K)
+        // Global keyboard shortcut (Cmd/Ctrl+Shift+K)
         document.addEventListener('keydown', (e) => {
-            // Cmd+K (Mac) or Ctrl+K (Windows/Linux)
-            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+            const key = typeof e.key === 'string' ? e.key.toLowerCase() : '';
+            if ((e.metaKey || e.ctrlKey) && e.shiftKey && key === 'k') {
                 e.preventDefault();
                 this.toggle();
             }

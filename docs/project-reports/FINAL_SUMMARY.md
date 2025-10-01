@@ -44,7 +44,7 @@ We've successfully transformed the Zenotika website into a **2025 professional-g
 
 | # | Feature | Status | Bundle Size | Effort |
 |---|---------|--------|-------------|--------|
-| 8 | Command Palette (Cmd+K) | ✅ Complete | 26.3KB | 40 hours |
+| 8 | Command Palette (Ctrl/Cmd+Shift+K) | ✅ Complete | 26.3KB | 40 hours |
 | 9 | Toast Notifications | ✅ Complete | 11.0KB | 16 hours |
 | 10 | Advanced Search (lunr.js) | ⏳ Pending | ~29KB | 48 hours |
 | 11 | Analytics (GA4) | ⏳ Pending | ~15KB | 24 hours |
@@ -93,7 +93,7 @@ Build Output:
 
 ## 🎨 Feature Highlights
 
-### **1. Command Palette (Cmd+K)**
+### **1. Command Palette (Ctrl/Cmd+Shift+K)**
 
 Universal search and quick actions inspired by VSCode, Linear, and GitHub.
 
@@ -113,7 +113,7 @@ Universal search and quick actions inspired by VSCode, Linear, and GitHub.
 
 **Usage:**
 ```javascript
-// Press Cmd+K (Mac) or Ctrl+K (Windows/Linux)
+// Press Ctrl/Cmd + Shift + K (bebas konflik browser)
 // Type to search: "basis", "prog", "home", "web"
 // Arrow keys to navigate, Enter to execute
 // Recent pages automatically tracked
@@ -201,7 +201,7 @@ toast.css:             7.1KB
 Total Lazy:           37.3KB
 ```
 
-**Load Strategy:** Only when user presses Cmd+K or triggers toast  
+**Load Strategy:** Only when user presses Ctrl/Cmd + Shift + K atau memicu toast  
 **Impact on Performance:** Zero (not on critical path)
 
 ---
@@ -435,7 +435,7 @@ Original request: _"kita sudah 2025 disini, mari kita transformasi website ini l
 - Polished visual details
 
 ✅ **Excellent User Experience (100%)**
-- Keyboard shortcuts for power users (/, t, ?, Cmd+K)
+- Keyboard shortcuts for power users (/, Ctrl/Cmd+Shift+X, ?, Ctrl/Cmd+Shift+K)
 - Instant feedback via toast notifications
 - Real-time form validation
 - Zero layout shift (perfect CLS score)
@@ -472,7 +472,7 @@ Original request: _"kita sudah 2025 disini, mari kita transformasi website ini l
 
 **Afternoon (4 hours):**
 - ✅ Started Phase 2 implementation
-- ✅ Built Command Palette (Cmd+K)
+- ✅ Built Command Palette (Ctrl/Cmd+Shift+K)
 - ✅ Built Toast Notifications
 - ✅ Integrated all features
 - ✅ Tested and validated
@@ -615,7 +615,7 @@ Try these features right now in your local preview:
    - Press `Esc` to close modal
 
 2. **Command Palette:**
-   - Press `Cmd+K` (Mac) or `Ctrl+K` (Windows)
+   - Press `Ctrl/Cmd + Shift + K`
    - Type "basis" → see fuzzy match for "Basis Data"
    - Arrow keys to navigate, Enter to go
    - Try "theme", "copy", "github"

@@ -164,7 +164,7 @@ scp -r dist/* user@server:/var/www/zenotika/
 
 **Test 3: Form Validation**
 - [ ] Enter `test@gmail.com` → Error shows
-- [ ] Enter `test@unikom.ac.id` → Error clears
+- [ ] Enter `test@mahasiswa.unikom.ac.id` → Error clears
 - [ ] Submit with errors → Focus first invalid field
 - [ ] Submit valid form → Success message
 

@@ -16,7 +16,7 @@
 
 ## ✅ Feature Checklist
 
-### 1. ⌨️ Command Palette (Cmd+K) - ✅ COMPLETE (100%)
+### 1. ⌨️ Command Palette (Ctrl/Cmd+Shift+K) - ✅ COMPLETE (100%)
 
 **Priority:** HIGH  
 **Effort:** 40 hours  

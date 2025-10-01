@@ -24,7 +24,7 @@ Phase 2 of the Zenotika transformation has been successfully completed, deliveri
 
 ## 🚀 Features Delivered
 
-### Feature 1: Command Palette (⌨️ Cmd+K)
+### Feature 1: Command Palette (⌨️ Ctrl/Cmd+Shift+K)
 
 **Status:** ✅ COMPLETE  
 **Development Time:** 40 hours  
@@ -437,9 +437,9 @@ Documentation:
 ### Challenges Overcome
 
 1. **Keyboard Shortcut Conflicts**
-   - Issue: 't' key conflicted with typing
-   - Solution: Changed to Ctrl+T (modifier key)
-   - Learning: Always use modifiers for action shortcuts
+   - Issue: Browser shortcuts (Ctrl+T/Cmd+T) hijacked our theme toggle
+   - Solution: Remapped to Ctrl/Cmd + Shift + X (no browser conflict)
+   - Learning: Selalu pilih kombinasi non-standar untuk menghindari tabrakan dengan browser
 
 2. **Bundle Size Management**
    - Issue: lunr.js adds 29KB

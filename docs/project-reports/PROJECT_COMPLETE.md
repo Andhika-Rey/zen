@@ -21,7 +21,7 @@ Your request: _"kita sudah 2025 disini, mari kita transformasi website ini lebih
 
 | Feature | Status | Impact |
 |---------|--------|--------|
-| Keyboard Shortcuts (/, Ctrl+T, Cmd+K, ?, Esc) | ✅ | Power users love it |
+| Keyboard Shortcuts (/, Ctrl/Cmd+Shift+X, Ctrl/Cmd+Shift+K, ?, Esc) | ✅ | Power users love it |
 | Real-time Form Validation | ✅ | 50% fewer form errors |
 | Skeleton Loading States | ✅ | Zero layout shift (CLS=0) |
 | Shortcuts Modal | ✅ | Feature discoverability |
@@ -33,7 +33,7 @@ Your request: _"kita sudah 2025 disini, mari kita transformasi website ini lebih
 
 | Feature | Status | Bundle | Effort |
 |---------|--------|--------|--------|
-| Command Palette (Cmd+K) | ✅ Complete | 26.3KB | 40h |
+| Command Palette (Ctrl/Cmd+Shift+K) | ✅ Complete | 26.3KB | 40h |
 | Toast Notifications | ✅ Complete | 11.0KB | 16h |
 | Advanced Search (lunr.js) | ⏳ Planned | ~29KB | 48h |
 | Analytics (GA4) | ⏳ Planned | ~15KB | 24h |
@@ -78,12 +78,12 @@ Quality: Production-ready ✅
 
 **Original Issue:** `t` key conflicted with typing in search  
 **User Feedback:** _"the 't' is non-logic. i need to search by search feature"_  
-**Solution:** Changed to `Ctrl+T` (Cmd+T on Mac)
+**Solution:** Remapped ke `Ctrl/Cmd + Shift + X` untuk menghindari konflik browser
 
 **Current Shortcuts:**
 - `/` → Focus search (works perfectly, type any word!)
-- `Ctrl+T` → Toggle theme (intentional, no conflicts)
-- `Cmd+K` → Command Palette (universal search)
+- `Ctrl/Cmd + Shift + X` → Toggle theme (bebas konflik)
+- `Ctrl/Cmd + Shift + K` → Command Palette (universal search)
 - `?` → Shortcuts modal (discoverability)
 - `Esc` → Close modals (intuitive)
 
@@ -91,7 +91,7 @@ Quality: Production-ready ✅
 
 ---
 
-### **2. Command Palette (Cmd+K)**
+### **2. Command Palette (Ctrl/Cmd+Shift+K)**
 
 Universal search inspired by GitHub, VSCode, and Linear.
 
@@ -109,7 +109,7 @@ Universal search inspired by GitHub, VSCode, and Linear.
 - 570 lines JavaScript
 - 368 lines CSS
 
-**Try it:** Press `Cmd+K`, type "basis" → see "Basis Data" match!
+**Try it:** Press `Ctrl/Cmd + Shift + K`, ketik "basis" → lihat "Basis Data" muncul!
 
 ---
 
@@ -144,12 +144,12 @@ Real-time validation with campus email enforcement.
 
 **Features:**
 - ⚡ Instant feedback as you type
-- ✉️ @unikom.ac.id email validation
+- ✉️ @mahasiswa.unikom.ac.id email validation
 - 🎨 Inline error messages
 - ♿ aria-invalid attributes
 - 🎯 Auto-focus on first error
 
-**Try it:** Enter `test@gmail.com` → see error → change to `test@unikom.ac.id` → error clears!
+**Try it:** Enter `test@gmail.com` → see error → change to `test@mahasiswa.unikom.ac.id` → error clears!
 
 ---
 
@@ -351,10 +351,10 @@ Contributors:  2 (Andhika-Rey + GitHub Copilot)
 ```
 
 **Recent Commits:**
-1. `065de9d` - fix: theme toggle requires Ctrl+T (search conflict fixed)
+1. `065de9d` - fix: theme toggle requires Ctrl+T (later remapped ke Ctrl/Cmd+Shift+X)
 2. `4db8b7d` - docs: comprehensive final summary
 3. `2386937` - feat: toast notifications system
-4. `5150ec9` - feat: command palette (Cmd+K)
+4. `5150ec9` - feat: command palette (Cmd+K → kini Ctrl/Cmd+Shift+K)
 5. `cc1ceb3` - docs: quick start guide
 
 ---
@@ -435,8 +435,8 @@ Run through this checklist on http://localhost:3005:
 #### Keyboard Shortcuts
 - [ ] Press `/` → Search focuses (type any word freely!)
 - [ ] Type "struktur" → Filters materials (no theme toggle!)
-- [ ] Press `Ctrl+T` → Theme toggles (intentional)
-- [ ] Press `Cmd+K` → Command Palette opens
+- [ ] Press `Ctrl/Cmd + Shift + X` → Theme toggles (bebas konflik)
+- [ ] Press `Ctrl/Cmd + Shift + K` → Command Palette opens
 - [ ] Type "basis" → Fuzzy matches "Basis Data"
 - [ ] Press `?` → Shortcuts modal opens
 - [ ] Press `Esc` → Modal closes
@@ -449,7 +449,7 @@ Run through this checklist on http://localhost:3005:
 
 #### Form Validation
 - [ ] Contact form → Enter `test@gmail.com` → See error
-- [ ] Change to `test@unikom.ac.id` → Error clears
+- [ ] Change to `test@mahasiswa.unikom.ac.id` → Error clears
 - [ ] Submit with valid data → Success toast appears
 
 #### Skeleton Loading

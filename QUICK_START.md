@@ -1,7 +1,7 @@
 # 🎯 Quick Start Guide - What to Do Next
 
 **Project:** Zenotika 2025 Transformation  
-**Status:** Phase 1 Complete ✅  
+**Status:** Phase 2 Complete ✅  
 **Date:** October 1, 2025
 
 ---
@@ -28,8 +28,8 @@ Your website transformation is **100% complete**! Only one manual step remains:
 ## 📚 What Was Built?
 
 ### 7 Major UX Features:
-1. ⌨️ **Keyboard Shortcuts** - Press `/` (search), `Ctrl+T` (theme), `Cmd+K` (palette), `?` (help)
-2. ✅ **Smart Form Validation** - Real-time feedback, @unikom.ac.id email enforcement
+1. ⌨️ **Keyboard Shortcuts** - Press `/` (search), `Ctrl/Cmd + Shift + X` (theme), `Ctrl/Cmd + Shift + K` (palette), `?` (help)
+2. ✅ **Smart Form Validation** - Real-time feedback, @mahasiswa.unikom.ac.id email enforcement
 3. 💀 **Skeleton Loading** - Smooth loading states with shimmer animation
 4. 📋 **Shortcuts Modal** - Press `?` to see all keyboard shortcuts
 5. 🚫 **Noscript Support** - Graceful degradation for JS-disabled browsers
@@ -40,7 +40,7 @@ Your website transformation is **100% complete**! Only one manual step remains:
 - `docs/2025_TRANSFORMATION.md` - Technical implementation guide
 - `docs/SHOWCASE_2025.md` - User-friendly feature showcase
 - `docs/DEPLOYMENT_CHECKLIST_2025.md` - Pre/post deployment guide
-- `docs/PHASE_2_ROADMAP.md` - Future features (Cmd+K, search, toasts, analytics)
+- `docs/PHASE_2_ROADMAP.md` - Future features (keyboard palette, search, toasts, analytics)
 - `docs/TESTING_CHECKLIST.md` - Comprehensive QA checklist
 - `docs/GITHUB_PAGES_FIX.md` - Troubleshooting deployment issues
 - `monitor-deployment.sh` - Automated deployment monitoring script
@@ -53,15 +53,15 @@ Once GitHub Pages is live, test these features:
 
 ### Keyboard Shortcuts:
 - [ ] Press `/` → Search input focuses (you can type 't' freely in search!)
-- [ ] Press `Ctrl+T` (or `Cmd+T` on Mac) → Theme toggles (dark/light)
-- [ ] Press `Cmd+K` (or `Ctrl+K` on Windows) → Command Palette opens
+- [ ] Press `Ctrl/Cmd + Shift + X` → Theme toggles (dark/light)
+- [ ] Press `Ctrl/Cmd + Shift + K` → Command Palette opens
 - [ ] Press `?` → Shortcuts modal opens
 - [ ] Press `Esc` → Modal closes
 
 ### Form Validation (Contact Page):
 - [ ] Empty name → Shows error
 - [ ] Invalid email → Shows error
-- [ ] Non-UNIKOM email → Shows error (must be @unikom.ac.id)
+- [ ] Non-UNIKOM email → Shows error (must be @mahasiswa.unikom.ac.id)
 - [ ] Valid form → Submits successfully
 
 ### Loading Experience:
@@ -84,7 +84,7 @@ Once GitHub Pages is live, test these features:
 
 Future enhancements planned:
 
-1. **Command Palette (Cmd+K)** - Universal search/navigation like VSCode
+1. **Command Palette (Ctrl/Cmd + Shift + K)** - Universal search/navigation ala VSCode
 2. **Advanced Search (lunr.js)** - Full-text search across all materials
 3. **Toast Notifications** - Beautiful feedback for user actions
 4. **Analytics (GA4)** - Privacy-respecting usage tracking

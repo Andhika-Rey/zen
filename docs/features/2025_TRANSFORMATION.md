@@ -62,7 +62,7 @@ document.addEventListener('keydown', (e) => {
 
 **Fields:**
 - **Name:** Minimum 2 characters with immediate feedback
-- **Email:** Campus-only pattern `^[^@\s]+@unikom\.ac\.id$`
+- **Email:** Campus-only pattern `^[^@\s]+@mahasiswa\.unikom\.ac\.id$`
 - **Message:** Minimum 10 characters for quality submissions
 
 **Features:**
@@ -75,11 +75,11 @@ document.addEventListener('keydown', (e) => {
 **Example:**
 ```html
 <input type="email" 
-       pattern="^[^@\s]+@unikom\.ac\.id$" 
+  pattern="^[^@\s]+@mahasiswa\.unikom\.ac\.id$"
        aria-describedby="email-error" 
        aria-invalid="true">
 <p id="email-error" class="form-error" role="alert">
-  Gunakan email kampus @unikom.ac.id.
+  Gunakan email kampus @mahasiswa.unikom.ac.id.
 </p>
 ```
 

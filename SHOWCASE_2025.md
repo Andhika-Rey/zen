@@ -43,8 +43,8 @@ Press Esc untuk tutup
 
 ### Email Kampus Only
 ```
-❌ student@gmail.com     → "Gunakan email kampus @unikom.ac.id"
-✅ student@unikom.ac.id  → Valid!
+❌ student@gmail.com     → "Gunakan email kampus @mahasiswa.unikom.ac.id"
+✅ student@mahasiswa.unikom.ac.id  → Valid!
 ```
 
 ### Real-time Feedback
@@ -203,8 +203,8 @@ http://localhost:3005
 1. Press / anywhere    → Search box focuses
 2. Type "web"          → Materials filter (you can type 't' freely!)
 3. Press Esc           → Clear search
-4. Press Ctrl+T        → Theme toggles (Cmd+T on Mac)
-5. Press Cmd+K         → Command Palette opens
+4. Press Ctrl/Cmd+Shift+X → Theme toggles (dark/light)
+5. Press Ctrl/Cmd+Shift+K → Command Palette opens
 6. Press ?             → Shortcuts modal opens
 7. Press Esc           → Modal closes
 ```
@@ -214,8 +214,8 @@ http://localhost:3005
 1. Scroll to Contact section
 2. Enter email: test@gmail.com
 3. Tab out or click submit
-4. See error: "Gunakan email kampus @unikom.ac.id"
-5. Change to: test@unikom.ac.id
+4. See error: "Gunakan email kampus @mahasiswa.unikom.ac.id"
+5. Change to: test@mahasiswa.unikom.ac.id
 6. Error disappears! ✅
 ```
 
@@ -277,7 +277,7 @@ http://localhost:3005
 ## 🚀 What's Next?
 
 ### Phase 2 Ideas
-- [ ] Command Palette (Cmd+K) - Fuzzy search all pages
+- [ ] Command Palette (Ctrl/Cmd+Shift+K) - Fuzzy search all pages
 - [ ] Advanced Search - Full-text search with lunr.js
 - [ ] Toast Notifications - Success/error messages
 - [ ] Analytics - Track keyboard shortcut usage

@@ -817,7 +817,9 @@ document.addEventListener("DOMContentLoaded", function () {
         shortcutsModal.classList.add('hidden');
     };
     document.addEventListener('keydown', (e) => {
-        if (e.key === '/' && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        const key = typeof e.key === 'string' ? e.key.toLowerCase() : '';
+
+        if (key === '/' && !e.ctrlKey && !e.metaKey && !e.altKey) {
             const search = document.getElementById('material-search');
             if (search) {
                 e.preventDefault();
@@ -832,10 +834,9 @@ document.addEventListener("DOMContentLoaded", function () {
         if (e.key === 'Escape') {
             closeShortcuts();
         }
-        // Theme toggle now requires Ctrl+T (Windows/Linux) or Cmd+T (Mac)
-        if ((e.key === 't' || e.key === 'T') && (e.ctrlKey || e.metaKey) && !e.altKey && !e.shiftKey) {
-            e.preventDefault(); // Prevent browser's default Ctrl+T (new tab)
-            // toggle theme
+        // Theme toggle shortcut: Ctrl/Cmd + Shift + X (avoid browser conflicts)
+        if ((e.ctrlKey || e.metaKey) && e.shiftKey && !e.altKey && key === 'x') {
+            e.preventDefault();
             const current = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
             localStorage.setItem('theme', current);
             document.documentElement.dataset.theme = current;
@@ -920,7 +921,10 @@ document.addEventListener("DOMContentLoaded", function () {
         };
 
         const nameValidator = (v) => ({ valid: v.trim().length >= 2, message: 'Nama minimal 2 karakter.' });
-        const emailValidator = (v) => ({ valid: /^[^@\s]+@unikom\.ac\.id$/.test(v.trim()), message: 'Gunakan email kampus @unikom.ac.id.' });
+        const emailValidator = (v) => ({
+            valid: /^[^@\s]+@mahasiswa\.unikom\.ac\.id$/i.test(v.trim()),
+            message: 'Gunakan email kampus @mahasiswa.unikom.ac.id.'
+        });
         const messageValidator = (v) => ({ valid: v.trim().length >= 10, message: 'Pesan minimal 10 karakter.' });
 
         ['input', 'blur'].forEach(evt => {
