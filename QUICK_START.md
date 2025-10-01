@@ -28,7 +28,7 @@ Your website transformation is **100% complete**! Only one manual step remains:
 ## 📚 What Was Built?
 
 ### 7 Major UX Features:
-1. ⌨️ **Keyboard Shortcuts** - Press `/` (search), `t` (theme), `?` (help)
+1. ⌨️ **Keyboard Shortcuts** - Press `/` (search), `Ctrl+T` (theme), `Cmd+K` (palette), `?` (help)
 2. ✅ **Smart Form Validation** - Real-time feedback, @unikom.ac.id email enforcement
 3. 💀 **Skeleton Loading** - Smooth loading states with shimmer animation
 4. 📋 **Shortcuts Modal** - Press `?` to see all keyboard shortcuts
@@ -52,8 +52,9 @@ Your website transformation is **100% complete**! Only one manual step remains:
 Once GitHub Pages is live, test these features:
 
 ### Keyboard Shortcuts:
-- [ ] Press `/` → Search input focuses
-- [ ] Press `t` → Theme toggles (dark/light)
+- [ ] Press `/` → Search input focuses (you can type 't' freely in search!)
+- [ ] Press `Ctrl+T` (or `Cmd+T` on Mac) → Theme toggles (dark/light)
+- [ ] Press `Cmd+K` (or `Ctrl+K` on Windows) → Command Palette opens
 - [ ] Press `?` → Shortcuts modal opens
 - [ ] Press `Esc` → Modal closes
 

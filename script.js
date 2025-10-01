@@ -828,7 +828,9 @@ document.addEventListener("DOMContentLoaded", function () {
         if (e.key === 'Escape') {
             closeShortcuts();
         }
-        if ((e.key === 't' || e.key === 'T') && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        // Theme toggle now requires Ctrl+T (Windows/Linux) or Cmd+T (Mac)
+        if ((e.key === 't' || e.key === 'T') && (e.ctrlKey || e.metaKey) && !e.altKey && !e.shiftKey) {
+            e.preventDefault(); // Prevent browser's default Ctrl+T (new tab)
             // toggle theme
             const current = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
             localStorage.setItem('theme', current);

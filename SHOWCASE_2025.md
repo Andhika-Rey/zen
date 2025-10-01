@@ -200,12 +200,13 @@ http://localhost:3005
 
 ### 2. Test Keyboard Shortcuts
 ```
-1. Press / anywhere  → Search box focuses
-2. Type "web"        → Materials filter
-3. Press Esc         → Clear search
-4. Press t           → Theme toggles
-5. Press ?           → Shortcuts modal opens
-6. Press Esc         → Modal closes
+1. Press / anywhere    → Search box focuses
+2. Type "web"          → Materials filter (you can type 't' freely!)
+3. Press Esc           → Clear search
+4. Press Ctrl+T        → Theme toggles (Cmd+T on Mac)
+5. Press Cmd+K         → Command Palette opens
+6. Press ?             → Shortcuts modal opens
+7. Press Esc           → Modal closes
 ```
 
 ### 3. Test Form Validation
