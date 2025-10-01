@@ -1,0 +1,114 @@
+[
+  {
+    "id": "thread-001",
+    "title": "Strategi Belajar Struktur Data untuk Interview Backend",
+    "category": "Pengembangan Back-End",
+    "tags": ["algoritma", "rekrutmen", "tips"],
+    "author": {
+      "name": "Naila Pratiwi",
+      "role": "Mahasiswa 2022"
+    },
+    "createdAt": "2025-09-18T09:30:00+07:00",
+    "lastActivity": "2025-10-01T08:10:00+07:00",
+    "excerpt": "Apa saja prioritas materi struktur data yang benar-benar ditanyakan di interview backend junior? Bagikan pengalaman kalian dong.",
+    "upvotes": 38,
+    "replies": 12,
+    "answered": true,
+    "highlightReply": {
+      "author": "Raihan (Backend Engineer - Gojek)",
+      "summary": "Fokus di hash map dan graph traversal, serta pahami trade-off Big-O dalam konteks real-world."
+    }
+  },
+  {
+    "id": "thread-002",
+    "title": "Membangun Pipeline Data dengan Python + DuckDB",
+    "category": "Data & AI",
+    "tags": ["python", "data-engineering", "duckdb"],
+    "author": {
+      "name": "Farhan Hilmi",
+      "role": "Lab Assistant"
+    },
+    "createdAt": "2025-09-27T13:45:00+07:00",
+    "lastActivity": "2025-09-30T19:25:00+07:00",
+    "excerpt": "Sedang eksplor DuckDB untuk ETL ringan di laptop mahasiswa. Ada yang punya template modular atau best practice untuk scheduling?",
+    "upvotes": 24,
+    "replies": 7,
+    "answered": false
+  },
+  {
+    "id": "thread-003",
+    "title": "Pattern Componenting untuk Design System Zenotika",
+    "category": "Front-End & UI",
+    "tags": ["design-system", "web", "css"],
+    "author": {
+      "name": "Dita Laras",
+      "role": "Mahasiswa 2021"
+    },
+    "createdAt": "2025-09-20T16:10:00+07:00",
+    "lastActivity": "2025-09-29T21:40:00+07:00",
+    "excerpt": "Kita sedang merapikan komponen ke versi 2025. Ada rekomendasi struktur folder dan naming convention biar scalable?",
+    "upvotes": 41,
+    "replies": 15,
+    "answered": true,
+    "highlightReply": {
+      "author": "Mentor UI/UX - Kak Sella",
+      "summary": "Gunakan atomic pattern + tokens terpisah, dokumentasikan varian di Storybook agar mudah on-boarding." 
+    }
+  },
+  {
+    "id": "thread-004",
+    "title": "Roadmap Belajar Machine Learning untuk Kompetisi Gemastik",
+    "category": "Data & AI",
+    "tags": ["gemastik", "machine-learning", "kompetisi"],
+    "author": {
+      "name": "Kevin Oktavian",
+      "role": "Mahasiswa 2023"
+    },
+    "createdAt": "2025-08-30T10:00:00+07:00",
+    "lastActivity": "2025-09-25T17:15:00+07:00",
+    "excerpt": "Tim kami ingin fokus di ML Gemastik. Resource apa saja yang wajib dan timeline belajar ideal 8 minggu?",
+    "upvotes": 52,
+    "replies": 18,
+    "answered": true,
+    "highlightReply": {
+      "author": "Alumni Gemastik 2024",
+      "summary": "Bagi sprint mingguan: konsep dasar, eksplor dataset, baseline model, tuning & evaluasi, presentasi." 
+    }
+  },
+  {
+    "id": "thread-005",
+    "title": "Minta Review: Proposal Startup EduTech untuk PKM",
+    "category": "Karier & Kewirausahaan",
+    "tags": ["pkm", "startup", "pitchdeck"],
+    "author": {
+      "name": "Siti Zahra",
+      "role": "Mahasiswa 2022"
+    },
+    "createdAt": "2025-09-23T11:20:00+07:00",
+    "lastActivity": "2025-09-28T14:05:00+07:00",
+    "excerpt": "Kami baru draft business model PKM-K. Mohon insight, terutama buat validasi masalah dan strategi go-to-market kampus.",
+    "upvotes": 19,
+    "replies": 9,
+    "answered": false
+  },
+  {
+    "id": "thread-006",
+    "title": "Cara Optimasi Biaya Deployment untuk Side Project Mahasiswa",
+    "category": "DevOps & Cloud",
+    "tags": ["cloud", "deployment", "cost-optimization"],
+    "author": {
+      "name": "Raka Pradana",
+      "role": "Mahasiswa 2020"
+    },
+    "createdAt": "2025-09-05T20:30:00+07:00",
+    "lastActivity": "2025-09-26T09:55:00+07:00",
+    "excerpt": "Project kami pakai AWS free tier tapi biaya mulai naik. Ada rekomendasi arsitektur hemat atau alternatif cloud gratis?",
+    "upvotes": 33,
+    "replies": 11,
+    "answered": true,
+    "highlightReply": {
+      "author": "Cloud Mentor - Bang Adi",
+      "summary": "Pindahkan workload statis ke Cloudflare Pages + gunakan Railway/Hobby plan untuk backend." 
+    }
+  }
+]

@@ -213,6 +213,57 @@
                 <p>Belum ada konten komunitas yang cocok dengan filter Anda.</p>
             </div>
         </section>
+
+        <section id="forum" class="section forum-section fade-in" aria-labelledby="forum-title">
+            <div class="section-header">
+                <span class="eyebrow">Forum Diskusi</span>
+                <h2 id="forum-title" class="section-title">Diskusi Aktif &amp; Insight Profesional</h2>
+                <p class="section-subtitle">
+                    Ikuti percakapan, bagikan pengalaman, dan bantu rekan satu kampus menyelesaikan tantangan teknis maupun karier.
+                </p>
+            </div>
+
+            <div class="forum-controls">
+                <div class="forum-search">
+                    <label for="forum-search-input" class="sr-only">Cari diskusi forum</label>
+                    <input type="search" id="forum-search-input" placeholder="🔍 Cari topik, penulis, atau tag..." aria-label="Cari diskusi forum">
+                </div>
+                <div class="forum-actions">
+                    <div class="forum-categories" id="forum-categories" role="radiogroup" aria-label="Kategori diskusi">
+                        <!-- Tombol kategori diisi via script.js -->
+                    </div>
+                    <div class="forum-sort">
+                        <label for="forum-sort-select">Urutkan</label>
+                        <select id="forum-sort-select" aria-label="Urutkan diskusi forum">
+                            <option value="trending">Trending</option>
+                            <option value="newest">Terbaru</option>
+                            <option value="unanswered">Belum terjawab</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div id="forum-threads" class="forum-thread-list" role="list" aria-live="polite" aria-busy="true">
+                <!-- Thread akan diisi secara dinamis -->
+            </div>
+
+            <div id="forum-empty" class="forum-empty hidden" role="status" aria-live="polite" hidden>
+                <h3>Belum ada diskusi yang cocok</h3>
+                <p>Coba ganti kata kunci, pilih kategori lain, atau mulailah diskusi baru untuk mencari solusi bersama.</p>
+            </div>
+
+            <div class="forum-cta">
+                <div class="forum-cta-content">
+                    <h3>Mulai Diskusi Baru</h3>
+                    <p>
+                        Ingin mengangkat studi kasus, menanyakan feedback tugas, atau berbagi peluang karier? Kirim topik Anda dan tim moderator akan membantu mempublikasikan dalam 24 jam.
+                    </p>
+                </div>
+                <a class="btn btn-primary" href="https://forms.gle/zenotikaforum" target="_blank" rel="noopener">
+                    Ajukan Diskusi
+                </a>
+            </div>
+        </section>
     </main>
 
     <footer class="footer">

@@ -29,7 +29,7 @@ const loadAnnouncement = async () => {
 
     try {
         // Use a cache-busting query parameter for development, can be removed in production
-    const response = await fetch('/data/announcements.json', { cache: 'no-store' });
+        const response = await fetch('/data/announcements.json', { cache: 'no-store' });
         if (!response.ok) {
             // Don't show an error to the user, just log it for the developer.
             console.error(`Failed to fetch announcements: ${response.statusText}`);
@@ -71,6 +71,14 @@ const loadAnnouncement = async () => {
  */
 let communityData = [];
 let activeTag = null;
+let forumData = [];
+let forumThreadMap = new Map();
+let forumVoteState = {};
+let activeForumCategory = 'all';
+let forumSortMode = 'trending';
+let forumSearchTerm = '';
+let forumSearchRaw = '';
+let initialForumFocusHandled = false;
 
 const hasDocument = typeof document !== 'undefined';
 const hasWindow = typeof window !== 'undefined';
@@ -526,8 +534,8 @@ const filterCommunityContent = () => {
         filteredItems = filteredItems.filter(item => item.tags.includes(activeTag));
     }
 
-        updateQueryParam('komunitas', rawSearchValue);
-        updateQueryParam('tag', activeTag || '');
+    updateQueryParam('komunitas', rawSearchValue);
+    updateQueryParam('tag', activeTag || '');
     if (searchTerm.length > 0) {
         filteredItems = filteredItems.filter(item => {
             const titleMatch = item.title.toLowerCase().includes(searchTerm);
@@ -815,8 +823,605 @@ function focusCommunityCardFromHash() {
 if (hasWindow) {
     window.addEventListener('hashchange', () => {
         focusCommunityCardFromHash();
+        focusForumThreadFromQuery({ force: true });
     });
 }
+
+const getStoredForumVotes = () => {
+    if (!hasWindow) return {};
+    try {
+        const stored = localStorage.getItem('forum_votes');
+        if (!stored) return {};
+        const parsed = JSON.parse(stored);
+        return parsed && typeof parsed === 'object' ? parsed : {};
+    } catch (error) {
+        console.warn('Gagal membaca forum votes dari localStorage:', error);
+        return {};
+    }
+};
+
+const saveStoredForumVotes = (state) => {
+    if (!hasWindow) return;
+    try {
+        localStorage.setItem('forum_votes', JSON.stringify(state));
+    } catch (error) {
+        console.warn('Gagal menyimpan forum votes ke localStorage:', error);
+    }
+};
+
+const getThreadVoteDisplay = (threadId) => {
+    const thread = forumThreadMap.get(threadId);
+    if (!thread) return 0;
+    const baseVotes = Number.isFinite(thread.upvotes) ? thread.upvotes : 0;
+    const userVote = forumVoteState[threadId] ? 1 : 0;
+    return baseVotes + userVote;
+};
+
+const formatRelativeTime = (dateInput) => {
+    if (!dateInput) return '';
+    const date = new Date(dateInput);
+    if (Number.isNaN(date.getTime())) return '';
+
+    const now = new Date();
+    let diffInSeconds = (date.getTime() - now.getTime()) / 1000;
+    const rtf = new Intl.RelativeTimeFormat('id-ID', { numeric: 'auto' });
+    const divisions = [
+        { amount: 60, unit: 'second' },
+        { amount: 60, unit: 'minute' },
+        { amount: 24, unit: 'hour' },
+        { amount: 7, unit: 'day' },
+        { amount: 4.34524, unit: 'week' },
+        { amount: 12, unit: 'month' },
+        { amount: Number.POSITIVE_INFINITY, unit: 'year' }
+    ];
+
+    for (const division of divisions) {
+        if (Math.abs(diffInSeconds) < division.amount) {
+            return rtf.format(Math.round(diffInSeconds), division.unit);
+        }
+        diffInSeconds /= division.amount;
+    }
+    return rtf.format(Math.round(diffInSeconds), 'year');
+};
+
+const formatAbsoluteDate = (dateInput, { withTime = false } = {}) => {
+    if (!dateInput) return '';
+    const date = new Date(dateInput);
+    if (Number.isNaN(date.getTime())) return '';
+
+    const options = withTime
+        ? { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }
+        : { day: 'numeric', month: 'short', year: 'numeric' };
+
+    return new Intl.DateTimeFormat('id-ID', options).format(date);
+};
+
+const loadForumThreads = async () => {
+    const list = document.getElementById('forum-threads');
+    const emptyState = document.getElementById('forum-empty');
+    if (!list) return;
+
+    list.setAttribute('aria-busy', 'true');
+    if (emptyState) {
+        emptyState.classList.add('hidden');
+        emptyState.hidden = true;
+    }
+
+    try {
+        const response = await fetch('/data/forum.json', { cache: 'no-store' });
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+
+        const items = await response.json();
+        forumData = Array.isArray(items) ? items : [];
+        forumThreadMap = new Map(forumData.map(thread => [thread.id, thread]));
+        forumVoteState = getStoredForumVotes();
+        activeForumCategory = 'all';
+        forumSortMode = 'trending';
+        forumSearchRaw = '';
+        forumSearchTerm = '';
+
+        renderForumCategoryFilters(forumData);
+        applyForumQueryState();
+        initForumSearchAndSort();
+        filterForumThreads();
+    } catch (error) {
+        console.error('Gagal memuat data forum:', error);
+        if (emptyState) {
+            const heading = emptyState.querySelector('h3');
+            if (heading) {
+                heading.textContent = 'Forum sementara tidak tersedia';
+            }
+            const description = emptyState.querySelector('p');
+            if (description) {
+                description.textContent = 'Terjadi kendala saat memuat data forum. Coba muat ulang halaman atau kembali beberapa saat lagi.';
+            }
+            emptyState.classList.remove('hidden');
+            emptyState.hidden = false;
+        }
+        list.setAttribute('aria-busy', 'false');
+    }
+};
+
+const renderForumCategoryFilters = (threads) => {
+    const container = document.getElementById('forum-categories');
+    if (!container) return;
+
+    container.innerHTML = '';
+
+    const createButton = (label, value) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'forum-category-btn';
+        button.dataset.category = value;
+        button.textContent = label;
+        button.setAttribute('role', 'radio');
+        button.setAttribute('aria-pressed', 'false');
+        button.setAttribute('aria-checked', 'false');
+        button.addEventListener('click', () => {
+            setActiveForumCategory(value);
+            filterForumThreads();
+        });
+        return button;
+    };
+
+    container.appendChild(createButton('Semua', 'all'));
+
+    const categories = [...new Set(threads.map(thread => thread.category).filter(Boolean))];
+    categories.sort((a, b) => a.localeCompare(b, 'id', { sensitivity: 'base' }));
+    categories.forEach(category => {
+        container.appendChild(createButton(category, category));
+    });
+
+    setActiveForumCategory(activeForumCategory);
+};
+
+const setActiveForumCategory = (value) => {
+    activeForumCategory = value && value !== 'all' ? value : 'all';
+    const buttons = document.querySelectorAll('.forum-category-btn');
+    buttons.forEach(btn => {
+        const isActive = btn.dataset.category === activeForumCategory;
+        btn.classList.toggle('active', isActive);
+        btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        btn.setAttribute('aria-checked', isActive ? 'true' : 'false');
+        btn.setAttribute('tabindex', isActive ? '0' : '-1');
+    });
+};
+
+const initForumSearchAndSort = () => {
+    const searchInput = document.getElementById('forum-search-input');
+    if (searchInput) {
+        const handler = debounce(() => {
+            forumSearchRaw = searchInput.value || '';
+            forumSearchTerm = forumSearchRaw.trim().toLowerCase();
+            filterForumThreads();
+        }, 300);
+        searchInput.addEventListener('input', handler);
+    }
+
+    const sortSelect = document.getElementById('forum-sort-select');
+    if (sortSelect) {
+        sortSelect.addEventListener('change', (event) => {
+            const value = event.target.value;
+            forumSortMode = value;
+            filterForumThreads();
+        });
+    }
+};
+
+const applyForumQueryState = () => {
+    const searchParam = getQueryParam('forum');
+    const categoryParam = getQueryParam('forumKategori');
+    const sortParam = getQueryParam('forumSort');
+
+    const searchInput = document.getElementById('forum-search-input');
+    if (searchParam && searchInput) {
+        forumSearchRaw = searchParam;
+        forumSearchTerm = searchParam.trim().toLowerCase();
+        searchInput.value = searchParam;
+    }
+
+    const allowedSorts = new Set(['trending', 'newest', 'unanswered']);
+    if (allowedSorts.has(sortParam)) {
+        forumSortMode = sortParam;
+    }
+
+    const sortSelect = document.getElementById('forum-sort-select');
+    if (sortSelect) {
+        sortSelect.value = forumSortMode;
+    }
+
+    if (categoryParam && forumData.some(thread => thread.category === categoryParam)) {
+        activeForumCategory = categoryParam;
+    }
+
+    setActiveForumCategory(activeForumCategory);
+};
+
+const threadMatchesSearchTerm = (thread, term) => {
+    if (!term) return true;
+    const haystack = [
+        thread.title,
+        thread.excerpt,
+        thread.category,
+        thread.author?.name,
+        thread.author?.role,
+        ...(Array.isArray(thread.tags) ? thread.tags : [])
+    ].filter(Boolean).join(' ').toLowerCase();
+    return haystack.includes(term);
+};
+
+const filterForumThreads = (afterRender) => {
+    if (!Array.isArray(forumData)) return;
+
+    let filtered = [...forumData];
+
+    if (activeForumCategory !== 'all') {
+        filtered = filtered.filter(thread => thread.category === activeForumCategory);
+    }
+
+    if (forumSearchTerm) {
+        filtered = filtered.filter(thread => threadMatchesSearchTerm(thread, forumSearchTerm));
+    }
+
+    if (forumSortMode === 'newest') {
+        filtered.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+    } else if (forumSortMode === 'unanswered') {
+        filtered = filtered.filter(thread => !thread.answered);
+        filtered.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+    } else {
+        filtered.sort((a, b) => computeForumScore(b) - computeForumScore(a));
+    }
+
+    renderForumThreads(filtered, afterRender);
+
+    updateQueryParam('forum', forumSearchRaw);
+    updateQueryParam('forumKategori', activeForumCategory === 'all' ? '' : activeForumCategory);
+    updateQueryParam('forumSort', forumSortMode === 'trending' ? '' : forumSortMode);
+};
+
+const computeForumScore = (thread) => {
+    const voteTotal = getThreadVoteDisplay(thread.id);
+    const replyWeight = Number.isFinite(thread.replies) ? thread.replies * 1.2 : 0;
+    const answeredBoost = thread.answered ? 5 : 0;
+    const recencyBoost = (() => {
+        const activity = new Date(thread.lastActivity || thread.createdAt || Date.now());
+        const hoursSince = (Date.now() - activity.getTime()) / (1000 * 60 * 60);
+        if (!Number.isFinite(hoursSince) || hoursSince <= 0) return 0;
+        return Math.max(0, 24 - Math.min(hoursSince, 72)) * 0.5;
+    })();
+    return voteTotal * 2 + replyWeight + answeredBoost + recencyBoost;
+};
+
+const renderForumThreads = (threads, afterRender) => {
+    const list = document.getElementById('forum-threads');
+    const emptyState = document.getElementById('forum-empty');
+    if (!list) return;
+
+    list.innerHTML = '';
+
+    if (!threads || threads.length === 0) {
+        if (emptyState) {
+            emptyState.classList.remove('hidden');
+            emptyState.hidden = false;
+        }
+        list.setAttribute('aria-busy', 'false');
+        return;
+    }
+
+    if (emptyState) {
+        emptyState.classList.add('hidden');
+        emptyState.hidden = true;
+    }
+
+    const fragment = document.createDocumentFragment();
+    const numberFormatter = new Intl.NumberFormat('id-ID');
+
+    threads.forEach(thread => {
+        const article = document.createElement('article');
+        article.className = 'forum-thread';
+        article.dataset.threadId = thread.id;
+        if (thread.id) {
+            article.id = thread.id;
+        }
+        article.setAttribute('role', 'listitem');
+
+        const voteWrapper = document.createElement('div');
+        voteWrapper.className = 'thread-vote';
+
+        const voteButton = document.createElement('button');
+        voteButton.type = 'button';
+        voteButton.className = 'vote-button';
+        voteButton.innerHTML = '▲';
+        const hasVoted = Boolean(forumVoteState[thread.id]);
+        if (hasVoted) {
+            voteButton.classList.add('active');
+        }
+        voteButton.setAttribute('aria-pressed', hasVoted ? 'true' : 'false');
+        voteButton.setAttribute('aria-label', `Dukung diskusi: ${thread.title}`);
+        voteButton.addEventListener('click', () => toggleForumVote(thread.id));
+
+        const voteCount = document.createElement('span');
+        voteCount.className = 'vote-count';
+        voteCount.textContent = numberFormatter.format(getThreadVoteDisplay(thread.id));
+
+        voteWrapper.appendChild(voteButton);
+        voteWrapper.appendChild(voteCount);
+
+        const content = document.createElement('div');
+        content.className = 'thread-content';
+
+        const meta = document.createElement('div');
+        meta.className = 'thread-meta';
+
+        const categoryPill = document.createElement('span');
+        categoryPill.className = 'category-pill';
+        categoryPill.textContent = thread.category;
+        meta.appendChild(categoryPill);
+
+        if (thread.answered) {
+            const answeredBadge = document.createElement('span');
+            answeredBadge.className = 'answered';
+            answeredBadge.textContent = '✓ Terjawab';
+            meta.appendChild(answeredBadge);
+        }
+
+        const authorInfo = document.createElement('span');
+        const authorName = thread.author?.name ? escapeHtml(thread.author.name) : 'Pengguna Anonim';
+        const authorRole = thread.author?.role ? ` • ${escapeHtml(thread.author.role)}` : '';
+        authorInfo.innerHTML = `Oleh ${authorName}${authorRole}`;
+        meta.appendChild(authorInfo);
+
+        const createdAt = formatRelativeTime(thread.createdAt);
+        if (createdAt) {
+            const createdSpan = document.createElement('span');
+            createdSpan.textContent = `Diposting ${createdAt}`;
+            createdSpan.title = formatAbsoluteDate(thread.createdAt, { withTime: true });
+            meta.appendChild(createdSpan);
+        }
+
+        const titleEl = document.createElement('h3');
+        titleEl.className = 'thread-title';
+        const titleLink = document.createElement('a');
+        titleLink.href = `#${thread.id}`;
+        titleLink.textContent = thread.title;
+        titleLink.addEventListener('click', (event) => {
+            event.preventDefault();
+            updateQueryParam('forumThread', thread.id);
+            if (hasWindow && typeof history !== 'undefined' && typeof history.replaceState === 'function') {
+                const url = new URL(window.location.href);
+                url.hash = thread.id;
+                history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
+            }
+            focusForumThreadFromQuery({ force: true, targetId: thread.id });
+        });
+        titleEl.appendChild(titleLink);
+
+        const excerpt = document.createElement('p');
+        excerpt.className = 'thread-excerpt';
+        excerpt.textContent = thread.excerpt;
+
+        const tagsWrapper = document.createElement('div');
+        tagsWrapper.className = 'thread-tags';
+        (thread.tags || []).forEach(tag => {
+            const tagEl = document.createElement('span');
+            tagEl.className = 'thread-tag';
+            tagEl.textContent = `#${tag}`;
+            tagsWrapper.appendChild(tagEl);
+        });
+
+        const stats = document.createElement('div');
+        stats.className = 'thread-stats';
+
+        const repliesSpan = document.createElement('span');
+        repliesSpan.innerHTML = `💬 ${numberFormatter.format(thread.replies || 0)} balasan`;
+        stats.appendChild(repliesSpan);
+
+        const activitySpan = document.createElement('span');
+        const lastActivity = thread.lastActivity || thread.createdAt;
+        const relativeActivity = formatRelativeTime(lastActivity);
+        activitySpan.textContent = relativeActivity ? `🕒 Update ${relativeActivity}` : '🕒 Aktivitas terbaru belum tersedia';
+        activitySpan.title = formatAbsoluteDate(lastActivity, { withTime: true });
+        stats.appendChild(activitySpan);
+
+        const postedSpan = document.createElement('span');
+        postedSpan.textContent = `📅 ${formatAbsoluteDate(thread.createdAt)}`;
+        stats.appendChild(postedSpan);
+
+        content.appendChild(meta);
+        content.appendChild(titleEl);
+        content.appendChild(excerpt);
+        if (thread.tags && thread.tags.length > 0) {
+            content.appendChild(tagsWrapper);
+        }
+        content.appendChild(stats);
+
+        if (thread.highlightReply && thread.highlightReply.author && thread.highlightReply.summary) {
+            const highlight = document.createElement('div');
+            highlight.className = 'thread-highlight';
+            highlight.innerHTML = `<strong>${escapeHtml(thread.highlightReply.author)}</strong>: ${escapeHtml(thread.highlightReply.summary)}`;
+            content.appendChild(highlight);
+        }
+
+        article.appendChild(voteWrapper);
+        article.appendChild(content);
+
+        fragment.appendChild(article);
+    });
+
+    list.appendChild(fragment);
+    list.setAttribute('aria-busy', 'false');
+    observeFadeInTargets(list.querySelectorAll('.forum-thread'));
+
+    if (typeof afterRender === 'function') {
+        afterRender();
+    }
+
+    focusForumThreadFromQuery();
+};
+
+const ensureForumThreadVisible = (thread, targetId) => {
+    let modified = false;
+
+    const targetCategory = thread.category || 'all';
+    if (activeForumCategory !== 'all' && activeForumCategory !== targetCategory) {
+        setActiveForumCategory(targetCategory);
+        modified = true;
+    }
+
+    if (forumSortMode === 'unanswered' && thread.answered) {
+        forumSortMode = 'trending';
+        const sortSelect = document.getElementById('forum-sort-select');
+        if (sortSelect) {
+            sortSelect.value = forumSortMode;
+        }
+        modified = true;
+    }
+
+    if (forumSearchTerm && !threadMatchesSearchTerm(thread, forumSearchTerm)) {
+        forumSearchTerm = '';
+        forumSearchRaw = '';
+        const searchInput = document.getElementById('forum-search-input');
+        if (searchInput) {
+            searchInput.value = '';
+        }
+        modified = true;
+    }
+
+    if (modified) {
+        filterForumThreads(() => focusForumThreadFromQuery({ force: true, targetId }));
+    }
+
+    return modified;
+};
+
+const updateForumVoteUI = (threadId) => {
+    const threadElement = document.querySelector(`.forum-thread[data-thread-id="${threadId}"]`);
+    if (!threadElement) return;
+    const voteButton = threadElement.querySelector('.vote-button');
+    const voteCount = threadElement.querySelector('.vote-count');
+    if (!voteButton || !voteCount) return;
+
+    const hasVoted = Boolean(forumVoteState[threadId]);
+    voteButton.classList.toggle('active', hasVoted);
+    voteButton.setAttribute('aria-pressed', hasVoted ? 'true' : 'false');
+
+    const numberFormatter = new Intl.NumberFormat('id-ID');
+    voteCount.textContent = numberFormatter.format(getThreadVoteDisplay(threadId));
+};
+
+const toggleForumVote = (threadId) => {
+    const thread = forumThreadMap.get(threadId);
+    if (!thread) return;
+
+    const wasActive = Boolean(forumVoteState[threadId]);
+    if (wasActive) {
+        delete forumVoteState[threadId];
+    } else {
+        forumVoteState[threadId] = true;
+    }
+
+    saveStoredForumVotes(forumVoteState);
+
+    const focusAfterRender = () => {
+        const voteBtn = document.querySelector(`.forum-thread[data-thread-id="${threadId}"] .vote-button`);
+        if (voteBtn) {
+            voteBtn.focus({ preventScroll: true });
+        }
+    };
+
+    if (forumSortMode === 'trending') {
+        filterForumThreads(focusAfterRender);
+    } else {
+        updateForumVoteUI(threadId);
+        focusAfterRender();
+    }
+
+    if (window.toastSystem) {
+        toastSystem.show(
+            wasActive ? 'Dukungan Anda telah dibatalkan.' : 'Terima kasih! Diskusi ini kini ada di daftar dukungan Anda.',
+            wasActive ? 'info' : 'success'
+        );
+    }
+
+    if (window.analytics && typeof analytics.trackEvent === 'function') {
+        analytics.trackEvent(wasActive ? 'forum_vote_removed' : 'forum_vote_added', {
+            thread_id: threadId,
+            vote_total: getThreadVoteDisplay(threadId),
+            sort_mode: forumSortMode
+        });
+    }
+};
+
+const focusForumThreadFromQuery = ({ force = false, targetId: overrideId } = {}) => {
+    if (!force && initialForumFocusHandled) return;
+
+    let targetId = typeof overrideId === 'string' ? overrideId : '';
+    if (!targetId) {
+        targetId = getQueryParam('forumThread');
+    }
+
+    if (!targetId && hasWindow) {
+        const hash = window.location.hash;
+        if (hash && hash.length > 1) {
+            targetId = decodeURIComponent(hash.slice(1));
+        }
+    }
+
+    if (!targetId) {
+        if (!force) {
+            initialForumFocusHandled = true;
+        }
+        return;
+    }
+
+    const normalizedId = targetId.replace(/^#/, '');
+    const threadElement = document.querySelector(`.forum-thread[data-thread-id="${normalizedId}"]`);
+    if (!threadElement) {
+        const threadData = forumThreadMap.get(normalizedId);
+        if (threadData && ensureForumThreadVisible(threadData, normalizedId)) {
+            return;
+        }
+
+        if (!force) {
+            initialForumFocusHandled = true;
+        }
+        return;
+    }
+
+    initialForumFocusHandled = true;
+
+    if (getQueryParam('forumThread') !== normalizedId) {
+        updateQueryParam('forumThread', normalizedId);
+    }
+
+    if (hasWindow && typeof history !== 'undefined' && typeof history.replaceState === 'function') {
+        const currentHash = window.location.hash ? window.location.hash.slice(1) : '';
+        if (currentHash !== normalizedId) {
+            const url = new URL(window.location.href);
+            url.hash = normalizedId;
+            history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
+        }
+    }
+
+    const behavior = shouldReduceMotion ? 'auto' : 'smooth';
+
+    requestAnimationFrame(() => {
+        try {
+            threadElement.scrollIntoView({ behavior, block: 'center' });
+        } catch (error) {
+            threadElement.scrollIntoView({ behavior });
+        }
+
+        const focusTarget = threadElement.querySelector('.vote-button') || threadElement;
+        try {
+            focusTarget.focus({ preventScroll: true });
+        } catch (error) {
+            focusTarget.focus();
+        }
+    });
+};
 
 // --- Modern UI/UX Interactions for Zenotika 2025 ---
 document.addEventListener("DOMContentLoaded", function () {
@@ -1145,7 +1750,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (!(isNameOk && isEmailOk && isMessageOk)) {
                 const firstInvalid = contactForm.querySelector('[aria-invalid="true"]');
                 if (firstInvalid) firstInvalid.focus();
-                
+
                 // Show error toast
                 if (window.toast) {
                     window.toast.error('Please fix the errors in the form', {
@@ -1164,7 +1769,7 @@ document.addEventListener("DOMContentLoaded", function () {
             setTimeout(() => {
                 submitBtn.textContent = 'Pesan Terkirim!';
                 submitBtn.style.background = 'var(--color-accent)';
-                
+
                 // Show success toast with action
                 if (window.toast) {
                     window.toast.success('Message sent successfully!', {
@@ -1183,7 +1788,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         }
                     });
                 }
-                
+
                 setTimeout(() => {
                     submitBtn.textContent = originalText;
                     submitBtn.disabled = false;
@@ -1198,6 +1803,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (document.getElementById('community-grid')) {
         loadCommunityContent();
+    }
+
+    if (document.getElementById('forum-threads')) {
+        loadForumThreads();
     }
 
     // Events skeleton state toggle when content loaded (if implemented later)
@@ -1218,7 +1827,7 @@ document.addEventListener("DOMContentLoaded", function () {
  */
 function initMerchStore() {
     const interestButtons = document.querySelectorAll('.merch-interest-btn');
-    
+
     if (!interestButtons.length) return;
     const countElements = {};
     const progressElements = {};
@@ -1307,7 +1916,7 @@ function initMerchStore() {
 
     // Handle interest button clicks
     interestButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function () {
             const product = this.dataset.product;
             const card = this.closest('.merch-card');
             const countEl = card.querySelector('.merch-count');
@@ -1331,7 +1940,7 @@ function initMerchStore() {
                 animateCount(strongEl, previousDisplay, newDisplay);
                 countEl.dataset.count = newDisplay;
                 updateProgressBar(product, newDisplay, goal, progressEl);
-                
+
                 // Track event
                 if (window.analytics) {
                     analytics.trackEvent('merch_interest_removed', {
@@ -1400,7 +2009,7 @@ function animateCount(targetEl, start, end) {
         const progress = Math.min(elapsed / duration, 1);
         const easedProgress = easeOutQuad(progress);
         const current = Math.round(start + (end - start) * easedProgress);
-        
+
         targetEl.textContent = current;
 
         if (progress < 1) {
