@@ -46,6 +46,18 @@ cp materials/*.html "$BUILD_DIR/materials/"
 echo -e "${GREEN}📊 Copying data files...${NC}"
 cp -r data/* "$BUILD_DIR/data/"
 
+# Build Command Palette (Phase 2)
+echo -e "${GREEN}⌨️  Building Command Palette module...${NC}"
+npx esbuild src/command-palette.js \
+    --bundle \
+    --minify \
+    --target=es2020 \
+    --format=esm \
+    --outfile="$BUILD_DIR/command-palette.js"
+
+# Copy Command Palette CSS
+cp src/command-palette.css "$BUILD_DIR/"
+
 # Copy static assets
 echo -e "${GREEN}🖼️  Copying static assets...${NC}"
 cp icon.svg "$BUILD_DIR/"
