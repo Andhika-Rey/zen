@@ -19,7 +19,7 @@
     "check:webp": "command -v cwebp || echo 'WebP tools not installed. Run: sudo apt-get install webp'",
     "check:minify": "npx esbuild --version && npx lightningcss --version || echo 'Install: npm install -D esbuild lightningcss'",
     "setup:tools": "sudo apt-get update && sudo apt-get install -y webp imagemagick",
-    "setup:build": "npm install -D esbuild lightningcss csso terser htmlhint"
+    "setup:build": "npm install -D esbuild clean-css-cli terser htmlhint"
   },
   "devDependencies": {
     "@parcel/css-cli": "^1.13.1",

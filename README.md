@@ -148,6 +148,7 @@ zen/
 - [roadmap.md](docs/roadmap.md) — Peta jalan pengembangan.
 - [PERFORMANCE.md](docs/PERFORMANCE.md) — Checklist optimasi Core Web Vitals & PWA.
 - [IMAGE_OPTIMIZATION.md](docs/IMAGE_OPTIMIZATION.md) — Panduan konversi WebP & responsive images.
+- [BUILD.md](docs/BUILD.md) — Build & minification pipeline.
 - [DEPLOYMENT.md](docs/DEPLOYMENT.md) — Panduan GitHub Pages & Netlify.
 - [IMPROVEMENTS.md](IMPROVEMENTS.md) — Ide fitur lanjutan & tugas backlog.
 - [CHANGELOG.md](CHANGELOG.md) — Riwayat rilisan.
@@ -164,8 +165,9 @@ zen/
 
 ### Sedang Berjalan
 - ✅ Optimasi aset (WebP pipeline, lazy loading, responsive images).
+- ✅ Build automation (CSS/JS minification, versioning).
 - ⏳ Integrasi analytics & error tracking.
-- ⏳ Build automation untuk minifikasi CSS/JS.
+- ⏳ Advanced search implementation (lunr.js).
 
 ### Berikutnya
 - ⭕ Integrasi Headless CMS (Strapi/Contentful).
