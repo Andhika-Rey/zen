@@ -1,430 +1,216 @@
-# ✨ Zenotika — Digital Aurora 2025# ✨ Zenotika — Digital Aurora
+# ✨ Zenotika — Digital Aurora
 
+_Platform d## 🌈 Fitur Utama
 
+### Phase 1: Foundation (✅ Complete)
 
-_Platform digital modern untuk komunitas Ilmu Komputer UNIKOM. Menyatukan materi belajar, kolaborasi komunitas, dan pengalaman PWA dengan UX 2025.__Platform d## 🌈 Fitur Utama
+**1. Pengalaman Visual**
+- Digital Aurora theme dengan gradien animasi dan tipografi Syne/Manrope
+- Layout responsif berbasis CSS Grid & Flexbox, diuji hingga viewport < 360px
+- Toggle light/dark mode dengan penyimpanan preferensi di `localStorage`
+- Keyboard shortcuts (/, Ctrl+T, ?, Esc) untuk power users
 
-
-
-<p align="center">### Phase 1: Foundation (✅ Complete)
-
-    <a href="https://github.com/Andhika-Rey/zen">
-
-        <img alt="Version" src="https://img.shields.io/badge/version-3.1.0-blue.svg" />**1. Pengalaman Visual**
-
-    </a>- Digital Aurora theme dengan gradien animasi dan tipografi Syne/Manrope
-
-    <a href="LICENSE">- Layout responsif berbasis CSS Grid & Flexbox, diuji hingga viewport < 360px
-
-        <img alt="MIT License" src="https://img.shields.io/badge/license-MIT-green.svg" />- Toggle light/dark mode dengan penyimpanan preferensi di `localStorage`
-
-    </a>- Keyboard shortcuts (/, Ctrl+T, ?, Esc) untuk power users
-
-    <a href="docs/project-reports/PHASE_2_FINAL_REPORT.md">
-
-        <img alt="Phase 2" src="https://img.shields.io/badge/Phase_2-100%25_Complete-success" />**2. Konten & Pencarian**
-
-    </a>- Data pengumuman dan komunitas dimuat dari JSON files
-
-</p>- Pencarian real-time dengan debounce 300 ms dan sanitasi konten
-
+**2. Konten & Pencarian**
+- Data pengumuman dan komunitas dimuat dari JSON files
+- Pencarian real-time dengan debounce 300 ms dan sanitasi konten
 - Filter tag dinamis lengkap dengan indikator fokus dan ARIA live region
 
-<p align="center">
+**3. Performa & PWA**
+- Service Worker (`sw.js`) memisahkan cache statis/dinamis
+- Manifest PWA (`manifest.json`) siap untuk install ke home screen
+- Core Web Vitals optimization: 95/100 Performance score
 
-    <a href="#-fitur-utama">Features</a> •**3. Performa & PWA**
-
-    <a href="#-mulai-cepat">Quick Start</a> •- Service Worker (`sw.js`) memisahkan cache statis/dinamis
-
-    <a href="#-struktur-proyek">Structure</a> •- Manifest PWA (`manifest.json`) siap untuk install ke home screen
-
-    <a href="#-dokumentasi">Docs</a> •- Core Web Vitals optimization: 95/100 Performance score
-
-    <a href="CHANGELOG.md">Changelog</a>
-
-</p>**4. Aksesibilitas & UX**
-
+**4. Aksesibilitas & UX**
 - 100/100 Accessibility score (WCAG AA compliant)
-
----- Form validation dengan inline feedback
-
+- Form validation dengan inline feedback
 - Skeleton loading states untuk better perceived performance
-
-## 🎯 Project Status
 
 ### Phase 2: Advanced Features (✅ Complete)
 
-| Metric | Status |
+**5. Command Palette (⌨️ Cmd+K)**
+- Universal fuzzy search dengan fuse.js
+- Recent pages & quick actions
+- Full keyboard navigation
+- Bundle: 26.3KB
 
-|--------|--------|**5. Command Palette (⌨️ Cmd+K)**
-
-| **Phase 2** | ✅ 100% Complete (4/4 features) |- Universal fuzzy search dengan fuse.js
-
-| **Lighthouse** | 🎯 395/400 (98.75%) |- Recent pages & quick actions
-
-| **Accessibility** | ♿ 100/100 (WCAG AA) |- Full keyboard navigation
-
-| **Features** | 🎨 11 major features |- Bundle: 26.3KB
-
-| **Bundle Size** | 📦 154KB (94KB initial + 60KB lazy) |
-
-| **Production** | 🚀 Ready to deploy |**6. Toast Notifications (🔔)**
-
+**6. Toast Notifications (🔔)**
 - 4 notification types (success, error, warning, info)
-
----- Auto-dismiss dengan configurable timers
-
+- Auto-dismiss dengan configurable timers
 - Action buttons & progress bars
+- Zero dependencies - 11KB total
 
-## 📌 Ringkasan- Zero dependencies - 11KB total
-
-
-
-Zenotika adalah platform pembelajaran modern untuk mahasiswa Informatika UNIKOM dengan fokus pada:**7. Advanced Search (🔍 Ctrl+Shift+F)**
-
+**7. Advanced Search (🔍 Ctrl+Shift+F)**
 - Full-text search dengan lunr.js
+- Instant results dengan highlighting
+- Category filters & search history
+- Bundle: 48KB
 
-- ✨ **Modern UX** - Aurora Design System dengan glassmorphism & animasi halus- Instant results dengan highlighting
-
-- ⚡ **High Performance** - 95/100 Lighthouse score, Core Web Vitals optimized- Category filters & search history
-
-- ♿ **100% Accessible** - WCAG AA compliant, keyboard navigation- Bundle: 48KB
-
-- 🎨 **11 Major Features** - Command palette, advanced search, toast notifications, analytics
-
-- 🔒 **Privacy-First** - GDPR/CCPA compliant dengan consent management**8. Analytics & Consent (📊 GA4)**
-
-- 📱 **PWA Ready** - Offline support, install prompt- Privacy-first tracking (GDPR/CCPA compliant)
-
+**8. Analytics & Consent (📊 GA4)**
+- Privacy-first tracking (GDPR/CCPA compliant)
 - Cookie consent banner dengan opt-in
-
----- Core Web Vitals monitoring
-
+- Core Web Vitals monitoring
 - Event tracking untuk feature usage
-
-## 🌈 Fitur Utama
 
 > **Status:** Production ready dengan 11 major features! 🚀itas Ilmu Komputer UNIKOM. Menyatukan materi belajar, kolaborasi komunitas, dan pengalaman PWA modern dalam satu tempat._
 
-### Phase 1: Foundation (✅ Complete - 7 features)
-
 <p align="center">
-
-**Pengalaman Visual & UX**    <a href="https://zenotika.unikom.ac.id/">
-
-- Digital Aurora theme dengan gradien animasi        <img alt="Zenotika demo badge" src="https://img.shields.io/badge/demo-live-success" />
-
-- Layout responsif (320px ke atas)    </a>
-
-- Dark mode toggle dengan localStorage    <a href="LICENSE">
-
-- Keyboard shortcuts (/, Ctrl+T, ?, Esc)        <img alt="MIT License" src="https://img.shields.io/badge/license-MIT-blue.svg" />
-
-- Form validation dengan inline feedback    </a>
-
-- Skeleton loading states    <a href="CONTRIBUTING.md">
-
-- NoScript support        <img alt="PRs welcome" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" />
-
+    <a href="https://zenotika.unikom.ac.id/">
+        <img alt="Zenotika demo badge" src="https://img.shields.io/badge/demo-live-success" />
     </a>
-
-### Phase 2: Advanced Features (✅ Complete - 4 features)</p>
-
-
-
-**5. Command Palette (⌨️ Cmd+K)**---
-
-- Universal fuzzy search dengan fuse.js
-
-- Recent pages & quick actions## 📌 Ringkasan
-
-- Full keyboard navigation
-
-- Bundle: 26.3KB- **Aurora Design System** dengan glassmorphism, animasi halus, dan dukungan light/dark mode.
-
-- **Konten dinamis** (pengumuman, event, proyek komunitas) di-load dari berkas JSON dan mudah dihubungkan ke Headless CMS.
-
-**6. Toast Notifications (🔔)**- **Performa & aksesibilitas** jadi prioritas: Service Worker adaptif, debounce pencarian, `aria-live`, dan `:focus-visible`.
-
-- 4 notification types- **Dokumentasi lengkap** (performa, deployment, roadmap) untuk memastikan tim baru bisa beradaptasi cepat.
-
-- Auto-dismiss & action buttons
-
-- Zero dependencies> 🇮🇩 Dokumentasi utama tersedia dalam bahasa Indonesia. Istilah teknis populer dipertahankan agar tetap familier bagi developer.
-
-- Bundle: 11KB
+    <a href="LICENSE">
+        <img alt="MIT License" src="https://img.shields.io/badge/license-MIT-blue.svg" />
+    </a>
+    <a href="CONTRIBUTING.md">
+        <img alt="PRs welcome" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" />
+    </a>
+</p>
 
 ---
 
-**7. Advanced Search (🔍 Ctrl+Shift+F)**
+## 📌 Ringkasan
 
-- Full-text search dengan lunr.js## 🧭 Daftar Isi
+- **Aurora Design System** dengan glassmorphism, animasi halus, dan dukungan light/dark mode.
+- **Konten dinamis** (pengumuman, event, proyek komunitas) di-load dari berkas JSON dan mudah dihubungkan ke Headless CMS.
+- **Performa & aksesibilitas** jadi prioritas: Service Worker adaptif, debounce pencarian, `aria-live`, dan `:focus-visible`.
+- **Dokumentasi lengkap** (performa, deployment, roadmap) untuk memastikan tim baru bisa beradaptasi cepat.
 
-- Category filters & history
+> 🇮🇩 Dokumentasi utama tersedia dalam bahasa Indonesia. Istilah teknis populer dipertahankan agar tetap familier bagi developer.
 
-- Instant results (<50ms)1. [Fitur Utama](#-fitur-utama)
+---
 
-- Bundle: 48KB2. [Mulai Cepat](#-mulai-cepat)
+## 🧭 Daftar Isi
 
+1. [Fitur Utama](#-fitur-utama)
+2. [Mulai Cepat](#-mulai-cepat)
 3. [Struktur Proyek](#-struktur-proyek)
+4. [Detail Arsitektur](#-detail-arsitektur)
+5. [Dokumentasi Lengkap](#-dokumentasi-lengkap)
+6. [Roadmap](#-roadmap)
+7. [Kontribusi](#-kontribusi)
+8. [Lisensi & Kontak](#-lisensi--kontak)
 
-**8. Analytics & Consent (📊 GA4)**4. [Detail Arsitektur](#-detail-arsitektur)
+---
 
-- Privacy-first tracking5. [Dokumentasi Lengkap](#-dokumentasi-lengkap)
+## 🌈 Fitur Utama
 
-- GDPR/CCPA consent banner6. [Roadmap](#-roadmap)
-
-- Core Web Vitals monitoring7. [Kontribusi](#-kontribusi)
-
-- Bundle: 21KB8. [Lisensi & Kontak](#-lisensi--kontak)
-
-
-
-> **Status:** Production ready! 🚀---
-
-
-
----## 🌈 Fitur Utama
-
-
-
-## ⚡ Mulai Cepat### 1. Pengalaman Visual
-
+### 1. Pengalaman Visual
 - Digital Aurora theme dengan gradien animasi dan tipografi Syne/Manrope.
-
-### Development Mode- Layout responsif berbasis CSS Grid & Flexbox, diuji hingga viewport < 360px.
-
+- Layout responsif berbasis CSS Grid & Flexbox, diuji hingga viewport < 360px.
 - Toggle light/dark mode dengan penyimpanan preferensi di `localStorage`.
 
-```bash
-
-# 1. Clone repository### 2. Konten & Pencarian
-
-git clone https://github.com/Andhika-Rey/zen.git- Data pengumuman dan komunitas dimuat dari `data/announcements.json` & `data/community.json`.
-
-cd zen- Pencarian real-time dengan debounce 300 ms dan sanitasi konten untuk keamanan.
-
+### 2. Konten & Pencarian
+- Data pengumuman dan komunitas dimuat dari `data/announcements.json` & `data/community.json`.
+- Pencarian real-time dengan debounce 300 ms dan sanitasi konten untuk keamanan.
 - Filter tag dinamis lengkap dengan indikator fokus, status aktif, dan ARIA live region.
 
-# 2. Install dependencies
-
-npm install### 3. Performa & PWA
-
+### 3. Performa & PWA
 - Service Worker (`sw.js`) memisahkan cache statis/dinamis untuk menjaga data terbaru.
+- Manifest PWA (`manifest.json`) siap untuk pemasangan ke home screen.
+- Panduan optimasi Core Web Vitals dan lazy loading disiapkan di _Performance Guide_.
 
-# 3. Run dev server- Manifest PWA (`manifest.json`) siap untuk pemasangan ke home screen.
-
-npm run dev- Panduan optimasi Core Web Vitals dan lazy loading disiapkan di _Performance Guide_.
-
-
-
-# 4. Buka http://localhost:3000### 4. Aksesibilitas & UX
-
-```- Fokus visual (`:focus-visible`) dan kontras warna yang memenuhi target WCAG AA.
-
+### 4. Aksesibilitas & UX
+- Fokus visual (`:focus-visible`) dan kontras warna yang memenuhi target WCAG AA.
 - Empty state ramah pengguna untuk hasil pencarian dan fallback konten saat fetch gagal.
+- Komponen interaktif menggunakan semantic HTML dan ARIA yang relevan.
 
-### Production Build- Komponen interaktif menggunakan semantic HTML dan ARIA yang relevan.
+---
 
+## ⚡ Mulai Cepat
 
+### Prasyarat
+- Git & browser modern.
+- Server statis lokal: Live Server (VS Code), `python -m http.server`, atau `npx serve`.
 
-```bash---
+### Jalankan Secara Lokal
 
-# Build untuk production
-
-npm run build## ⚡ Mulai Cepat
-
-
-
-# Test build### Prasyarat
-
-cd dist && python -m http.server 8080- Git & browser modern.
-
-```- Server statis lokal: Live Server (VS Code), `python -m http.server`, atau `npx serve`.
-
-
-
-### Test All Features### Jalankan Secara Lokal
-
-
-
-1. **Command Palette:** Press `Cmd+K` or `Ctrl+K````bash
-
-2. **Advanced Search:** Press `Ctrl+Shift+F`git clone https://github.com/Andhika-Rey/zen.git
-
-3. **Theme Toggle:** Press `Ctrl+T`cd zen
-
-4. **Help Modal:** Press `?`
+```bash
+git clone https://github.com/Andhika-Rey/zen.git
+cd zen
 
 # opsi 1: Python 3
+python -m http.server 3000
 
----python -m http.server 3000
-
-
-
-## 🗂️ Struktur Proyek# opsi 2: Node.js (via serve)
-
+# opsi 2: Node.js (via serve)
 npx serve -l 3000
 
+# buka http://localhost:3000
 ```
 
-zen/# buka http://localhost:3000
+> Tip: Saat menguji Service Worker gunakan _hard refresh_ (Ctrl + Shift + R) agar cache diperbarui.
 
-├── index.html, script.js, styles.css  # Main files```
+### Alur Kontribusi Cepat
+1. Buat branch: `git checkout -b feature/nama-fitur`.
+2. Lakukan perubahan & perbarui dokumentasi bila relevan.
+3. Commit: `git commit -m "feat: deskripsi singkat"`.
+4. Push & buka Pull Request.
 
-├── src/                                # Phase 2 features (modular)
+Panduan lengkap tersedia di [CONTRIBUTING.md](CONTRIBUTING.md).
 
-├── scripts/                            # Build & automation> Tip: Saat menguji Service Worker gunakan _hard refresh_ (Ctrl + Shift + R) agar cache diperbarui.
+---
 
-├── docs/                               # Documentation (organized)
+## 🗂️ Struktur Proyek
 
-├── data/                               # Dynamic content### Alur Kontribusi Cepat
-
-├── materials/                          # Learning materials1. Buat branch: `git checkout -b feature/nama-fitur`.
-
-├── dist/                               # Production build2. Lakukan perubahan & perbarui dokumentasi bila relevan.
-
-└── assets/                             # Static assets3. Commit: `git commit -m "feat: deskripsi singkat"`.
-
-```4. Push & buka Pull Request.
-
-
-
-> 📘 See [STRUCTURE.md](STRUCTURE.md) for complete structure guide.Panduan lengkap tersedia di [CONTRIBUTING.md](CONTRIBUTING.md).
-
-
-
-------
-
-
-
-## 📚 Dokumentasi## 🗂️ Struktur Proyek
-
-
-
-### Quick Links```
-
-- **[QUICK_START.md](QUICK_START.md)** - 5-minute quick startzen/
-
-- **[SHOWCASE_2025.md](SHOWCASE_2025.md)** - Features showcase├── 📄 Main Files
-
-- **[STRUCTURE.md](STRUCTURE.md)** - Repository structure│   ├── index.html              # Homepage utama
-
+```
+zen/
+├── 📄 Main Files
+│   ├── index.html              # Homepage utama
 │   ├── community.html          # Halaman komunitas
-
-### Project Reports│   ├── script.js               # Core JavaScript
-
-- **[PROJECT_COMPLETE.md](docs/project-reports/PROJECT_COMPLETE.md)** - Complete overview│   ├── styles.css              # Main stylesheet
-
-- **[PHASE_2_FINAL_REPORT.md](docs/project-reports/PHASE_2_FINAL_REPORT.md)** - Phase 2 report│   └── sw.js                   # Service Worker (PWA)
-
+│   ├── script.js               # Core JavaScript
+│   ├── styles.css              # Main stylesheet
+│   └── sw.js                   # Service Worker (PWA)
 │
-
-### Guides├── 📂 src/                     # Phase 2 Features (modular)
-
-- **[ANALYTICS_SETUP.md](docs/features/ANALYTICS_SETUP.md)** - GA4 setup│   ├── command-palette.js      # Command palette dengan fuzzy search
-
-- **[DEPLOYMENT.md](docs/deployment/DEPLOYMENT.md)** - Deployment guide│   ├── toast.js                # Toast notification system
-
-- **[docs/README.md](docs/README.md)** - Complete docs index│   ├── search-modal.js         # Advanced search modal
-
+├── 📂 src/                     # Phase 2 Features (modular)
+│   ├── command-palette.js      # Command palette dengan fuzzy search
+│   ├── toast.js                # Toast notification system
+│   ├── search-modal.js         # Advanced search modal
 │   ├── analytics.js            # GA4 analytics engine
-
----│   ├── consent-banner.js       # Cookie consent banner
-
+│   ├── consent-banner.js       # Cookie consent banner
 │   └── *.css                   # Component styles
-
-## 🚀 Deployment│
-
-├── 📂 scripts/                 # Build & automation
-
-**GitHub Pages** (2 min) | **Netlify** (1 min) | **Vercel** (1 min)│   ├── build.sh                # Production build pipeline
-
-│   └── optimize-images.sh      # Image optimization
-
-See [DEPLOYMENT.md](docs/deployment/DEPLOYMENT.md) for instructions.│
-
-├── 📂 docs/                    # Documentation (organized)
-
----│   ├── README.md               # Docs index
-
-│   ├── project-reports/        # Status & completion reports
-
-## 📊 Performance│   ├── features/               # Feature-specific guides
-
-│   ├── guides/                 # Development guides
-
-- **Lighthouse:** 395/400 (98.75%)│   ├── deployment/             # Deployment instructions
-
-- **Accessibility:** 100/100 ♿│   └── archive/                # Historical docs
-
-- **LCP:** <1.5s | **FID:** <50ms | **CLS:** <0.1│
-
-├── 📂 data/                    # Dynamic content
-
----│   ├── announcements.json      # Pengumuman
-
-│   └── community.json          # Data komunitas
-
-## 🤝 Kontribusi│
-
-├── 📂 materials/               # Learning materials
-
-1. Fork repository│   ├── program-dasar.html      # Pemrograman dasar
-
-2. Create branch: `git checkout -b feature/amazing-feature`│   ├── asd.html                # Algoritma & struktur data
-
-3. Commit: `git commit -m 'feat: add amazing feature'`│   ├── basis-data.html         # Database
-
-4. Push & open Pull Request│   └── web.html                # Web development
-
 │
-
----├── 📂 dist/                    # Production build (generated)
-
+├── 📂 scripts/                 # Build & automation
+│   ├── build.sh                # Production build pipeline
+│   └── optimize-images.sh      # Image optimization
+│
+├── 📂 docs/                    # Documentation (organized)
+│   ├── README.md               # Docs index
+│   ├── project-reports/        # Status & completion reports
+│   ├── features/               # Feature-specific guides
+│   ├── guides/                 # Development guides
+│   ├── deployment/             # Deployment instructions
+│   └── archive/                # Historical docs
+│
+├── 📂 data/                    # Dynamic content
+│   ├── announcements.json      # Pengumuman
+│   └── community.json          # Data komunitas
+│
+├── 📂 materials/               # Learning materials
+│   ├── program-dasar.html      # Pemrograman dasar
+│   ├── asd.html                # Algoritma & struktur data
+│   ├── basis-data.html         # Database
+│   └── web.html                # Web development
+│
+├── 📂 dist/                    # Production build (generated)
 │   └── (minified & optimized files)
-
-## 📞 Support│
-
+│
 ├── 📂 assets/                  # Static assets
-
-- **Email:** support@zenotika.unikom.ac.id│   └── images/                 # Images & graphics
-
-- **GitHub Issues:** [Open an issue](https://github.com/Andhika-Rey/zen/issues)│
-
-- **Discord:** [Join community](https://discord.gg/zenotika)├── 📄 Config Files
-
+│   └── images/                 # Images & graphics
+│
+├── 📄 Config Files
 │   ├── package.json            # NPM dependencies & scripts
-
----│   ├── manifest.json           # PWA manifest
-
+│   ├── manifest.json           # PWA manifest
 │   ├── netlify.toml            # Netlify config
-
-## 📜 License│   ├── robots.txt              # SEO
-
+│   ├── robots.txt              # SEO
 │   └── sitemap.xml             # SEO
-
-MIT License - see [LICENSE](LICENSE) file for details.│
-
+│
 └── 📄 Documentation
-
----    ├── README.md               # This file
-
+    ├── README.md               # This file
     ├── QUICK_START.md          # 5-minute quick start
-
-<p align="center">    ├── SHOWCASE_2025.md        # Features showcase
-
-  <strong>Made with ❤️ for Mahasiswa Informatika UNIKOM</strong>    ├── STRUCTURE.md            # Complete structure guide
-
-</p>    └── CHANGELOG.md            # Version history
-
+    ├── SHOWCASE_2025.md        # Features showcase
+    ├── STRUCTURE.md            # Complete structure guide
+    └── CHANGELOG.md            # Version history
 ```
 
-<p align="center">
-
-  <a href="#-zenotika--digital-aurora-2025">Back to top ↑</a>> 📘 See [STRUCTURE.md](STRUCTURE.md) for complete directory structure and file organization guide.
-
-</p>
+> 📘 See [STRUCTURE.md](STRUCTURE.md) for complete directory structure and file organization guide.
 
 ---
 
