@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Ruang Komunitas Zenotika - Berbagi proyek, ide, dan berkolaborasi dengan sesama mahasiswa." />
+    <meta name="keywords" content="Zenotika, Komunitas, Proyek, Kolaborasi, UNIKOM" />
+    <meta name="author" content="Zenotika" />
+    <meta name="theme-color" content="#0B0B1A" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://andhika-rey.github.io/zen/community.html" />
+    <meta property="og:title" content="Zenotika - Ruang Komunitas" />
+    <meta property="og:description" content="Berbagi proyek, ide, dan berkolaborasi dengan sesama mahasiswa." />
+    <meta property="og:image" content="https://andhika-rey.github.io/zen/assets/og-image.png" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://andhika-rey.github.io/zen/community.html" />
+    <meta property="twitter:title" content="Zenotika - Ruang Komunitas" />
+    <meta property="twitter:description" content="Berbagi proyek, ide, dan berkolaborasi dengan sesama mahasiswa." />
+    <meta property="twitter:image" content="https://andhika-rey.github.io/zen/assets/og-image.png" />
+
+    <title>Zenotika - Ruang Komunitas</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Syne:wght@800&display=swap"
+        rel="stylesheet" />
+
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="/manifest.json" />
+    <script>
+        // Menerapkan tema secepat mungkin untuk menghindari FOUC (Flash of Unstyled Content)
+        (function() {
+            try {
+                const theme = localStorage.getItem('theme');
+                if (theme === 'light') {
+                    document.body.classList.add('light-mode');
+                }
+            } catch (e) {
+                console.error('Could not apply theme from localStorage', e);
+            }
+        })();
+    </script>
+</head>
+
+<body class="aurora-bg">
+    <a href="#main-content" class="skip-link">Lewati ke konten utama</a>
+
+    <div id="announcement-bar" class="announcement-bar hidden">
+        <div class="announcement-content">
+            <p class="announcement-text"></p>
+            <a href="#" class="announcement-cta" target="_blank" rel="noopener">Lihat</a>
+        </div>
+        <button class="announcement-dismiss" aria-label="Tutup pengumuman">×</button>
+    </div>
+
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="/index.html" class="nav-logo">ZENOTIKA</a>
+            <button class="hamburger" aria-label="Buka atau tutup menu navigasi" aria-expanded="false"
+                aria-controls="nav-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            <nav id="nav-menu" class="nav-menu" role="navigation" aria-label="Navigasi halaman">
+                <ul>
+                    <li><a href="/index.html" class="nav-link">Kembali ke Beranda</a></li>
+                    <li class="theme-switcher-mobile">
+                        <div class="theme-switcher">
+                            <input type="checkbox" id="theme-toggle" class="theme-toggle-checkbox" aria-label="Ganti tema">
+                            <label for="theme-toggle" class="theme-toggle-label">
+                                <span class="sun" aria-hidden="true">☀️</span>
+                                <span class="moon" aria-hidden="true">🌙</span>
+                            </label>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="progress-bar"></div>
+    </header>
+
+    <main id="main-content" class="content-page">
+        <h1 class="page-title">Ruang Komunitas</h1>
+        <p class="page-subtitle">
+            Tempat untuk berbagi, belajar, dan berkolaborasi. Tunjukkan proyek Anda, ajukan pertanyaan, dan terhubung dengan sesama mahasiswa.
+        </p>
+
+        <div class="community-filters">
+            <div class="search-container">
+                <input type="search" id="community-search" placeholder="Cari proyek berdasarkan judul atau deskripsi..."
+                    aria-label="Cari proyek komunitas">
+            </div>
+            <div class="tag-filters" id="tag-filters">
+                <!-- Tombol filter tag akan diisi secara dinamis -->
+            </div>
+        </div>
+
+        <div class="community-grid" id="community-grid">
+            <!-- Konten akan diisi secara dinamis oleh script.js -->
+        </div>
+        <div id="community-empty" class="no-results-message hidden">
+            <p>Belum ada konten komunitas yang cocok dengan filter Anda.</p>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2025 Zenotika. Dibuat dengan cinta untuk pendidikan.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

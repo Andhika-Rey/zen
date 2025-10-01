@@ -62,6 +62,164 @@ const loadAnnouncement = async () => {
     }
 };
 
+/**
+ * Fetches and populates the community content grid.
+ */
+let communityData = [];
+let activeTag = null;
+
+const loadCommunityContent = async () => {
+    const grid = document.getElementById('community-grid');
+    const emptyMessage = document.getElementById('community-empty');
+    if (!grid) return;
+
+    try {
+        const response = await fetch(`/data/community.json?v=${new Date().getTime()}`);
+        if (!response.ok) {
+            if (emptyMessage) emptyMessage.classList.remove('hidden');
+            return;
+        }
+
+        const items = await response.json();
+        communityData = items;
+
+        if (!items || items.length === 0) {
+            if (emptyMessage) emptyMessage.classList.remove('hidden');
+            return;
+        }
+
+        generateTagFilters(items);
+        displayCommunityItems(items);
+        initCommunitySearch();
+
+    } catch (error) {
+        console.error('Failed to load community content:', error);
+        if (emptyMessage) emptyMessage.classList.remove('hidden');
+    }
+};
+
+const generateTagFilters = (items) => {
+    const tagFiltersContainer = document.getElementById('tag-filters');
+    if (!tagFiltersContainer) return;
+
+    const allTags = new Set();
+    items.forEach(item => {
+        item.tags.forEach(tag => allTags.add(tag));
+    });
+
+    const allBtn = document.createElement('button');
+    allBtn.className = 'tag-filter-btn active';
+    allBtn.textContent = 'Semua';
+    allBtn.setAttribute('data-tag', 'all');
+    allBtn.setAttribute('aria-pressed', 'true');
+    allBtn.setAttribute('aria-label', 'Filter: Tampilkan semua proyek');
+    allBtn.addEventListener('click', () => handleTagFilter('all'));
+    tagFiltersContainer.appendChild(allBtn);
+
+    allTags.forEach(tag => {
+        const btn = document.createElement('button');
+        btn.className = 'tag-filter-btn';
+        btn.textContent = tag;
+        btn.setAttribute('data-tag', tag);
+        btn.setAttribute('aria-pressed', 'false');
+        btn.setAttribute('aria-label', `Filter: ${tag}`);
+        btn.addEventListener('click', () => handleTagFilter(tag));
+        tagFiltersContainer.appendChild(btn);
+    });
+};
+
+const handleTagFilter = (tag) => {
+    activeTag = tag === 'all' ? null : tag;
+
+    const buttons = document.querySelectorAll('.tag-filter-btn');
+    buttons.forEach(btn => {
+        if (btn.getAttribute('data-tag') === tag) {
+            btn.classList.add('active');
+            btn.setAttribute('aria-pressed', 'true');
+        } else {
+            btn.classList.remove('active');
+            btn.setAttribute('aria-pressed', 'false');
+        }
+    });
+
+    filterCommunityContent();
+};
+
+const initCommunitySearch = () => {
+    const searchInput = document.getElementById('community-search');
+    if (!searchInput) return;
+
+    const handleSearch = () => {
+        filterCommunityContent();
+    };
+
+    searchInput.addEventListener('input', debounce(handleSearch, 300));
+};
+
+const filterCommunityContent = () => {
+    const searchInput = document.getElementById('community-search');
+    const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
+
+    let filteredItems = [...communityData];
+
+    if (activeTag) {
+        filteredItems = filteredItems.filter(item => item.tags.includes(activeTag));
+    }
+
+    if (searchTerm.length > 0) {
+        filteredItems = filteredItems.filter(item => {
+            const titleMatch = item.title.toLowerCase().includes(searchTerm);
+            const descMatch = item.description.toLowerCase().includes(searchTerm);
+            const authorMatch = item.author.toLowerCase().includes(searchTerm);
+            return titleMatch || descMatch || authorMatch;
+        });
+    }
+
+    displayCommunityItems(filteredItems);
+};
+
+const displayCommunityItems = (items) => {
+    const grid = document.getElementById('community-grid');
+    const emptyMessage = document.getElementById('community-empty');
+    if (!grid) return;
+
+    grid.innerHTML = '';
+
+    if (items.length === 0) {
+        if (emptyMessage) emptyMessage.classList.remove('hidden');
+        return;
+    }
+
+    if (emptyMessage) emptyMessage.classList.add('hidden');
+
+    const fragment = document.createDocumentFragment();
+    items.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'community-card';
+        card.innerHTML = `
+            <img src="${escapeHtml(item.image)}" alt="Gambar Proyek: ${escapeHtml(item.title)}" class="card-image">
+            <div class="card-content">
+                <h3>${escapeHtml(item.title)}</h3>
+                <p class="author">Oleh: ${escapeHtml(item.author)}</p>
+                <p>${escapeHtml(item.description)}</p>
+                <div class="card-tags">
+                    ${item.tags.map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join('')}
+                </div>
+                <a href="${escapeHtml(item.link)}" class="card-link" target="_blank" rel="noopener noreferrer">Lihat Proyek</a>
+            </div>
+        `;
+        fragment.appendChild(card);
+    });
+
+    grid.appendChild(fragment);
+};
+
+const escapeHtml = (str) => {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+};
+
 // --- Modern UI/UX Interactions for Zenotika 2025 ---
 document.addEventListener("DOMContentLoaded", function () {
     const navbar = document.querySelector(".navbar");
@@ -255,5 +413,26 @@ document.addEventListener("DOMContentLoaded", function () {
         // Future loaders like loadEvents() can be added here.
     };
 
+    /**
+     * Initializes all functions for a specific page.
+     * This function checks for the existence of page-specific elements and initializes
+     * corresponding features or content loaders as needed.
+     */
+    const main = () => {
+        initMobileNav();
+        initSmoothScroll();
+        initCardSpotlight();
+        initIntersectionObserver();
+
+        // Page-specific initializers
+        if (document.getElementById('material-search')) {
+            initSearch();
+        }
+        if (document.getElementById('community-grid')) {
+            loadCommunityContent();
+        }
+    };
+
     initDynamicContent();
+    main();
 });
