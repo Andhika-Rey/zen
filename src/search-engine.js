@@ -67,6 +67,24 @@ const searchData = [
     category: 'page',
     tags: ['tentang', 'about', 'misi', 'visi', 'tim'],
   },
+  {
+    id: 'page-experience',
+    title: 'Experience Layer 2025',
+    description: 'Standar profesional dengan performa cepat dan keamanan data',
+    content: 'Experience layer menyatukan adaptive learning engine, privacy-first analytics, dan collaboration suite yang siap mendukung skenario enterprise dan komunitas kampus.',
+    url: '#experience',
+    category: 'page',
+    tags: ['experience', 'ux', 'profesional', '2025', 'analytics'],
+  },
+  {
+    id: 'page-insights',
+    title: 'Insights & Roadmap',
+    description: 'Roadmap 2025 dan testimoni mahasiswa',
+    content: 'Dengarkan pengalaman mahasiswa, lihat roadmap rilis Zenotika, dan rencanakan kontribusi Anda berdasarkan prioritas produk terbaru.',
+    url: '#insights',
+    category: 'page',
+    tags: ['insight', 'roadmap', 'timeline', 'testimoni'],
+  },
 
   // Features
   {

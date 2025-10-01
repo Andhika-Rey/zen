@@ -37,6 +37,8 @@ _Platform digital modern untuk komunitas Ilmu Komputer UNIKOM. Kurasi materi bel
 - ♿ **Aksesibilitas penuh**: 100/100 Lighthouse, ARIA live regions, focus management.
 - 🔍 **11 fitur utama** termasuk Command Palette, Advanced Search, Toast Notifications, dan Consent Manager.
 - 🔒 **Privacy-first analytics** (GA4) dengan banner persetujuan sesuai GDPR/CCPA.
+- 🧭 **Experience Layer 2025** memadukan adaptive learning engine, analytics consent-aware, dan collaboration suite profesional.
+- 📈 **Insights & Roadmap** menghadirkan testimoni komunitas, timeline rilis, serta CTA modern untuk kolaborasi lintas kampus.
 
 > 🎓 Dokumentasi utama menggunakan Bahasa Indonesia dengan istilah teknis populer agar tetap familiar bagi developer UNIKOM.
 
@@ -55,6 +57,12 @@ _Platform digital modern untuk komunitas Ilmu Komputer UNIKOM. Kurasi materi bel
 - **Toast Notifications:** 4 varian (success/error/warning/info), auto-dismiss, action button.
 - **Advanced Search (Ctrl/Cmd + Shift + F):** Lunr.js, filter kategori, histori kueri, hasil <50ms.
 - **Analytics & Consent:** GA4 modular, consent banner opt-in, Core Web Vitals tracking.
+
+### Experience Layer — Profesional 2025 (🎉 Baru)
+- **Adaptive Learning Engine:** grid experience baru dengan rekomendasi jalur belajar dan insight personal.
+- **Privacy-first Analytics:** badge performa realtime dengan pengukuran durasi muat berbasis Navigation Timing API.
+- **Pro Collaboration Suite:** CTA command palette, quick actions, dan integrasi GitHub/Discord yang responsif.
+- **Quick Access Launcher:** Floating action button untuk membuka Command Palette, Advanced Search, atau kembali ke atas hanya dengan satu klik.
 
 ---
 

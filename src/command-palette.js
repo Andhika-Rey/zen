@@ -26,7 +26,9 @@ class CommandPalette {
         this.items = [
             // Pages
             { id: 'home', title: 'Beranda', category: 'Pages', icon: '🏠', url: '/', keywords: ['home', 'dashboard', 'utama'] },
+            { id: 'experience', title: 'Experience Layer', category: 'Pages', icon: '🧭', url: '/#experience', keywords: ['experience', 'standar', 'profesional', 'ux'] },
             { id: 'community', title: 'Komunitas', category: 'Pages', icon: '👥', url: '/#community', keywords: ['community', 'forum', 'diskusi'] },
+            { id: 'insights', title: 'Insights & Roadmap', category: 'Pages', icon: '📈', url: '/#insights', keywords: ['insight', 'roadmap', 'timeline'] },
             { id: 'contact', title: 'Kontak', category: 'Pages', icon: '📧', url: '/#contact', keywords: ['contact', 'email', 'hubungi'] },
             
             // Materials
@@ -113,6 +115,14 @@ class CommandPalette {
                 e.preventDefault();
                 this.toggle();
             }
+        });
+
+        // Click triggers (buttons/links with data attribute)
+        document.addEventListener('click', (event) => {
+            const trigger = event.target.closest('[data-open-command-palette]');
+            if (!trigger) return;
+            event.preventDefault();
+            this.open();
         });
         
         // Overlay click (close)

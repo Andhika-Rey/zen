@@ -18,11 +18,17 @@ Sedang baca artikel? Tekan / dan langsung ketik materi yang dicari
 Tidak perlu scroll ke atas atau klik-klik
 ```
 
-### Tekan `t` - Toggle Tema Instant
+### Tekan `Ctrl/Cmd + Shift + X` - Toggle Tema Instant
 ```
-Mata lelah? Tekan t untuk dark mode
-Terlalu gelap? Tekan t lagi untuk light mode
-Lebih cepat dari klik tombol!
+Mata lelah? Tekan Ctrl/Cmd + Shift + X untuk dark mode
+Terlalu gelap? Tekan kombinasi yang sama untuk kembali ke light mode
+Shortcut baru ini menghindari konflik dengan pintasan browser default.
+```
+
+### Tekan `Ctrl/Cmd + Shift + K` - Command Palette
+```
+Butuh action cepat? Tekan Ctrl/Cmd + Shift + K
+Cari halaman, jalankan aksi, atau buka dokumentasi tanpa menyentuh mouse
 ```
 
 ### Tekan `?` - Lihat Semua Shortcut
@@ -171,7 +177,33 @@ Before: "Pesan"   → After: "Bagikan Ide atau Pertanyaan"
 
 ---
 
-## 📊 Technical Excellence
+## � 8. Quick Access Launcher - Command Center
+
+### Floating Action Hub
+```
+	 ╭────────────────────────────╮
+ FAB → │ Command Palette   ⌘⇧K     │
+	 │ Advanced Search   ⌘⇧F     │
+	 │ Back to Top       smooth  │
+	 ╰────────────────────────────╯
+```
+
+**Kenapa penting?**
+- 🕹️ Satu klik membuka Command Palette atau Advanced Search
+- 🧭 Selalu terlihat (FAB) dengan aura glassmorphism 2025
+- ♿ ARIA-ready, bisa ditutup dengan Escape, dan auto-focus toggle
+- 📱 Responsif: otomatis menyesuaikan ukuran di mobile
+
+### Microinteraction
+- Hover → Elevasi & highlight border
+- Click → Panel glide-in dari bawah kanan
+- Close → Klik luar atau tekan Esc (aksesibilitas ✅)
+
+**Hasil:** UX profesional ala Linear/Notion dengan akses instan ke fitur inti
+
+---
+
+## �📊 Technical Excellence
 
 ### Bundle Size (Optimized)
 ```
@@ -207,6 +239,7 @@ http://localhost:3005
 5. Press Ctrl/Cmd+Shift+K → Command Palette opens
 6. Press ?             → Shortcuts modal opens
 7. Press Esc           → Modal closes
+8. Klik FAB pojok kanan bawah → Quick Access muncul, pilih Command Palette/Advanced Search/Back to Top
 ```
 
 ### 3. Test Form Validation

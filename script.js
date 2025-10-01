@@ -232,6 +232,137 @@ const applyReduceMotionPreferences = () => {
     }
 };
 
+const getLocalizedGreeting = (date = new Date()) => {
+    const hours = date.getHours();
+    if (hours >= 5 && hours < 11) return 'Selamat pagi';
+    if (hours >= 11 && hours < 15) return 'Selamat siang';
+    if (hours >= 15 && hours < 19) return 'Selamat sore';
+    return 'Selamat malam';
+};
+
+const formatStatValue = (value, element) => {
+    if (!element) return;
+    const prefix = element.dataset.prefix || '';
+    const suffix = element.dataset.suffix || '';
+    const format = element.dataset.format || 'number';
+    let displayValue = Math.round(value);
+
+    if (!Number.isFinite(displayValue)) {
+        displayValue = value;
+    }
+
+    if (format === 'compact') {
+        const formatter = new Intl.NumberFormat('id-ID', {
+            notation: 'compact',
+            maximumFractionDigits: 1
+        });
+        displayValue = formatter.format(value);
+    } else {
+        const formatter = new Intl.NumberFormat('id-ID', {
+            maximumFractionDigits: 0
+        });
+        displayValue = formatter.format(Math.round(value));
+    }
+
+    element.textContent = `${prefix}${displayValue}${suffix}`;
+};
+
+const animateStatCounter = (element) => {
+    if (!element || element.dataset.animated === 'true') return;
+
+    const targetValue = Number(element.dataset.countTarget);
+    if (!Number.isFinite(targetValue)) {
+        return;
+    }
+
+    if (shouldReduceMotion) {
+        formatStatValue(targetValue, element);
+        element.dataset.animated = 'true';
+        return;
+    }
+
+    const duration = 1300;
+    const start = performance.now();
+
+    const step = (timestamp) => {
+        const elapsed = timestamp - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const current = targetValue * eased;
+        formatStatValue(current, element);
+
+        if (progress < 1) {
+            requestAnimationFrame(step);
+        } else {
+            formatStatValue(targetValue, element);
+            element.dataset.animated = 'true';
+        }
+    };
+
+    requestAnimationFrame(step);
+};
+
+const initStatCounters = () => {
+    if (!hasDocument) return;
+    const counters = document.querySelectorAll('.stat-card strong[data-count-target]');
+    if (counters.length === 0) return;
+
+    if (shouldReduceMotion || typeof IntersectionObserver === 'undefined') {
+        counters.forEach(counter => {
+            const target = Number(counter.dataset.countTarget);
+            formatStatValue(Number.isFinite(target) ? target : 0, counter);
+            counter.dataset.animated = 'true';
+        });
+        return;
+    }
+
+    const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateStatCounter(entry.target);
+                obs.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.55, rootMargin: '0px 0px -10%' });
+
+    counters.forEach(counter => observer.observe(counter));
+};
+
+const initHeroGreeting = () => {
+    if (!hasDocument || !hasWindow) return;
+    const greetingElement = document.getElementById('hero-greeting');
+    const buildTimeElement = document.getElementById('hero-build-time');
+
+    const updateGreeting = () => {
+        if (!greetingElement) return;
+        const greeting = getLocalizedGreeting();
+        greetingElement.textContent = `${greeting}, mari jelajahi inovasi terbaru Zenotika.`;
+    };
+
+    updateGreeting();
+    window.setInterval(updateGreeting, 60 * 1000);
+
+    if (buildTimeElement && typeof performance !== 'undefined' && performance.getEntriesByType) {
+        const updateBuildTime = () => {
+            const navigationEntries = performance.getEntriesByType('navigation');
+            const entry = navigationEntries && navigationEntries[0];
+            const durationMs = entry ? entry.duration : performance.now();
+            const seconds = Math.max(0.3, durationMs / 1000);
+            const formatter = new Intl.NumberFormat('id-ID', {
+                minimumFractionDigits: seconds < 10 ? 1 : 0,
+                maximumFractionDigits: seconds < 10 ? 1 : 0
+            });
+            buildTimeElement.textContent = `${formatter.format(seconds)}s load`;
+        };
+
+        if (typeof window.requestIdleCallback === 'function') {
+            window.requestIdleCallback(updateBuildTime, { timeout: 1200 });
+        } else {
+            window.setTimeout(updateBuildTime, 600);
+        }
+    }
+};
+
 if (reduceMotionMediaQuery) {
     const handleReduceMotionChange = (event) => {
         shouldReduceMotion = event.matches;
@@ -769,7 +900,10 @@ document.addEventListener("DOMContentLoaded", function () {
         // --- Card Spotlight & Motion Preferences ---
         applyReduceMotionPreferences();
         applySpotlightEffectToCards();
+        initStatCounters();
     });
+
+    initHeroGreeting();
 
     // --- Theme Switcher ---
     const themeToggle = document.getElementById('theme-toggle');
@@ -802,6 +936,76 @@ document.addEventListener("DOMContentLoaded", function () {
             localStorage.setItem('theme', newTheme);
             applyTheme(newTheme);
         });
+    }
+
+    // --- Quick Access Launcher ---
+    const quickAccess = document.getElementById('quick-access');
+    const quickToggle = document.getElementById('quick-access-toggle');
+    const quickPanel = document.getElementById('quick-access-panel');
+
+    if (quickAccess && quickToggle && quickPanel) {
+        const openQuickAccess = () => {
+            quickAccess.classList.add('active');
+            quickPanel.classList.remove('hidden');
+            quickToggle.setAttribute('aria-expanded', 'true');
+        };
+
+        const closeQuickAccess = ({ focusToggle = false } = {}) => {
+            quickAccess.classList.remove('active');
+            quickPanel.classList.add('hidden');
+            quickToggle.setAttribute('aria-expanded', 'false');
+            if (focusToggle) {
+                quickToggle.focus();
+            }
+        };
+
+        quickToggle.addEventListener('click', (event) => {
+            event.preventDefault();
+            if (quickAccess.classList.contains('active')) {
+                closeQuickAccess();
+            } else {
+                openQuickAccess();
+            }
+        });
+
+        quickPanel.addEventListener('click', (event) => {
+            const actionButton = event.target.closest('[data-action]');
+            if (!actionButton) return;
+
+            const action = actionButton.dataset.action;
+            closeQuickAccess();
+
+            if (action === 'palette' && window.commandPalette && typeof window.commandPalette.open === 'function') {
+                window.commandPalette.open();
+                return;
+            }
+
+            if (action === 'search' && searchModal && typeof searchModal.open === 'function') {
+                searchModal.open();
+                return;
+            }
+
+            if (action === 'top') {
+                window.scrollTo({ top: 0, behavior: shouldReduceMotion ? 'auto' : 'smooth' });
+            }
+        });
+
+        document.addEventListener('click', (event) => {
+            if (!quickAccess.contains(event.target) && quickAccess.classList.contains('active')) {
+                closeQuickAccess();
+            }
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && quickAccess.classList.contains('active')) {
+                event.preventDefault();
+                closeQuickAccess({ focusToggle: true });
+            }
+        });
+
+        window.setTimeout(() => {
+            quickAccess.classList.add('is-visible');
+        }, 800);
     }
 
     // --- Keyboard Shortcuts ---
