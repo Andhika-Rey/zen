@@ -333,7 +333,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // --- Card Spotlight Effect ---
-    const cards = document.querySelectorAll('.about-card, .learning-item');
+    const cards = document.querySelectorAll('.feature-card, .learning-item, .community-card');
     cards.forEach(card => {
         card.addEventListener('mousemove', (e) => {
             const rect = card.getBoundingClientRect();
@@ -359,7 +359,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }, observerOptions);
 
-    document.querySelectorAll('.about-card, .learning-item, .info-card, .contact-form, .footer p').forEach(el => {
+    document.querySelectorAll('.feature-card, .learning-item, .info-card, .contact-info-card, .contact-form, .community-card, .footer-column').forEach(el => {
         fadeInObserver.observe(el);
     });
 
@@ -439,7 +439,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             setTimeout(() => {
                 submitBtn.textContent = 'Pesan Terkirim!';
-                submitBtn.style.background = 'var(--accent-glow)';
+                submitBtn.style.background = 'var(--color-accent)';
                 setTimeout(() => {
                     submitBtn.textContent = originalText;
                     submitBtn.disabled = false;

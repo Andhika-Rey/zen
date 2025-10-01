@@ -52,19 +52,15 @@ git push origin main
 **Custom Domain:**
 ```bash
 # 1. Buat file CNAME
-echo "zenotika.com" > CNAME
+echo "zenotika.unikom.ac.id" > CNAME
 
 # 2. Update DNS records di domain provider
 # Type: CNAME
-# Name: www
+# Name: zenotika (atau subdomain sesuai kebijakan UNIKOM)
 # Value: username.github.io
 
-# Type: A (untuk apex domain)
-# Name: @
-# Value: 185.199.108.153
-#        185.199.109.153
-#        185.199.110.153
-#        185.199.111.153
+# Catatan: karena ini subdomain kampus, koordinasikan dengan tim TI UNIKOM
+# untuk menambahkan record CNAME atau membuat delegasi subdomain.
 ```
 
 **GitHub Actions (Auto Deploy):**

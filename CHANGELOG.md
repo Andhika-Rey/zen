@@ -61,6 +61,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `robots.txt` for crawler guidance
 - Enhanced meta tags (Open Graph, Twitter Cards)
 - Improved page titles and descriptions
+- Domain metadata disesuaikan ke `zenotika.unikom.ac.id`
 
 #### UI/UX
 - Filter buttons with active states

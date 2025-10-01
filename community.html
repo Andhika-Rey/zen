@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Ruang Komunitas Zenotika - Berbagi proyek, ide, dan berkolaborasi dengan sesama mahasiswa." />
+    <meta name="description"
+        content="Ruang Komunitas Zenotika - Berbagi proyek, ide, dan berkolaborasi dengan sesama mahasiswa." />
     <meta name="keywords" content="Zenotika, Komunitas, Proyek, Kolaborasi, UNIKOM" />
     <meta name="author" content="Zenotika" />
     <meta name="theme-color" content="#0B0B1A" />
@@ -14,14 +15,14 @@
     <meta property="og:url" content="https://zenotika.unikom.ac.id/community.html" />
     <meta property="og:title" content="Zenotika - Ruang Komunitas" />
     <meta property="og:description" content="Berbagi proyek, ide, dan berkolaborasi dengan sesama mahasiswa." />
-    <meta property="og:image" content="https://zenotika.unikom.ac.id/assets/og-image.png" />
+    <meta property="og:image" content="https://zenotika.unikom.ac.id/icon.svg" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://zenotika.unikom.ac.id/community.html" />
     <meta property="twitter:title" content="Zenotika - Ruang Komunitas" />
     <meta property="twitter:description" content="Berbagi proyek, ide, dan berkolaborasi dengan sesama mahasiswa." />
-    <meta property="twitter:image" content="https://zenotika.unikom.ac.id/assets/og-image.png" />
+    <meta property="twitter:image" content="https://zenotika.unikom.ac.id/icon.svg" />
 
     <title>Zenotika - Ruang Komunitas</title>
 
@@ -33,6 +34,7 @@
     <link rel="stylesheet" href="styles.css" />
     <link rel="icon" href="/icon.svg" type="image/svg+xml" />
     <link rel="manifest" href="/manifest.json" />
+    <link rel="canonical" href="https://zenotika.unikom.ac.id/community.html" />
     <script>
         (function () {
             try {
@@ -47,70 +49,115 @@
     </script>
 </head>
 
-<body class="aurora-bg">
+<body>
     <a href="#main-content" class="skip-link">Lewati ke konten utama</a>
 
-    <div id="announcement-bar" class="announcement-bar hidden">
+    <div id="announcement-bar" class="hidden" role="region" aria-live="polite">
         <div class="announcement-content">
             <p class="announcement-text"></p>
             <a href="#" class="announcement-cta" target="_blank" rel="noopener">Lihat</a>
+            <button class="announcement-dismiss" aria-label="Tutup pengumuman">×</button>
         </div>
-        <button class="announcement-dismiss" aria-label="Tutup pengumuman">×</button>
     </div>
 
     <header class="navbar">
         <div class="nav-container">
-            <a href="/index.html" class="nav-logo">ZENOTIKA</a>
-            <button class="hamburger" aria-label="Buka atau tutup menu navigasi" aria-expanded="false"
-                aria-controls="nav-menu">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
+            <a href="/index.html" class="nav-logo" aria-label="Zenotika Beranda">
+                <span class="logo-mark">Z</span>
+                <span>Zenotika</span>
+            </a>
+            <button class="hamburger" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="nav-menu">
+                <span></span>
+                <span></span>
+                <span></span>
             </button>
-            <nav id="nav-menu" class="nav-menu" role="navigation" aria-label="Navigasi halaman">
+            <nav id="nav-menu" class="nav-menu" aria-label="Navigasi utama">
                 <ul>
-                    <li><a href="/index.html" class="nav-link">Kembali ke Beranda</a></li>
-                    <li class="theme-switcher-mobile">
-                        <div class="theme-switcher">
-                            <input type="checkbox" id="theme-toggle" class="theme-toggle-checkbox" aria-label="Ganti tema">
-                            <label for="theme-toggle" class="theme-toggle-label">
-                                <span class="sun" aria-hidden="true">☀️</span>
-                                <span class="moon" aria-hidden="true">🌙</span>
-                            </label>
-                        </div>
-                    </li>
+                    <li><a href="/index.html#home" class="nav-link">Beranda</a></li>
+                    <li><a href="/index.html#about" class="nav-link">Tentang</a></li>
+                    <li><a href="/index.html#learning" class="nav-link">Materi</a></li>
+                    <li><a href="community.html" class="nav-link active">Komunitas</a></li>
+                    <li><a href="/index.html#info" class="nav-link">Info</a></li>
+                    <li><a href="/index.html#contact" class="nav-link">Kontak</a></li>
                 </ul>
+                <div class="nav-actions">
+                    <div class="theme-switcher">
+                        <input type="checkbox" id="theme-toggle" class="theme-toggle-checkbox" aria-label="Ganti tema">
+                        <label for="theme-toggle" class="theme-toggle-label">
+                            <span class="sun" aria-hidden="true">☀️</span>
+                            <span class="moon" aria-hidden="true">🌙</span>
+                        </label>
+                    </div>
+                    <a href="/index.html#contact" class="nav-link primary-cta">Hubungi Kami</a>
+                </div>
             </nav>
         </div>
-        <div class="progress-bar"></div>
+        <div class="progress-bar" role="presentation"></div>
     </header>
 
-    <main id="main-content" class="content-page">
-        <h1 class="page-title">Ruang Komunitas</h1>
-        <p class="page-subtitle">
-            Tempat untuk berbagi, belajar, dan berkolaborasi. Tunjukkan proyek Anda, ajukan pertanyaan, dan terhubung dengan sesama mahasiswa.
-        </p>
-
-        <div class="community-filters">
-            <div class="search-container">
-                <input type="search" id="community-search" placeholder="Cari proyek berdasarkan judul atau deskripsi..."
-                    aria-label="Cari proyek komunitas">
+    <main id="main-content">
+        <section class="section" aria-labelledby="community-title">
+            <div class="section-header center">
+                <span class="eyebrow">Ruang Komunitas</span>
+                <h1 id="community-title" class="section-title">Kolaborasi &amp; Kreasi Mahasiswa</h1>
+                <p class="section-subtitle">
+                    Tempat untuk berbagi, belajar, dan tumbuh bersama. Publikasikan proyek, ajukan ide, atau temukan rekan kolaborasi baru.
+                </p>
             </div>
-            <div class="tag-filters" id="tag-filters">
-                <!-- Tombol filter tag akan diisi secara dinamis -->
-            </div>
-        </div>
 
-        <div class="community-grid" id="community-grid" role="list" aria-busy="true">
-            <!-- Konten akan diisi secara dinamis oleh script.js -->
-        </div>
-        <div id="community-empty" class="no-results-message hidden" role="status" aria-live="polite" hidden>
-            <p>Belum ada konten komunitas yang cocok dengan filter Anda.</p>
-        </div>
+            <div class="community-filters">
+                <div class="search-container">
+                    <input type="search" id="community-search"
+                        placeholder="Cari proyek berdasarkan judul, deskripsi, atau penulis..."
+                        aria-label="Cari proyek komunitas">
+                </div>
+                <div class="tag-filters" id="tag-filters">
+                    <!-- Tombol filter tag diisi secara dinamis -->
+                </div>
+            </div>
+
+            <div class="community-grid" id="community-grid" role="list" aria-busy="true">
+                <!-- Konten akan diisi secara dinamis oleh script.js -->
+            </div>
+            <div id="community-empty" class="hidden" role="status" aria-live="polite" hidden>
+                <p>Belum ada konten komunitas yang cocok dengan filter Anda.</p>
+            </div>
+        </section>
     </main>
 
     <footer class="footer">
-        <p>&copy; 2025 Zenotika. Dibuat dengan cinta untuk pendidikan.</p>
+        <div class="footer-grid">
+            <div class="footer-column">
+                <div class="nav-logo" aria-hidden="true">
+                    <span class="logo-mark">Z</span>
+                    <span>Zenotika</span>
+                </div>
+                <p>
+                    Ekosistem digital mahasiswa Ilmu Komputer UNIKOM yang menghadirkan pembelajaran, komunitas, dan karier dalam satu pengalaman terpadu.
+                </p>
+            </div>
+            <div class="footer-column">
+                <h4>Navigasi</h4>
+                <ul class="footer-links">
+                    <li><a href="/index.html#home">Beranda</a></li>
+                    <li><a href="/index.html#learning">Materi</a></li>
+                    <li><a href="/index.html#info">Info</a></li>
+                    <li><a href="/index.html#contact">Kontak</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Resource</h4>
+                <ul class="footer-links">
+                    <li><a href="community.html">Ruang Komunitas</a></li>
+                    <li><a href="/docs/DEPLOYMENT.md">Panduan Deployment</a></li>
+                    <li><a href="/CHANGELOG.md">Catatan Rilis</a></li>
+                    <li><a href="mailto:kontak@zenotika.unikom.ac.id">Email Support</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Zenotika. Dibuat dengan dedikasi oleh mahasiswa Ilmu Komputer UNIKOM.</p>
+        </div>
     </footer>
 
     <script src="script.js"></script>
