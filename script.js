@@ -931,6 +931,14 @@ document.addEventListener("DOMContentLoaded", function () {
             if (!(isNameOk && isEmailOk && isMessageOk)) {
                 const firstInvalid = contactForm.querySelector('[aria-invalid="true"]');
                 if (firstInvalid) firstInvalid.focus();
+                
+                // Show error toast
+                if (window.toast) {
+                    window.toast.error('Please fix the errors in the form', {
+                        description: 'Check the highlighted fields and try again',
+                        duration: 4000
+                    });
+                }
                 return;
             }
             const submitBtn = this.querySelector('.submit-btn');
@@ -942,6 +950,26 @@ document.addEventListener("DOMContentLoaded", function () {
             setTimeout(() => {
                 submitBtn.textContent = 'Pesan Terkirim!';
                 submitBtn.style.background = 'var(--color-accent)';
+                
+                // Show success toast with action
+                if (window.toast) {
+                    window.toast.success('Message sent successfully!', {
+                        description: 'We\'ll get back to you within 24 hours',
+                        duration: 5000,
+                        action: {
+                            label: 'Send Another',
+                            name: 'send-another',
+                            onClick: () => {
+                                submitBtn.textContent = originalText;
+                                submitBtn.disabled = false;
+                                submitBtn.style.background = '';
+                                contactForm.reset();
+                                nameInput?.focus();
+                            }
+                        }
+                    });
+                }
+                
                 setTimeout(() => {
                     submitBtn.textContent = originalText;
                     submitBtn.disabled = false;

@@ -282,43 +282,27 @@ class CommandPalette {
         switch (actionName) {
             case 'toggleTheme':
                 document.getElementById('theme-toggle')?.click();
+                if (window.toast) {
+                    window.toast.success('Theme changed!', { duration: 2000 });
+                }
                 break;
             case 'copyUrl':
                 navigator.clipboard.writeText(window.location.href).then(() => {
-                    this.showToast('URL copied to clipboard!');
+                    if (window.toast) {
+                        window.toast.success('URL copied to clipboard!');
+                    }
                 });
                 break;
             case 'openGithub':
                 window.open('https://github.com/Andhika-Rey/zen', '_blank');
+                if (window.toast) {
+                    window.toast.info('Opening GitHub repository...', { duration: 2000 });
+                }
                 break;
             case 'showShortcuts':
                 document.getElementById('shortcuts-modal')?.classList.remove('hidden');
                 break;
         }
-    }
-    
-    showToast(message) {
-        // Simple toast notification (will be replaced by Phase 2 Toast system)
-        const toast = document.createElement('div');
-        toast.className = 'simple-toast';
-        toast.textContent = message;
-        toast.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: var(--color-primary);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            z-index: 10000;
-            animation: slideIn 0.3s ease;
-        `;
-        document.body.appendChild(toast);
-        setTimeout(() => {
-            toast.style.animation = 'slideOut 0.3s ease';
-            setTimeout(() => toast.remove(), 300);
-        }, 3000);
     }
     
     saveRecentPage(url) {

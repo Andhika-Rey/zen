@@ -58,6 +58,18 @@ npx esbuild src/command-palette.js \
 # Copy Command Palette CSS
 cp src/command-palette.css "$BUILD_DIR/"
 
+# Build Toast Notifications (Phase 2)
+echo -e "${GREEN}🔔 Building Toast Notifications module...${NC}"
+npx esbuild src/toast.js \
+    --bundle \
+    --minify \
+    --target=es2020 \
+    --format=esm \
+    --outfile="$BUILD_DIR/toast.js"
+
+# Copy Toast CSS
+cp src/toast.css "$BUILD_DIR/"
+
 # Copy static assets
 echo -e "${GREEN}🖼️  Copying static assets...${NC}"
 cp icon.svg "$BUILD_DIR/"
