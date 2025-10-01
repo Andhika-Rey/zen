@@ -63,13 +63,13 @@ fi
 # Minify CSS
 echo -e "${GREEN}🎨 Minifying CSS...${NC}"
 if command -v npx &> /dev/null; then
-    # Use lightningcss if available, otherwise csso
-    if npx lightningcss --version &> /dev/null 2>&1; then
+    # Use clean-css-cli (reliable and well-tested)
+    if npx cleancss --version &> /dev/null 2>&1; then
+        npx cleancss styles.css -o "$BUILD_DIR/styles.css" 2>/dev/null
+        echo "  ✓ Using clean-css"
+    elif npx lightningcss --version &> /dev/null 2>&1; then
         npx lightningcss --minify --bundle styles.css -o "$BUILD_DIR/styles.css"
         echo "  ✓ Using lightningcss"
-    elif npx csso --version &> /dev/null 2>&1; then
-        npx csso styles.css -o "$BUILD_DIR/styles.css"
-        echo "  ✓ Using csso"
     else
         # Fallback: copy without minification
         cp styles.css "$BUILD_DIR/"
