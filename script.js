@@ -800,6 +800,48 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    // --- Keyboard Shortcuts ---
+    const shortcutsModal = document.getElementById('shortcuts-modal');
+    const openShortcuts = () => {
+        if (!shortcutsModal) return;
+        shortcutsModal.classList.remove('hidden');
+        const firstFocusable = shortcutsModal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        if (firstFocusable) firstFocusable.focus();
+    };
+    const closeShortcuts = () => {
+        if (!shortcutsModal) return;
+        shortcutsModal.classList.add('hidden');
+    };
+    document.addEventListener('keydown', (e) => {
+        if (e.key === '/' && !e.ctrlKey && !e.metaKey && !e.altKey) {
+            const search = document.getElementById('material-search');
+            if (search) {
+                e.preventDefault();
+                search.focus();
+                search.select();
+            }
+        }
+        if ((e.key === '?' || (e.shiftKey && e.key === '/')) && !e.ctrlKey && !e.metaKey && !e.altKey) {
+            e.preventDefault();
+            openShortcuts();
+        }
+        if (e.key === 'Escape') {
+            closeShortcuts();
+        }
+        if ((e.key === 't' || e.key === 'T') && !e.ctrlKey && !e.metaKey && !e.altKey) {
+            // toggle theme
+            const current = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+            localStorage.setItem('theme', current);
+            document.documentElement.dataset.theme = current;
+            document.body.classList.toggle('light-mode', current === 'light');
+            const themeToggle = document.getElementById('theme-toggle');
+            if (themeToggle) themeToggle.checked = current === 'light';
+        }
+        // g then h => go home
+    });
+    // close modal by overlay or close button
+    document.querySelectorAll('[data-close-modal]').forEach(el => el.addEventListener('click', closeShortcuts));
+
     // --- Material Search Functionality ---
     const searchInput = document.getElementById('material-search');
     const learningItems = document.querySelectorAll('.learning-item');
@@ -843,11 +885,54 @@ document.addEventListener("DOMContentLoaded", function () {
         handleSearch();
     }
 
-    // --- Form Submission ---
+    // --- Form Submission & Validation ---
     const contactForm = document.querySelector('.contact-form form');
     if (contactForm) {
+        const nameInput = contactForm.querySelector('#name');
+        const emailInput = contactForm.querySelector('#email');
+        const messageInput = contactForm.querySelector('#message');
+        const nameError = contactForm.querySelector('#name-error');
+        const emailError = contactForm.querySelector('#email-error');
+        const messageError = contactForm.querySelector('#message-error');
+
+        const validateField = (input, errorEl, validator) => {
+            const { valid, message } = validator(input.value);
+            if (!valid) {
+                input.setAttribute('aria-invalid', 'true');
+                if (errorEl) {
+                    errorEl.textContent = message;
+                    errorEl.classList.remove('hidden');
+                }
+            } else {
+                input.removeAttribute('aria-invalid');
+                if (errorEl) {
+                    errorEl.textContent = '';
+                    errorEl.classList.add('hidden');
+                }
+            }
+            return valid;
+        };
+
+        const nameValidator = (v) => ({ valid: v.trim().length >= 2, message: 'Nama minimal 2 karakter.' });
+        const emailValidator = (v) => ({ valid: /^[^@\s]+@unikom\.ac\.id$/.test(v.trim()), message: 'Gunakan email kampus @unikom.ac.id.' });
+        const messageValidator = (v) => ({ valid: v.trim().length >= 10, message: 'Pesan minimal 10 karakter.' });
+
+        ['input', 'blur'].forEach(evt => {
+            if (nameInput) nameInput.addEventListener(evt, () => validateField(nameInput, nameError, nameValidator));
+            if (emailInput) emailInput.addEventListener(evt, () => validateField(emailInput, emailError, emailValidator));
+            if (messageInput) messageInput.addEventListener(evt, () => validateField(messageInput, messageError, messageValidator));
+        });
+
         contactForm.addEventListener('submit', function (e) {
             e.preventDefault();
+            const isNameOk = nameInput ? validateField(nameInput, nameError, nameValidator) : true;
+            const isEmailOk = emailInput ? validateField(emailInput, emailError, emailValidator) : true;
+            const isMessageOk = messageInput ? validateField(messageInput, messageError, messageValidator) : true;
+            if (!(isNameOk && isEmailOk && isMessageOk)) {
+                const firstInvalid = contactForm.querySelector('[aria-invalid="true"]');
+                if (firstInvalid) firstInvalid.focus();
+                return;
+            }
             const submitBtn = this.querySelector('.submit-btn');
             const originalText = submitBtn.textContent;
 
@@ -871,5 +956,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (document.getElementById('community-grid')) {
         loadCommunityContent();
+    }
+
+    // Events skeleton state toggle when content loaded (if implemented later)
+    const eventsRegion = document.getElementById('events');
+    if (eventsRegion) {
+        // Mark busy false when DOM paints
+        requestAnimationFrame(() => {
+            eventsRegion.setAttribute('aria-busy', 'false');
+        });
     }
 });

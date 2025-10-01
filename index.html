@@ -38,6 +38,12 @@
     <link rel="icon" href="/icon.svg" type="image/svg+xml" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="canonical" href="https://zenotika.unikom.ac.id/" />
+    <noscript>
+        <style>
+            .requires-js { display: none !important; }
+            .noscript-banner { background: #ffd1d1; color: #5b0000; padding: 0.75rem 1rem; text-align: center; font-weight: 600; }
+        </style>
+    </noscript>
     <script type="application/ld+json">
         {
             "@context": "https://schema.org",
@@ -139,6 +145,9 @@
 
 <body>
     <a href="#main-content" class="skip-link">Lewati ke konten utama</a>
+    <noscript>
+        <div class="noscript-banner" role="status">JavaScript nonaktif. Beberapa fitur interaktif tidak akan berfungsi.</div>
+    </noscript>
 
     <div id="announcement-bar" class="hidden" role="region" aria-live="polite">
         <div class="announcement-content">
@@ -253,7 +262,7 @@
                     </ul>
                 </article>
                 <article class="feature-card">
-                    <span class="feature-icon" aria-hidden="true">�</span>
+                    <span class="feature-icon" aria-hidden="true">🗂️</span>
                     <h3 class="feature-title">Informasi Terpusat</h3>
                     <p>Jangan terlewat event, pengumuman, dan insight penting dari fakultas maupun komunitas.</p>
                     <ul class="feature-list">
@@ -286,8 +295,10 @@
             </div>
             <div class="learning">
                 <div class="search-container">
+                    <label for="material-search" class="visually-hidden">Cari materi ajar</label>
                     <input type="search" id="material-search" placeholder="🔍 Cari materi: web, data, algoritma..."
-                        aria-label="Cari materi ajar">
+                        aria-label="Cari materi ajar" autocomplete="off" spellcheck="false">
+                    <p class="search-hint" aria-hidden="true"><span class="kbd">/</span> untuk fokus pencarian</p>
                 </div>
                 <div class="learning-grid">
                     <a href="materials/program-dasar.html" class="learning-item"
@@ -330,7 +341,11 @@
                         Stay up to date dengan agenda kampus, kompetisi, dan highlight komunitas setiap minggu.
                     </p>
                 </div>
-                <div id="events" class="info-grid" aria-live="polite" aria-busy="false">
+                <div id="events" class="info-grid requires-js" aria-live="polite" aria-busy="true">
+                    <!-- Skeleton placeholders -->
+                    <article class="info-card skeleton" aria-hidden="true"></article>
+                    <article class="info-card skeleton" aria-hidden="true"></article>
+                    <article class="info-card skeleton" aria-hidden="true"></article>
                     <!-- Dynamic content injected via script.js -->
                 </div>
                 <div id="events-empty" class="info-card hidden" role="status" aria-live="polite" hidden>
@@ -371,14 +386,17 @@
                     <div class="contact-form">
                         <form action="#" aria-label="Form kontak Zenotika">
                             <label for="name">Nama Lengkap</label>
-                            <input type="text" id="name" name="name" placeholder="Nama Anda" required>
+                            <input type="text" id="name" name="name" placeholder="Nama Anda" autocomplete="name" required>
+                            <p id="name-error" class="form-error hidden" role="alert"></p>
 
                             <label for="email">Email Kampus</label>
-                            <input type="email" id="email" name="email" placeholder="nama@unikom.ac.id" required>
+                            <input type="email" id="email" name="email" placeholder="nama@unikom.ac.id" pattern="^[^@\s]+@unikom\.ac\.id$" inputmode="email" autocomplete="email" required aria-describedby="email-error">
+                            <p id="email-error" class="form-error hidden" role="alert"></p>
 
                             <label for="message">Bagikan Ide atau Pertanyaan</label>
                             <textarea id="message" name="message" rows="5" placeholder="Ceritakan kebutuhan Anda"
                                 required></textarea>
+                            <p id="message-error" class="form-error hidden" role="alert"></p>
 
                             <button type="submit" class="submit-btn">Kirim Pesan</button>
                         </form>
@@ -387,6 +405,26 @@
             </div>
         </section>
     </main>
+
+    <!-- Keyboard Shortcuts Modal -->
+    <div id="shortcuts-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="shortcuts-title" aria-describedby="shortcuts-desc">
+        <div class="modal-overlay" data-close-modal></div>
+        <div class="modal-content" role="document">
+            <header class="modal-header">
+                <h3 id="shortcuts-title">Pintasan Keyboard</h3>
+                <button class="modal-close" aria-label="Tutup" data-close-modal>×</button>
+            </header>
+            <div class="modal-body">
+                <p id="shortcuts-desc">Navigasi cepat dan aksi umum.</p>
+                <ul class="shortcut-list">
+                    <li><span class="kbd">/</span> Fokus pencarian materi</li>
+                    <li><span class="kbd">t</span> Ganti tema terang/gelap</li>
+                    <li><span class="kbd">?</span> Buka bantuan pintasan</li>
+                    <li><span class="kbd">g</span> lalu <span class="kbd">h</span> Pergi ke Beranda</li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
     <footer class="footer">
         <div class="footer-grid">
