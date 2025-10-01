@@ -35,6 +35,96 @@
     <link rel="icon" href="/icon.svg" type="image/svg+xml" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="canonical" href="https://zenotika.unikom.ac.id/community.html" />
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@graph": [
+                {
+                    "@type": "Organization",
+                    "@id": "https://zenotika.unikom.ac.id/#organization",
+                    "name": "Zenotika",
+                    "url": "https://zenotika.unikom.ac.id/",
+                    "logo": "https://zenotika.unikom.ac.id/icon.svg",
+                    "email": "support@zenotika.unikom.ac.id",
+                    "sameAs": [
+                        "https://discord.gg/zenotika",
+                        "https://github.com/Andhika-Rey/zen"
+                    ]
+                },
+                {
+                    "@type": "WebSite",
+                    "@id": "https://zenotika.unikom.ac.id/#website",
+                    "url": "https://zenotika.unikom.ac.id/",
+                    "name": "Zenotika",
+                    "inLanguage": "id",
+                    "publisher": { "@id": "https://zenotika.unikom.ac.id/#organization" }
+                },
+                {
+                    "@type": "CollectionPage",
+                    "@id": "https://zenotika.unikom.ac.id/community.html#webpage",
+                    "name": "Zenotika - Ruang Komunitas",
+                    "url": "https://zenotika.unikom.ac.id/community.html",
+                    "inLanguage": "id",
+                    "isPartOf": { "@id": "https://zenotika.unikom.ac.id/#website" },
+                    "about": { "@id": "https://zenotika.unikom.ac.id/#organization" },
+                    "publisher": { "@id": "https://zenotika.unikom.ac.id/#organization" }
+                },
+                {
+                    "@type": "ItemList",
+                    "@id": "https://zenotika.unikom.ac.id/community.html#projects",
+                    "name": "Showcase Proyek Komunitas Zenotika",
+                    "itemListOrder": "https://schema.org/ItemListOrderAscending",
+                    "numberOfItems": 4,
+                    "itemListElement": [
+                        {
+                            "@type": "ListItem",
+                            "position": 1,
+                            "item": {
+                                "@type": "CreativeWork",
+                                "name": "Kalkulator Ilmiah dengan JavaScript",
+                                "author": "Mahasiswa A",
+                                "url": "https://zenotika.unikom.ac.id/community.html#proj-001",
+                                "description": "Sebuah kalkulator ilmiah dengan operasi dasar, trigonometrik, dan logaritmik yang dibangun menggunakan JavaScript."
+                            }
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 2,
+                            "item": {
+                                "@type": "CreativeWork",
+                                "name": "Visualisasi Algoritma Sorting",
+                                "author": "Mahasiswa B",
+                                "url": "https://zenotika.unikom.ac.id/community.html#proj-002",
+                                "description": "Visualisasi interaktif untuk Bubble Sort, Merge Sort, dan Quick Sort yang dibangun dengan React."
+                            }
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 3,
+                            "item": {
+                                "@type": "CreativeWork",
+                                "name": "API Sederhana untuk Manajemen Tugas",
+                                "author": "Mahasiswa C",
+                                "url": "https://zenotika.unikom.ac.id/community.html#proj-003",
+                                "description": "REST API Node.js dan Express untuk aplikasi To-Do lengkap dengan operasi CRUD dan validasi data."
+                            }
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 4,
+                            "item": {
+                                "@type": "CreativeWork",
+                                "name": "Aplikasi Chat Real-time",
+                                "author": "Mahasiswa D",
+                                "url": "https://zenotika.unikom.ac.id/community.html#proj-004",
+                                "description": "Aplikasi chat sederhana dengan komunikasi WebSocket real-time, nama pengguna, dan jumlah pengguna online."
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    </script>
     <script>
         (function () {
             try {

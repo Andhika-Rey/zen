@@ -23,14 +23,14 @@ Fondasi untuk memastikan apa yang sudah dibangun mencapai standar keunggulan.
     *   **Tindakan:** Melakukan audit untuk memastikan semua elemen interaktif dapat diakses keyboard, kontras warna memenuhi standar WCAG, dan atribut ARIA digunakan dengan benar. Berikutnya: audit screen reader end-to-end + pengujian NVDA/VoiceOver.
 
 2.  **Optimasi Performa Lanjutan:**
-    *   **Status:** ⏳ Sedang berjalan — lazy loading + responsive `srcset` + fallback monogram untuk komunitas; tahap berikutnya otomatisasi minifikasi & WebP lokal.
+    *   **Status:** ⏳ Sedang berjalan — lazy loading + responsive `srcset` + fallback monogram & error handling untuk komunitas; tahap berikutnya otomatisasi minifikasi & WebP lokal.
     *   **Masalah:** Kecepatan adalah kunci. Situs bisa dibuat lebih cepat lagi.
     *   **Tindakan:** Mengoptimalkan semua aset gambar ke format modern (seperti WebP), melakukan *minification* pada file CSS dan JS untuk produksi, dan meninjau strategi *caching* Service Worker agar lebih efisien. Aksi berikut: tambahkan pipeline build ringan (mis. `esbuild`/`lightningcss`) + konversi aset lokal ke WebP.
 
 3.  **Peningkatan SEO (Search Engine Optimization):**
-    *   **Status:** ✅ Meta OG/Twitter, `sitemap.xml`, dan `robots.txt` sudah tayang; review structured data berikutnya.
+    *   **Status:** ✅ Meta OG/Twitter, `sitemap.xml`, `robots.txt`, dan schema.org (Organization, Courses, ItemList) sudah tayang; berikutnya tinggal validasi Search Console + breadcrumbs.
     *   **Masalah:** Agar Zenotika mudah ditemukan dan dibagikan secara profesional di media sosial.
-    *   **Tindakan:** Menambahkan meta tag Open Graph (untuk pratinjau di WhatsApp, Twitter, dll.), membuat file `sitemap.xml` untuk membantu Google mengindeks semua halaman, dan membuat `robots.txt`. Selanjutnya: tambahkan schema.org (`Organization`, `Course`) dan validasi Search Console.
+    *   **Tindakan:** Menambahkan meta tag Open Graph (untuk pratinjau di WhatsApp, Twitter, dll.), membuat file `sitemap.xml` untuk membantu Google mengindeks semua halaman, dan membuat `robots.txt`. Selanjutnya: jalankan uji Rich Results & koneksikan ke Google Search Console.
 
 ---
 

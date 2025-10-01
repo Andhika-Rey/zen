@@ -38,6 +38,91 @@
     <link rel="icon" href="/icon.svg" type="image/svg+xml" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="canonical" href="https://zenotika.unikom.ac.id/" />
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@graph": [
+                {
+                    "@type": "Organization",
+                    "@id": "https://zenotika.unikom.ac.id/#organization",
+                    "name": "Zenotika",
+                    "url": "https://zenotika.unikom.ac.id/",
+                    "logo": "https://zenotika.unikom.ac.id/icon.svg",
+                    "email": "support@zenotika.unikom.ac.id",
+                    "sameAs": [
+                        "https://discord.gg/zenotika",
+                        "https://github.com/Andhika-Rey/zen"
+                    ],
+                    "contactPoint": [
+                        {
+                            "@type": "ContactPoint",
+                            "contactType": "customer support",
+                            "email": "support@zenotika.unikom.ac.id",
+                            "areaServed": "ID",
+                            "availableLanguage": ["id", "en"]
+                        }
+                    ]
+                },
+                {
+                    "@type": "WebSite",
+                    "@id": "https://zenotika.unikom.ac.id/#website",
+                    "url": "https://zenotika.unikom.ac.id/",
+                    "name": "Zenotika",
+                    "inLanguage": "id",
+                    "publisher": { "@id": "https://zenotika.unikom.ac.id/#organization" },
+                    "potentialAction": {
+                        "@type": "SearchAction",
+                        "target": "https://zenotika.unikom.ac.id/?materi={search_term_string}",
+                        "query-input": "required name=search_term_string"
+                    }
+                },
+                {
+                    "@type": "Course",
+                    "@id": "https://zenotika.unikom.ac.id/materials/program-dasar.html#course",
+                    "name": "Pemrograman Dasar",
+                    "inLanguage": "id",
+                    "description": "Materi fundamental algoritma, tipe data, dan logika pemrograman bagi mahasiswa UNIKOM.",
+                    "educationalLevel": "Beginner",
+                    "learningResourceType": "CourseModule",
+                    "provider": { "@id": "https://zenotika.unikom.ac.id/#organization" },
+                    "url": "https://zenotika.unikom.ac.id/materials/program-dasar.html"
+                },
+                {
+                    "@type": "Course",
+                    "@id": "https://zenotika.unikom.ac.id/materials/asd.html#course",
+                    "name": "Algoritma dan Struktur Data",
+                    "inLanguage": "id",
+                    "description": "Pendalaman struktur data, analisis kompleksitas, dan pola algoritmik untuk tingkat menengah.",
+                    "educationalLevel": "Intermediate",
+                    "learningResourceType": "CourseModule",
+                    "provider": { "@id": "https://zenotika.unikom.ac.id/#organization" },
+                    "url": "https://zenotika.unikom.ac.id/materials/asd.html"
+                },
+                {
+                    "@type": "Course",
+                    "@id": "https://zenotika.unikom.ac.id/materials/basis-data.html#course",
+                    "name": "Basis Data",
+                    "inLanguage": "id",
+                    "description": "Kurikulum praktik SQL, perancangan skema, dan manajemen basis data relasional.",
+                    "educationalLevel": "Intermediate",
+                    "learningResourceType": "CourseModule",
+                    "provider": { "@id": "https://zenotika.unikom.ac.id/#organization" },
+                    "url": "https://zenotika.unikom.ac.id/materials/basis-data.html"
+                },
+                {
+                    "@type": "Course",
+                    "@id": "https://zenotika.unikom.ac.id/materials/web.html#course",
+                    "name": "Pengembangan Web",
+                    "inLanguage": "id",
+                    "description": "Materi front-end modern mencakup HTML, CSS, dan JavaScript untuk membangun pengalaman web responsif.",
+                    "educationalLevel": "Intermediate",
+                    "learningResourceType": "CourseModule",
+                    "provider": { "@id": "https://zenotika.unikom.ac.id/#organization" },
+                    "url": "https://zenotika.unikom.ac.id/materials/web.html"
+                }
+            ]
+        }
+    </script>
     <script>
         (function () {
             try {

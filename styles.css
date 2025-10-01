@@ -1291,6 +1291,18 @@ body.light-mode #community-search
     background: rgba(255, 255, 255, 0.04);
 }
 
+img.card-image
+{
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    background: transparent;
+}
+
+img.card-image.is-loaded
+{
+    opacity: 1;
+}
+
 .card-content
 {
     padding: var(--spacing-sm) var(--spacing-md);
@@ -1781,6 +1793,18 @@ body.light-mode .footer
     {
         transition: none !important;
         transform: none !important;
+    }
+
+    img.card-image
+    {
+        transition: none !important;
+        opacity: 1 !important;
+    }
+
+    html.prefers-reduced-motion img.card-image
+    {
+        transition: none !important;
+        opacity: 1 !important;
     }
 }
 

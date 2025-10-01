@@ -74,6 +74,33 @@ const matchMediaAvailable = hasWindow && typeof window.matchMedia === 'function'
 const reduceMotionMediaQuery = matchMediaAvailable ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
 let shouldReduceMotion = reduceMotionMediaQuery ? reduceMotionMediaQuery.matches : false;
 
+const getQueryParam = (key) => {
+    if (!hasWindow || !key) return '';
+    const value = new URLSearchParams(window.location.search).get(key);
+    return value !== null ? value : '';
+};
+
+const updateQueryParam = (key, value) => {
+    if (!hasWindow || typeof history === 'undefined' || typeof history.replaceState !== 'function' || !key) return;
+    const url = new URL(window.location.href);
+    const trimmedValue = typeof value === 'string' ? value.trim() : '';
+
+    if (trimmedValue) {
+        if (url.searchParams.get(key) === trimmedValue) {
+            return;
+        }
+        url.searchParams.set(key, trimmedValue);
+    } else {
+        if (!url.searchParams.has(key)) {
+            return;
+        }
+        url.searchParams.delete(key);
+    }
+
+    const nextUrl = `${url.pathname}${url.search}${url.hash}`;
+    history.replaceState(null, '', nextUrl);
+};
+
 const fadeInSelectors = '.fade-in, .feature-card, .learning-item, .info-card, .contact-info-card, .contact-form, .community-card, .footer-column';
 
 let fadeInObserver = null;
@@ -145,6 +172,12 @@ const spotlightEventHandler = (event) => {
     const rect = card.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
+
+    if (x < 0 || y < 0 || x > rect.width || y > rect.height) {
+        clearSpotlightCoordinates(card);
+        return;
+    }
+
     card.style.setProperty('--x', `${x}px`);
     card.style.setProperty('--y', `${y}px`);
 };
@@ -252,6 +285,7 @@ const loadCommunityContent = async () => {
         generateTagFilters(items);
         displayCommunityItems(items);
         initCommunitySearch();
+        applyCommunityQueryState();
 
     } catch (error) {
         console.error('Failed to load community content:', error);
@@ -324,9 +358,31 @@ const initCommunitySearch = () => {
     searchInput.addEventListener('input', debounce(handleSearch, 300));
 };
 
+const applyCommunityQueryState = () => {
+    const searchInput = document.getElementById('community-search');
+    const searchQuery = getQueryParam('komunitas');
+    const tagQuery = getQueryParam('tag');
+
+    if (searchInput && searchQuery) {
+        searchInput.value = searchQuery;
+    }
+
+    if (tagQuery) {
+        const buttons = document.querySelectorAll('.tag-filter-btn');
+        const matchingButton = Array.from(buttons).find(btn => btn.dataset.tag === tagQuery);
+        if (matchingButton) {
+            handleTagFilter(tagQuery);
+            return;
+        }
+    }
+
+    handleTagFilter('all');
+};
+
 const filterCommunityContent = () => {
     const searchInput = document.getElementById('community-search');
-    const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
+    const rawSearchValue = searchInput ? searchInput.value.trim() : '';
+    const searchTerm = rawSearchValue.toLowerCase();
 
     let filteredItems = [...communityData];
 
@@ -334,6 +390,8 @@ const filterCommunityContent = () => {
         filteredItems = filteredItems.filter(item => item.tags.includes(activeTag));
     }
 
+        updateQueryParam('komunitas', rawSearchValue);
+        updateQueryParam('tag', activeTag || '');
     if (searchTerm.length > 0) {
         filteredItems = filteredItems.filter(item => {
             const titleMatch = item.title.toLowerCase().includes(searchTerm);
@@ -344,6 +402,7 @@ const filterCommunityContent = () => {
     }
 
     displayCommunityItems(filteredItems);
+    observeFadeInTargets(document.querySelectorAll('.info-card, .contact-info-card, .contact-form'));
 };
 
 const displayCommunityItems = (items) => {
@@ -369,6 +428,9 @@ const displayCommunityItems = (items) => {
     items.forEach(item => {
         const card = document.createElement('div');
         card.className = 'community-card';
+        if (item.id) {
+            card.id = item.id;
+        }
         card.setAttribute('role', 'listitem');
 
         const pictureMarkup = createResponsivePictureMarkup(item.image, item.title);
@@ -385,6 +447,7 @@ const displayCommunityItems = (items) => {
                 <a href="${escapeHtml(item.link)}" class="card-link" target="_blank" rel="noopener noreferrer">Lihat Proyek</a>
             </div>
         `;
+        attachResponsiveImageHandlers(card, item.title);
         fragment.appendChild(card);
     });
 
@@ -401,6 +464,28 @@ const escapeHtml = (str) => {
 };
 
 const RESPONSIVE_IMAGE_WIDTHS = [360, 540, 720, 960, 1200];
+
+const DEFAULT_FALLBACK_INITIAL = 'Z';
+
+const getFallbackInitial = (title) => {
+    const raw = (title || '').trim();
+    if (!raw) return DEFAULT_FALLBACK_INITIAL;
+    const firstChar = raw.charAt(0);
+    const alphanumericMatch = firstChar.match(/[A-Za-z0-9]/);
+    return (alphanumericMatch ? alphanumericMatch[0] : DEFAULT_FALLBACK_INITIAL).toUpperCase();
+};
+
+const createFallbackMarkup = (title) => {
+    const safeTitleForAlt = `Gambar Proyek: ${title || 'Tanpa Judul'}`;
+    const fallbackInitial = escapeHtml(getFallbackInitial(title));
+    return `<div class="card-image card-image--fallback" role="img" aria-label="${escapeHtml(safeTitleForAlt)}">${fallbackInitial}</div>`;
+};
+
+const createFallbackElement = (title) => {
+    const template = document.createElement('template');
+    template.innerHTML = createFallbackMarkup(title).trim();
+    return template.content.firstElementChild;
+};
 
 const buildOptimizedImageUrl = (url, { width, format } = {}) => {
     if (!url) return null;
@@ -438,9 +523,7 @@ const createResponsivePictureMarkup = (url, title) => {
     const sizesValue = '(max-width: 600px) 100vw, (max-width: 1100px) 50vw, 400px';
 
     if (!url) {
-        const fallbackInitialRaw = (title || '').trim().charAt(0) || 'Z';
-        const fallbackInitial = escapeHtml(fallbackInitialRaw.toUpperCase());
-        return `<div class="card-image card-image--fallback" role="img" aria-label="${escapeHtml(safeTitleForAlt)}">${fallbackInitial}</div>`;
+        return createFallbackMarkup(title);
     }
 
     const defaultSrc = escapeHtml(buildOptimizedImageUrl(url, { width: 960 }) || url);
@@ -455,6 +538,39 @@ const createResponsivePictureMarkup = (url, title) => {
             <img src="${defaultSrc}" alt="${escapeHtml(safeTitleForAlt)}" class="card-image" loading="lazy" decoding="async" fetchpriority="low">
         </picture>
     `;
+};
+
+const attachResponsiveImageHandlers = (card, title) => {
+    if (!card) return;
+    const picture = card.querySelector('picture');
+    const image = picture ? picture.querySelector('img.card-image') : card.querySelector('img.card-image');
+    if (!image) return;
+
+    const markAsLoaded = () => {
+        image.classList.add('is-loaded');
+    };
+
+    const replaceWithFallback = () => {
+        const fallbackElement = createFallbackElement(title);
+        if (!fallbackElement) return;
+
+        if (picture && picture.parentNode) {
+            picture.replaceWith(fallbackElement);
+        } else if (image.parentNode) {
+            image.replaceWith(fallbackElement);
+        }
+    };
+
+    if (image.complete) {
+        if (image.naturalWidth > 0) {
+            markAsLoaded();
+        } else {
+            replaceWithFallback();
+        }
+    } else {
+        image.addEventListener('load', markAsLoaded, { once: true });
+        image.addEventListener('error', replaceWithFallback, { once: true });
+    }
 };
 
 // --- Modern UI/UX Interactions for Zenotika 2025 ---
@@ -501,7 +617,6 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     window.addEventListener("scroll", updateNavbarAndProgress);
-    updateNavbarAndProgress(); // Initial call
 
     // --- Mobile Navigation ---
     hamburger.addEventListener("click", () => {
@@ -535,9 +650,12 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // --- Card Spotlight & Motion Preferences ---
-    applyReduceMotionPreferences();
-    applySpotlightEffectToCards();
+    requestAnimationFrame(() => {
+        updateNavbarAndProgress();
+        // --- Card Spotlight & Motion Preferences ---
+        applyReduceMotionPreferences();
+        applySpotlightEffectToCards();
+    });
 
     // --- Theme Switcher ---
     const themeToggle = document.getElementById('theme-toggle');
@@ -579,7 +697,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (searchInput) {
         const handleSearch = () => {
-            const searchTerm = searchInput.value.toLowerCase().trim();
+            const rawValue = searchInput.value.trim();
+            const searchTerm = rawValue.toLowerCase();
             let visibleItems = 0;
 
             learningItems.forEach(item => {
@@ -592,14 +711,26 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             });
 
-            if (visibleItems === 0 && searchTerm.length > 0) {
-                noResultsMessage.classList.remove('hidden');
-            } else {
-                noResultsMessage.classList.add('hidden');
+            if (noResultsMessage) {
+                if (visibleItems === 0 && searchTerm.length > 0) {
+                    noResultsMessage.classList.remove('hidden');
+                } else {
+                    noResultsMessage.classList.add('hidden');
+                }
             }
+
+            updateQueryParam('materi', rawValue);
         };
 
-        searchInput.addEventListener('input', debounce(handleSearch, 300));
+        const debouncedSearch = debounce(handleSearch, 300);
+        searchInput.addEventListener('input', debouncedSearch);
+
+        const initialQuery = getQueryParam('materi');
+        if (initialQuery) {
+            searchInput.value = initialQuery;
+        }
+
+        handleSearch();
     }
 
     // --- Form Submission ---
