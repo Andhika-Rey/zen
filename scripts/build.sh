@@ -83,6 +83,27 @@ npx esbuild src/search-modal.js \
 mkdir -p "$BUILD_DIR/src"
 cp src/search-modal.css "$BUILD_DIR/src/"
 
+# Build Analytics (Phase 2)
+echo -e "${GREEN}📊 Building Analytics module...${NC}"
+npx esbuild src/analytics.js \
+    --bundle \
+    --minify \
+    --target=es2020 \
+    --format=esm \
+    --outfile="$BUILD_DIR/src/analytics.js"
+
+# Build Consent Banner (Phase 2)
+echo -e "${GREEN}🍪 Building Consent Banner module...${NC}"
+npx esbuild src/consent-banner.js \
+    --bundle \
+    --minify \
+    --target=es2020 \
+    --format=esm \
+    --outfile="$BUILD_DIR/src/consent-banner.js"
+
+# Copy Consent Banner CSS
+cp src/consent-banner.css "$BUILD_DIR/src/"
+
 # Copy static assets
 echo -e "${GREEN}🖼️  Copying static assets...${NC}"
 cp icon.svg "$BUILD_DIR/"

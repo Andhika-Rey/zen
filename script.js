@@ -1,5 +1,6 @@
 // --- Imports ---
 import searchModal from './src/search-modal.js';
+import analytics from './src/analytics.js';
 
 // --- Utility Functions ---
 /**
