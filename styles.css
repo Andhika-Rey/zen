@@ -1275,6 +1275,19 @@ body.light-mode #community-search
     box-shadow: var(--shadow-md);
 }
 
+.community-card.hash-focus
+{
+    border-color: var(--color-primary-strong);
+    box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.28), var(--shadow-lg);
+    transform: translateY(-6px);
+}
+
+.community-card.hash-focus .card-link
+{
+    background: rgba(108, 99, 255, 0.32);
+    color: #fff;
+}
+
 .community-card picture
 {
     display: block;
@@ -1788,7 +1801,7 @@ body.light-mode .footer
     .primary-cta,
     .feature-card,
     .learning-item,
-    .community-card,
+    .community-card:not(.hash-focus),
     .stat-card
     {
         transition: none !important;
@@ -1796,12 +1809,6 @@ body.light-mode .footer
     }
 
     img.card-image
-    {
-        transition: none !important;
-        opacity: 1 !important;
-    }
-
-    html.prefers-reduced-motion img.card-image
     {
         transition: none !important;
         opacity: 1 !important;
@@ -1823,9 +1830,15 @@ html.prefers-reduced-motion .btn,
 html.prefers-reduced-motion .primary-cta,
 html.prefers-reduced-motion .feature-card,
 html.prefers-reduced-motion .learning-item,
-html.prefers-reduced-motion .community-card,
+html.prefers-reduced-motion .community-card:not(.hash-focus),
 html.prefers-reduced-motion .stat-card
 {
     transition: none !important;
     transform: none !important;
+}
+
+html.prefers-reduced-motion img.card-image
+{
+    transition: none !important;
+    opacity: 1 !important;
 }

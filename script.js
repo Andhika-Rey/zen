@@ -73,6 +73,7 @@ const hasWindow = typeof window !== 'undefined';
 const matchMediaAvailable = hasWindow && typeof window.matchMedia === 'function';
 const reduceMotionMediaQuery = matchMediaAvailable ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
 let shouldReduceMotion = reduceMotionMediaQuery ? reduceMotionMediaQuery.matches : false;
+let hashFocusTimeoutId = null;
 
 const getQueryParam = (key) => {
     if (!hasWindow || !key) return '';
@@ -425,12 +426,23 @@ const displayCommunityItems = (items) => {
     }
 
     const fragment = document.createDocumentFragment();
-    items.forEach(item => {
+    const usedIds = new Set();
+
+    items.forEach((item, index) => {
         const card = document.createElement('div');
         card.className = 'community-card';
-        if (item.id) {
-            card.id = item.id;
+
+        const manualId = item && typeof item.id === 'string' ? item.id.trim() : '';
+        const baseId = manualId || slugify(item?.title, `community-card-${index + 1}`);
+        let uniqueId = baseId || `community-card-${index + 1}`;
+        let duplicateCounter = 2;
+
+        while (usedIds.has(uniqueId)) {
+            uniqueId = `${baseId || `community-card-${index + 1}`}-${duplicateCounter++}`;
         }
+
+        usedIds.add(uniqueId);
+        card.id = uniqueId;
         card.setAttribute('role', 'listitem');
 
         const pictureMarkup = createResponsivePictureMarkup(item.image, item.title);
@@ -454,6 +466,7 @@ const displayCommunityItems = (items) => {
     grid.appendChild(fragment);
     applySpotlightEffectToCards(grid);
     observeFadeInTargets(grid.querySelectorAll('.community-card'));
+    focusCommunityCardFromHash();
     grid.setAttribute('aria-busy', 'false');
 };
 
@@ -462,6 +475,19 @@ const escapeHtml = (str) => {
     div.textContent = str;
     return div.innerHTML;
 };
+
+function slugify(value, fallback = '') {
+    if (value === null || value === undefined) return fallback;
+    const slug = value
+        .toString()
+        .toLowerCase()
+        .normalize('NFKD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '')
+        .slice(0, 60);
+    return slug || fallback;
+}
 
 const RESPONSIVE_IMAGE_WIDTHS = [360, 540, 720, 960, 1200];
 
@@ -572,6 +598,90 @@ const attachResponsiveImageHandlers = (card, title) => {
         image.addEventListener('error', replaceWithFallback, { once: true });
     }
 };
+
+function restoreCardTabIndex(card) {
+    if (!card || !card.dataset) return;
+    const previous = card.dataset.prevTabindex;
+    if (previous === undefined) return;
+    if (previous === '') {
+        card.removeAttribute('tabindex');
+    } else {
+        card.setAttribute('tabindex', previous);
+    }
+    delete card.dataset.prevTabindex;
+}
+
+function highlightCommunityCard(card) {
+    if (!hasDocument || !card) return;
+
+    document.querySelectorAll('.community-card.hash-focus').forEach(other => {
+        if (other !== card) {
+            other.classList.remove('hash-focus');
+            restoreCardTabIndex(other);
+        }
+    });
+
+    if (hashFocusTimeoutId) {
+        clearTimeout(hashFocusTimeoutId);
+        hashFocusTimeoutId = null;
+    }
+
+    const previousTabIndex = card.getAttribute('tabindex');
+    if (previousTabIndex !== null) {
+        card.dataset.prevTabindex = previousTabIndex;
+    } else {
+        card.dataset.prevTabindex = '';
+        card.setAttribute('tabindex', '-1');
+    }
+
+    card.classList.add('hash-focus');
+
+    requestAnimationFrame(() => {
+        try {
+            card.focus({ preventScroll: true });
+        } catch (error) {
+            card.focus();
+        }
+    });
+
+    hashFocusTimeoutId = window.setTimeout(() => {
+        card.classList.remove('hash-focus');
+        restoreCardTabIndex(card);
+        hashFocusTimeoutId = null;
+    }, 2200);
+}
+
+function focusCommunityCardFromHash() {
+    if (!hasWindow || !hasDocument) return;
+    const hash = window.location.hash;
+    if (!hash || hash.length <= 1) return;
+
+    const cardId = decodeURIComponent(hash.slice(1));
+    if (!cardId) return;
+
+    const grid = document.getElementById('community-grid');
+    if (!grid) return;
+
+    const target = document.getElementById(cardId);
+    if (!target || !grid.contains(target) || !target.classList.contains('community-card')) return;
+
+    const behavior = shouldReduceMotion ? 'auto' : 'smooth';
+
+    requestAnimationFrame(() => {
+        try {
+            target.scrollIntoView({ behavior, block: 'center' });
+        } catch (error) {
+            target.scrollIntoView({ behavior });
+        }
+        highlightCommunityCard(target);
+    });
+}
+
+if (hasWindow) {
+    window.addEventListener('hashchange', () => {
+        focusCommunityCardFromHash();
+    });
+}
 
 // --- Modern UI/UX Interactions for Zenotika 2025 ---
 document.addEventListener("DOMContentLoaded", function () {
