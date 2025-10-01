@@ -39,6 +39,7 @@ _Platform digital modern untuk komunitas Ilmu Komputer UNIKOM. Kurasi materi bel
 - 🔒 **Privacy-first analytics** (GA4) dengan banner persetujuan sesuai GDPR/CCPA.
 - 🧭 **Experience Layer 2025** memadukan adaptive learning engine, analytics consent-aware, dan collaboration suite profesional.
 - 📈 **Insights & Roadmap** menghadirkan testimoni komunitas, timeline rilis, serta CTA modern untuk kolaborasi lintas kampus.
+- 🤝 **Kolaborator Strategis** dengan marquee mitra (UNIKOM Innovation Lab, GDSC, AWS Educate, dsb.) yang memperkuat kredibilitas.
 
 > 🎓 Dokumentasi utama menggunakan Bahasa Indonesia dengan istilah teknis populer agar tetap familiar bagi developer UNIKOM.
 
@@ -63,6 +64,7 @@ _Platform digital modern untuk komunitas Ilmu Komputer UNIKOM. Kurasi materi bel
 - **Privacy-first Analytics:** badge performa realtime dengan pengukuran durasi muat berbasis Navigation Timing API.
 - **Pro Collaboration Suite:** CTA command palette, quick actions, dan integrasi GitHub/Discord yang responsif.
 - **Quick Access Launcher:** Floating action button untuk membuka Command Palette, Advanced Search, atau kembali ke atas hanya dengan satu klik.
+- **Strategic Partners Marquee:** Highlight kolaborator kampus & industri dalam marquee glassmorphism, berhenti saat di-hover.
 
 ---
 

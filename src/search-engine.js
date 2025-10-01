@@ -77,6 +77,15 @@ const searchData = [
     tags: ['experience', 'ux', 'profesional', '2025', 'analytics'],
   },
   {
+    id: 'page-partners',
+    title: 'Kolaborator Strategis',
+    description: 'Institusi kampus, komunitas, dan industri yang mendukung Zenotika',
+    content: 'Daftar kolaborator resmi seperti UNIKOM Innovation Lab, Google Developer Student Clubs, AWS Educate, dan mitra lainnya yang mempercepat transformasi digital kampus.',
+    url: '#partners',
+    category: 'page',
+    tags: ['kolaborator', 'partner', 'industri', 'komunitas'],
+  },
+  {
     id: 'page-insights',
     title: 'Insights & Roadmap',
     description: 'Roadmap 2025 dan testimoni mahasiswa',

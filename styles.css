@@ -1272,6 +1272,123 @@ body.light-mode .theme-toggle-label
     inset: 1px;
     border-radius: calc(var(--radius-lg) - 1px);
     border: 1px solid rgba(108, 99, 255, 0.12);
+/* ------------------------------
+   Partners Section
+-------------------------------- */
+.partners
+{
+    padding-top: var(--spacing-xl);
+    padding-bottom: var(--spacing-xl);
+    position: relative;
+}
+
+.partners::before
+{
+    content: "";
+    position: absolute;
+    inset: 10% 12% auto 12%;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(108, 99, 255, 0) 0%, rgba(108, 99, 255, 0.35) 50%, rgba(108, 99, 255, 0) 100%);
+}
+
+.partners-inner
+{
+    width: min(100% - 2rem, var(--container-max));
+    margin: 0 auto;
+    display: grid;
+    gap: var(--spacing-lg);
+}
+
+.partners-header
+{
+    display: grid;
+    gap: var(--spacing-2xs);
+    max-width: 58ch;
+}
+
+.partners-marquee
+{
+    position: relative;
+    display: flex;
+    overflow: hidden;
+    gap: 2rem;
+}
+
+.marquee-track
+{
+    display: inline-flex;
+    align-items: center;
+    gap: 1.5rem;
+    animation: marquee-scroll 24s linear infinite;
+    white-space: nowrap;
+}
+
+.partners-marquee:hover .marquee-track
+{
+    animation-play-state: paused;
+}
+
+.partner-badge
+{
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1.2rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(12, 16, 37, 0.65);
+    backdrop-filter: blur(14px);
+    font-weight: 600;
+    font-size: 0.95rem;
+    box-shadow: 0 6px 18px rgba(8, 10, 32, 0.35);
+}
+
+body.light-mode .partner-badge
+{
+    border-color: rgba(17, 19, 45, 0.08);
+    background: rgba(247, 248, 255, 0.78);
+    box-shadow: 0 20px 40px rgba(27, 31, 67, 0.14);
+}
+
+@keyframes marquee-scroll
+{
+    0%
+    {
+        transform: translateX(0);
+    }
+    100%
+    {
+        transform: translateX(-100%);
+    }
+}
+
+@media (max-width: 900px)
+{
+    .partners::before
+    {
+        inset: 12% 6% auto 6%;
+    }
+
+    .partners-header
+    {
+        max-width: none;
+    }
+}
+
+@media (max-width: 600px)
+{
+    .partners-marquee
+    {
+        gap: 1.25rem;
+    }
+
+    .partner-badge
+    {
+        padding: 0.55rem 1rem;
+        font-size: 0.85rem;
+    }
+}
+
     pointer-events: none;
 }
 

@@ -27,6 +27,7 @@ class CommandPalette {
             // Pages
             { id: 'home', title: 'Beranda', category: 'Pages', icon: '🏠', url: '/', keywords: ['home', 'dashboard', 'utama'] },
             { id: 'experience', title: 'Experience Layer', category: 'Pages', icon: '🧭', url: '/#experience', keywords: ['experience', 'standar', 'profesional', 'ux'] },
+            { id: 'partners', title: 'Kolaborator Strategis', category: 'Pages', icon: '🤝', url: '/#partners', keywords: ['kolaborator', 'partner', 'industri'] },
             { id: 'community', title: 'Komunitas', category: 'Pages', icon: '👥', url: '/#community', keywords: ['community', 'forum', 'diskusi'] },
             { id: 'insights', title: 'Insights & Roadmap', category: 'Pages', icon: '📈', url: '/#insights', keywords: ['insight', 'roadmap', 'timeline'] },
             { id: 'contact', title: 'Kontak', category: 'Pages', icon: '📧', url: '/#contact', keywords: ['contact', 'email', 'hubungi'] },
