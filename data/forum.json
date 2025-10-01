@@ -1,114 +1,392 @@
 [
-  {
-    "id": "thread-001",
-    "title": "Strategi Belajar Struktur Data untuk Interview Backend",
-    "category": "Pengembangan Back-End",
-    "tags": ["algoritma", "rekrutmen", "tips"],
-    "author": {
-      "name": "Naila Pratiwi",
-      "role": "Mahasiswa 2022"
+    {
+        "id": "thread-001",
+        "title": "Strategi Belajar Struktur Data untuk Interview Backend",
+        "category": "Pengembangan Back-End",
+        "tags": [
+            "algoritma",
+            "rekrutmen",
+            "tips"
+        ],
+        "author": {
+            "name": "Naila Pratiwi",
+            "role": "Mahasiswa 2022"
+        },
+        "createdAt": "2025-09-18T09:30:00+07:00",
+        "lastActivity": "2025-10-01T08:10:00+07:00",
+        "excerpt": "Apa saja prioritas materi struktur data yang benar-benar ditanyakan di interview backend junior? Bagikan pengalaman kalian dong.",
+        "upvotes": 38,
+        "replies": 12,
+        "answered": true,
+        "highlightReply": {
+            "author": "Raihan (Backend Engineer - Gojek)",
+            "summary": "Fokus di hash map dan graph traversal, serta pahami trade-off Big-O dalam konteks real-world."
+        },
+        "body": [
+            "Aku sedang menyiapkan technical interview backend di beberapa startup lokal. Fokusku sekarang ke struktur data karena hampir semua reviewer bilang ini fondasi utama.",
+            "Saat ini aku sudah mengulang linked list dan tree dasar, tapi belum yakin bagian mana yang harus dihafal rumusnya dan mana yang cukup dipahami intuitif. Aku juga bingung kapan harus menekankan optimization vs readability ketika jawab whiteboard question.",
+            "Kalau teman-teman punya tips atau sumber latihan yang relevan untuk level fresh graduate, tolong share ya."
+        ],
+        "posts": [
+            {
+                "id": "thread-001-post-001",
+                "author": {
+                    "name": "Yoga Mahendra",
+                    "role": "Backend @ WarungPintar"
+                },
+                "createdAt": "2025-09-18T12:05:00+07:00",
+                "content": [
+                    "Aku baru hired tahun ini dan interviewnya heavy di hash map, heap, sama BFS/DFS. Suggestionku: buat cheat sheet kecil untuk operasi yang sering keluar seperti detect cycle, kth largest, sama LRU cache.",
+                    "Selain itu, seringan mungkin latihan di materi yang punya constraint nyata. Misal: implementasi rate limiter sederhana atau analytics aggregator supaya kamu bisa jelasin kapan perlu balancing antara waktu dan memori."
+                ]
+            },
+            {
+                "id": "thread-001-post-002",
+                "author": {
+                    "name": "Raihan",
+                    "role": "Backend Engineer - Gojek"
+                },
+                "createdAt": "2025-09-18T18:45:00+07:00",
+                "isAnswer": true,
+                "content": [
+                    "Di Gojek kami biasanya mengecek pemahaman kandidat pada hash map, graph traversal, dan segment tree. Bukan karena harus hafal, tapi karena struktur ini mewakili trade-off yang sering muncul di kasus real-world: latency vs throughput, memory vs simplicity.",
+                    "Saran: saat latihan, biasakan jelasin trade-off Big-O yang kamu pilih dan kenapa itu relevan ke skenario bisnis. Ini jadi pembeda jelas antara kandidat yang cuma hafal algoritma dan yang bisa mapping ke kebutuhan engineering sebenarnya.",
+                    "Resource favoritku: Grokking Coding Interview untuk pattern recognition, lalu lanjut ke NeetCode karena dia punya tagging per struktur data."
+                ]
+            },
+            {
+                "id": "thread-001-post-003",
+                "author": {
+                    "name": "Shafira B.",
+                    "role": "Mahasiswa 2021"
+                },
+                "createdAt": "2025-09-19T07:20:00+07:00",
+                "content": [
+                    "Terima kasih sharingnya! Aku tambahin: kalau kamu mau cepat adapt, bikin summary sendiri setelah ngerjain 5 soal. Tulis pattern, edge case, dan alternative solution. Itu bantu banget waktu revisit sebelum interview berikutnya."
+                ]
+            }
+        ]
     },
-    "createdAt": "2025-09-18T09:30:00+07:00",
-    "lastActivity": "2025-10-01T08:10:00+07:00",
-    "excerpt": "Apa saja prioritas materi struktur data yang benar-benar ditanyakan di interview backend junior? Bagikan pengalaman kalian dong.",
-    "upvotes": 38,
-    "replies": 12,
-    "answered": true,
-    "highlightReply": {
-      "author": "Raihan (Backend Engineer - Gojek)",
-      "summary": "Fokus di hash map dan graph traversal, serta pahami trade-off Big-O dalam konteks real-world."
+    {
+        "id": "thread-002",
+        "title": "Membangun Pipeline Data dengan Python + DuckDB",
+        "category": "Data & AI",
+        "tags": [
+            "python",
+            "data-engineering",
+            "duckdb"
+        ],
+        "author": {
+            "name": "Farhan Hilmi",
+            "role": "Lab Assistant"
+        },
+        "createdAt": "2025-09-27T13:45:00+07:00",
+        "lastActivity": "2025-09-30T19:25:00+07:00",
+        "excerpt": "Sedang eksplor DuckDB untuk ETL ringan di laptop mahasiswa. Ada yang punya template modular atau best practice untuk scheduling?",
+        "upvotes": 24,
+        "replies": 7,
+        "answered": false,
+        "body": [
+            "Lagi bangun mini data warehouse untuk mata kuliah Statistik Lanjut. Constraint: semua mahasiswa cuma punya laptop mid-range jadi butuh pipeline ringan.",
+            "Aku pakai Python + DuckDB karena bisa jalan lokal tanpa server besar. Tantangannya: gimana cara modularisasi job ETL supaya gampang di-maintain, dan kalau bisa punya semi scheduler tanpa harus langsung lompat ke Airflow yang berat.",
+            "Ada yang pernah bikin setup serupa? Pingin banget dengar saran struktur folder, pengecekan kualitas data, dan opsi otomatisasi."
+        ],
+        "posts": [
+            {
+                "id": "thread-002-post-001",
+                "author": {
+                    "name": "Nadia Kusuma",
+                    "role": "Data Engineer - Xendit"
+                },
+                "createdAt": "2025-09-27T17:10:00+07:00",
+                "content": [
+                    "Kalau mau ringan, kamu bisa pakai kombinasi duckdb + airflow-lite seperti Prefect atau Mage. Tapi untuk tugas kampus, cron + Python script dengan modular functions udah cukup.",
+                    "Struktur yang kugunakan: folder `extract`, `transform`, `load`. Setiap step return dataframe DuckDB. Lalu ada folder `checks` buat data quality (contoh: validasi null, range)."
+                ]
+            },
+            {
+                "id": "thread-002-post-002",
+                "author": {
+                    "name": "Farhan Hilmi",
+                    "role": "Lab Assistant"
+                },
+                "createdAt": "2025-09-28T08:05:00+07:00",
+                "content": [
+                    "Noted soal folder checks! Aku lagi coba hooking Great Expectations tapi agak berat. Ada rekomendasi library lain yang simple?"
+                ]
+            },
+            {
+                "id": "thread-002-post-003",
+                "author": {
+                    "name": "Dwi Lestari",
+                    "role": "Data Quality Analyst"
+                },
+                "createdAt": "2025-09-28T10:12:00+07:00",
+                "content": [
+                    "Kalau mau simple, kamu bisa bikin helper class sendiri. Atau pakai pandera untuk dataframe validation, lebih ringan dan langsung terintegrasi dengan pandas/duckdb.",
+                    "Bonus tip: simpan metadata run (timestamp, row count, checksum) di table duckdb terpisah supaya gampang audit."
+                ]
+            }
+        ]
+    },
+    {
+        "id": "thread-003",
+        "title": "Pattern Componenting untuk Design System Zenotika",
+        "category": "Front-End & UI",
+        "tags": [
+            "design-system",
+            "web",
+            "css"
+        ],
+        "author": {
+            "name": "Dita Laras",
+            "role": "Mahasiswa 2021"
+        },
+        "createdAt": "2025-09-20T16:10:00+07:00",
+        "lastActivity": "2025-09-29T21:40:00+07:00",
+        "excerpt": "Kita sedang merapikan komponen ke versi 2025. Ada rekomendasi struktur folder dan naming convention biar scalable?",
+        "upvotes": 41,
+        "replies": 15,
+        "answered": true,
+        "highlightReply": {
+            "author": "Mentor UI/UX - Kak Sella",
+            "summary": "Gunakan atomic pattern + tokens terpisah, dokumentasikan varian di Storybook agar mudah on-boarding."
+        },
+        "body": [
+            "Tim UI lagi refactor design system supaya lebih konsisten dengan brand baru 2025. Kami pingin modular tapi nggak pengin bikin dev kebingungan karena struktur file berubah terus.",
+            "Sekarang struktur masih campur: ada komponen di `sections`, ada yang di `atoms`/`molecules`, tapi style tokens kadang nempel di komponen.",
+            "Kalau teman-teman punya referensi pattern atau repo contoh yang clean, drop di sini ya."
+        ],
+        "posts": [
+            {
+                "id": "thread-003-post-001",
+                "author": {
+                    "name": "Mentor UI/UX - Kak Sella",
+                    "role": "Principal Product Designer"
+                },
+                "createdAt": "2025-09-21T09:15:00+07:00",
+                "isAnswer": true,
+                "content": [
+                    "Kombinasikan atomic design dengan folder berbasis domain. Struktur favoritku adalah `tokens/`, `foundations/`, `components/[atom|molecule|organism]/`, dan `patterns/` untuk template.",
+                    "Pisahkan design token (warna, spacing, typography) ke file JSON/JS supaya bisa di-sync ke Figma. Pastikan setiap komponen punya README kecil berisi props, states, dan guidelines accessibility."
+                ]
+            },
+            {
+                "id": "thread-003-post-002",
+                "author": {
+                    "name": "Kevin Wijaya",
+                    "role": "Frontend Lead"
+                },
+                "createdAt": "2025-09-22T14:40:00+07:00",
+                "content": [
+                    "Untuk dokumentasi, wajib setup Storybook (atau Ladle). Buat stories per variant dan tambahkan controls + accessibility addon. Ini bakal memudahkan QA sama onboarding kontributor baru."
+                ]
+            },
+            {
+                "id": "thread-003-post-003",
+                "author": {
+                    "name": "Dita Laras",
+                    "role": "Mahasiswa 2021"
+                },
+                "createdAt": "2025-09-23T08:55:00+07:00",
+                "content": [
+                    "Noted! Lagi nyusun tokens, kami akan jadikan file terpisah dan sync ke Figma Variables supaya satu sumber kebenaran."
+                ]
+            }
+        ]
+    },
+    {
+        "id": "thread-004",
+        "title": "Roadmap Belajar Machine Learning untuk Kompetisi Gemastik",
+        "category": "Data & AI",
+        "tags": [
+            "gemastik",
+            "machine-learning",
+            "kompetisi"
+        ],
+        "author": {
+            "name": "Kevin Oktavian",
+            "role": "Mahasiswa 2023"
+        },
+        "createdAt": "2025-08-30T10:00:00+07:00",
+        "lastActivity": "2025-09-25T17:15:00+07:00",
+        "excerpt": "Tim kami ingin fokus di ML Gemastik. Resource apa saja yang wajib dan timeline belajar ideal 8 minggu?",
+        "upvotes": 52,
+        "replies": 18,
+        "answered": true,
+        "highlightReply": {
+            "author": "Alumni Gemastik 2024",
+            "summary": "Bagi sprint mingguan: konsep dasar, eksplor dataset, baseline model, tuning & evaluasi, presentasi."
+        },
+        "body": [
+            "Tim kami baru saja lolos seleksi internal kampus untuk Gemastik bidang Data Science. Kami punya 8 minggu buat latihan intensif.",
+            "Butuh roadmap realistis yang menyeimbangkan teori dan praktek. Ingin tahu juga resource apa yang paling efektif buat dataset kompetisi nasional.",
+            "Kalau ada yang punya template sprint atau contoh deliverable mingguan, mohon share ya."
+        ],
+        "posts": [
+            {
+                "id": "thread-004-post-001",
+                "author": {
+                    "name": "Alumni Gemastik 2024",
+                    "role": "Gold Winner"
+                },
+                "createdAt": "2025-08-30T18:20:00+07:00",
+                "isAnswer": true,
+                "content": [
+                    "Bagi 8 minggu jadi 4 sprint: (1) Fundamentals & exploratory data analysis, (2) Feature engineering + baseline model, (3) Advanced model & hyperparameter tuning, (4) Presentation + storytelling.",
+                    "Setiap akhir sprint, bikin retrospective kecil: apa yang berhasil, apa yang harus ditingkatkan. Jangan lupa latih presentasi final minimal 3 kali dengan mentor berbeda."
+                ]
+            },
+            {
+                "id": "thread-004-post-002",
+                "author": {
+                    "name": "Mentor Data UNIKOM",
+                    "role": "Dosen Pembina"
+                },
+                "createdAt": "2025-08-31T09:05:00+07:00",
+                "content": [
+                    "Resource wajib: fast.ai untuk percepatan konsep, kaggle playground datasets buat latihan, dan deck final tahun lalu untuk benchmark storytelling.",
+                    "Untuk evaluasi, pakai Trello/Notion board supaya progress tiap anggota terlihat jelas."
+                ]
+            },
+            {
+                "id": "thread-004-post-003",
+                "author": {
+                    "name": "Kevin Oktavian",
+                    "role": "Mahasiswa 2023"
+                },
+                "createdAt": "2025-08-31T13:30:00+07:00",
+                "content": [
+                    "Terima kasih! Kami akan breakdown ke Trello card dan jadwalkan simulasi presentasi per minggu mulai Sprint 3."
+                ]
+            }
+        ]
+    },
+    {
+        "id": "thread-005",
+        "title": "Minta Review: Proposal Startup EduTech untuk PKM",
+        "category": "Karier & Kewirausahaan",
+        "tags": [
+            "pkm",
+            "startup",
+            "pitchdeck"
+        ],
+        "author": {
+            "name": "Siti Zahra",
+            "role": "Mahasiswa 2022"
+        },
+        "createdAt": "2025-09-23T11:20:00+07:00",
+        "lastActivity": "2025-09-28T14:05:00+07:00",
+        "excerpt": "Kami baru draft business model PKM-K. Mohon insight, terutama buat validasi masalah dan strategi go-to-market kampus.",
+        "upvotes": 19,
+        "replies": 9,
+        "answered": false,
+        "body": [
+            "Tim kami lagi submit PKM-K untuk platform EduTech 'KelasKilat'. Fokus awalnya bantu mahasiswa semester awal adaptasi dengan modul praktikum.",
+            "Kami sudah bikin prototype Figma dan survei singkat (50 responden). Mohon review terutama bagian problem validation dan go-to-market, apakah sudah tajam untuk skala kampus terlebih dahulu?",
+            "Di deck sekarang kami langsung loncat ke monetisasi B2B partner, tapi ada yang bilang sebaiknya fokus ke kampus dulu. Need second opinion."
+        ],
+        "posts": [
+            {
+                "id": "thread-005-post-001",
+                "author": {
+                    "name": "Mentor PKM",
+                    "role": "Coach PKM Nasional"
+                },
+                "createdAt": "2025-09-23T17:25:00+07:00",
+                "content": [
+                    "Problem statement sudah ok, tapi tambahkan data komparatif: misal berapa jam mahasiswa habiskan untuk adaptasi atau jumlah modul yang gagal dipahami per semester.",
+                    "Untuk go-to-market, fokus ke campus activation dulu: workshop gratis, kolaborasi dengan BEM, lalu upsell paket mentoring premium. Monetisasi B2B bisa jadi fase kedua setelah ada traction."
+                ]
+            },
+            {
+                "id": "thread-005-post-002",
+                "author": {
+                    "name": "Siti Zahra",
+                    "role": "Mahasiswa 2022"
+                },
+                "createdAt": "2025-09-24T09:45:00+07:00",
+                "content": [
+                    "Terima kasih kak! Kami akan tambahkan data adaptasi dari survei dan revisi GTM sesuai saran."
+                ]
+            },
+            {
+                "id": "thread-005-post-003",
+                "author": {
+                    "name": "Investor Relations Club",
+                    "role": "Community Mentor"
+                },
+                "createdAt": "2025-09-24T16:05:00+07:00",
+                "content": [
+                    "Pertimbangkan untuk bikin paket onboarding untuk dosen. Mereka bisa jadi channel marketing efektif karena sering handle kelas praktikum."
+                ]
+            }
+        ]
+    },
+    {
+        "id": "thread-006",
+        "title": "Cara Optimasi Biaya Deployment untuk Side Project Mahasiswa",
+        "category": "DevOps & Cloud",
+        "tags": [
+            "cloud",
+            "deployment",
+            "cost-optimization"
+        ],
+        "author": {
+            "name": "Raka Pradana",
+            "role": "Mahasiswa 2020"
+        },
+        "createdAt": "2025-09-05T20:30:00+07:00",
+        "lastActivity": "2025-09-26T09:55:00+07:00",
+        "excerpt": "Project kami pakai AWS free tier tapi biaya mulai naik. Ada rekomendasi arsitektur hemat atau alternatif cloud gratis?",
+        "upvotes": 33,
+        "replies": 11,
+        "answered": true,
+        "highlightReply": {
+            "author": "Cloud Mentor - Bang Adi",
+            "summary": "Pindahkan workload statis ke Cloudflare Pages + gunakan Railway/Hobby plan untuk backend."
+        },
+        "body": [
+            "Tim DevOps kampus lagi bantu beberapa side project mahasiswa. Kami awalnya pakai AWS free tier, tapi setelah 3 bulan biaya mulai melonjak karena student credit habis.",
+            "Sebagian besar project punya frontend statis + backend API + database kecil (kurang dari 1GB). Butuh saran supaya tetap reliable tapi murah.",
+            "Apakah ada kombinasi provider yang cocok untuk use-case seperti ini?"
+        ],
+        "posts": [
+            {
+                "id": "thread-006-post-001",
+                "author": {
+                    "name": "Cloud Mentor - Bang Adi",
+                    "role": "Cloud Consultant"
+                },
+                "createdAt": "2025-09-06T09:40:00+07:00",
+                "isAnswer": true,
+                "content": [
+                    "Pindahkan frontend statis ke Cloudflare Pages atau Netlify (gratis, otomatis build). Backend kecil bisa pakai Railway atau Render free tier, pastikan aktifkan auto-sleep.",
+                    "Database: Supabase atau Neon punya free tier cukup untuk prototype. Gunakan backup weekly supaya aman. Jangan lupa monitoring via Uptime Kuma agar tahu kalau instance tidur."
+                ]
+            },
+            {
+                "id": "thread-006-post-002",
+                "author": {
+                    "name": "Naufal R.",
+                    "role": "Site Reliability Intern"
+                },
+                "createdAt": "2025-09-06T12:55:00+07:00",
+                "content": [
+                    "Tambahan: gunakan GitHub Actions untuk build pipeline supaya tidak tergantung vendor. Bisa schedule nightly deploy buat jaga dependency tetap up-to-date tanpa biaya ekstra."
+                ]
+            },
+            {
+                "id": "thread-006-post-003",
+                "author": {
+                    "name": "Raka Pradana",
+                    "role": "Mahasiswa 2020"
+                },
+                "createdAt": "2025-09-07T08:25:00+07:00",
+                "content": [
+                    "Makasih kak! Kami akan migrasi ke Cloudflare Pages dan coba Railway plan belajar dulu."
+                ]
+            }
+        ]
     }
-  },
-  {
-    "id": "thread-002",
-    "title": "Membangun Pipeline Data dengan Python + DuckDB",
-    "category": "Data & AI",
-    "tags": ["python", "data-engineering", "duckdb"],
-    "author": {
-      "name": "Farhan Hilmi",
-      "role": "Lab Assistant"
-    },
-    "createdAt": "2025-09-27T13:45:00+07:00",
-    "lastActivity": "2025-09-30T19:25:00+07:00",
-    "excerpt": "Sedang eksplor DuckDB untuk ETL ringan di laptop mahasiswa. Ada yang punya template modular atau best practice untuk scheduling?",
-    "upvotes": 24,
-    "replies": 7,
-    "answered": false
-  },
-  {
-    "id": "thread-003",
-    "title": "Pattern Componenting untuk Design System Zenotika",
-    "category": "Front-End & UI",
-    "tags": ["design-system", "web", "css"],
-    "author": {
-      "name": "Dita Laras",
-      "role": "Mahasiswa 2021"
-    },
-    "createdAt": "2025-09-20T16:10:00+07:00",
-    "lastActivity": "2025-09-29T21:40:00+07:00",
-    "excerpt": "Kita sedang merapikan komponen ke versi 2025. Ada rekomendasi struktur folder dan naming convention biar scalable?",
-    "upvotes": 41,
-    "replies": 15,
-    "answered": true,
-    "highlightReply": {
-      "author": "Mentor UI/UX - Kak Sella",
-      "summary": "Gunakan atomic pattern + tokens terpisah, dokumentasikan varian di Storybook agar mudah on-boarding." 
-    }
-  },
-  {
-    "id": "thread-004",
-    "title": "Roadmap Belajar Machine Learning untuk Kompetisi Gemastik",
-    "category": "Data & AI",
-    "tags": ["gemastik", "machine-learning", "kompetisi"],
-    "author": {
-      "name": "Kevin Oktavian",
-      "role": "Mahasiswa 2023"
-    },
-    "createdAt": "2025-08-30T10:00:00+07:00",
-    "lastActivity": "2025-09-25T17:15:00+07:00",
-    "excerpt": "Tim kami ingin fokus di ML Gemastik. Resource apa saja yang wajib dan timeline belajar ideal 8 minggu?",
-    "upvotes": 52,
-    "replies": 18,
-    "answered": true,
-    "highlightReply": {
-      "author": "Alumni Gemastik 2024",
-      "summary": "Bagi sprint mingguan: konsep dasar, eksplor dataset, baseline model, tuning & evaluasi, presentasi." 
-    }
-  },
-  {
-    "id": "thread-005",
-    "title": "Minta Review: Proposal Startup EduTech untuk PKM",
-    "category": "Karier & Kewirausahaan",
-    "tags": ["pkm", "startup", "pitchdeck"],
-    "author": {
-      "name": "Siti Zahra",
-      "role": "Mahasiswa 2022"
-    },
-    "createdAt": "2025-09-23T11:20:00+07:00",
-    "lastActivity": "2025-09-28T14:05:00+07:00",
-    "excerpt": "Kami baru draft business model PKM-K. Mohon insight, terutama buat validasi masalah dan strategi go-to-market kampus.",
-    "upvotes": 19,
-    "replies": 9,
-    "answered": false
-  },
-  {
-    "id": "thread-006",
-    "title": "Cara Optimasi Biaya Deployment untuk Side Project Mahasiswa",
-    "category": "DevOps & Cloud",
-    "tags": ["cloud", "deployment", "cost-optimization"],
-    "author": {
-      "name": "Raka Pradana",
-      "role": "Mahasiswa 2020"
-    },
-    "createdAt": "2025-09-05T20:30:00+07:00",
-    "lastActivity": "2025-09-26T09:55:00+07:00",
-    "excerpt": "Project kami pakai AWS free tier tapi biaya mulai naik. Ada rekomendasi arsitektur hemat atau alternatif cloud gratis?",
-    "upvotes": 33,
-    "replies": 11,
-    "answered": true,
-    "highlightReply": {
-      "author": "Cloud Mentor - Bang Adi",
-      "summary": "Pindahkan workload statis ke Cloudflare Pages + gunakan Railway/Hobby plan untuk backend." 
-    }
-  }
 ]

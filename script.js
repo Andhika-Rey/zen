@@ -2,6 +2,19 @@
 import searchModal from './src/search-modal.js';
 import analytics from './src/analytics.js';
 
+// --- Environment Guards ---
+const hasWindow = typeof window !== 'undefined';
+const hasDocument = typeof document !== 'undefined';
+const reduceMotionMediaQuery = hasWindow && typeof window.matchMedia === 'function'
+    ? window.matchMedia('(prefers-reduced-motion: reduce)')
+    : null;
+let shouldReduceMotion = reduceMotionMediaQuery ? reduceMotionMediaQuery.matches : false;
+
+let eventsData = [];
+let activeEventsFilter = 'upcoming';
+let communityData = [];
+let activeTag = null;
+
 // --- Utility Functions ---
 /**
  * Debounce function to limit the rate at which a function gets called.
@@ -11,12 +24,192 @@ import analytics from './src/analytics.js';
  */
 const debounce = (func, delay) => {
     let timeoutId;
-    return (...args) => {
+    return function (...args) {
         clearTimeout(timeoutId);
         timeoutId = setTimeout(() => {
             func.apply(this, args);
         }, delay);
     };
+};
+
+const escapeRegExp = (value) => {
+    if (typeof value !== 'string') return '';
+    return value.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&');
+};
+
+const parseISODate = (value) => {
+    if (!value) return null;
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? null : date;
+};
+
+const startOfDay = (date) => {
+    const clone = new Date(date);
+    clone.setHours(0, 0, 0, 0);
+    return clone;
+};
+
+const getEventDateMetadata = (dateString) => {
+    const date = parseISODate(dateString);
+    if (!date) {
+        return {
+            day: '--',
+            month: 'TBD',
+            formatted: 'Tanggal akan diumumkan',
+            relative: '',
+            status: 'upcoming'
+        };
+    }
+
+    const dayFormatter = new Intl.DateTimeFormat('id-ID', { day: 'numeric' });
+    const monthFormatter = new Intl.DateTimeFormat('id-ID', { month: 'short' });
+    const fullFormatter = new Intl.DateTimeFormat('id-ID', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+    });
+
+    const today = startOfDay(new Date());
+    const eventDay = startOfDay(date);
+    const diffDays = Math.round((eventDay - today) / (1000 * 60 * 60 * 24));
+
+    let relative = '';
+    let status = 'upcoming';
+    if (diffDays === 0) {
+        relative = 'Berlangsung hari ini';
+        status = 'today';
+    } else if (diffDays === 1) {
+        relative = 'Besok';
+    } else if (diffDays > 1 && diffDays <= 30) {
+        relative = `Dalam ${diffDays} hari`;
+    } else if (diffDays > 30 && diffDays <= 90) {
+        relative = `Dalam ${Math.round(diffDays / 7)} minggu`;
+    } else if (diffDays === -1) {
+        relative = 'Kemarin';
+        status = 'past';
+    } else if (diffDays < -1 && diffDays >= -7) {
+        relative = `${Math.abs(diffDays)} hari lalu`;
+        status = 'past';
+    } else if (diffDays < -7) {
+        relative = 'Telah berlangsung';
+        status = 'past';
+    }
+
+    const monthLabel = monthFormatter.format(date).toUpperCase();
+
+    return {
+        day: dayFormatter.format(date),
+        month: monthLabel,
+        formatted: fullFormatter.format(date),
+        relative,
+        status,
+        timestamp: date.getTime()
+    };
+};
+
+const getStatusLabel = (status, relative) => {
+    if (status === 'today') return 'Berlangsung hari ini';
+    if (status === 'past') return relative || 'Telah berlangsung';
+    return relative || 'Segera';
+};
+
+const createEventCard = (event) => {
+    const {
+        title = 'Acara Komunitas',
+        description = '',
+        location = 'Lokasi menyusul',
+        link = '',
+        date,
+        metadata: cachedMetadata
+    } = event || {};
+
+    const metadata = cachedMetadata || getEventDateMetadata(date);
+    const { day, month, formatted, relative, status } = metadata;
+
+    const card = document.createElement('article');
+    card.className = 'info-card fade-in';
+    card.dataset.fadeObserved = 'pending';
+    card.dataset.eventStatus = status;
+
+    const dateColumn = document.createElement('div');
+    dateColumn.className = 'info-date';
+
+    const dayEl = document.createElement('span');
+    dayEl.className = 'info-day';
+    dayEl.textContent = day;
+
+    const monthEl = document.createElement('span');
+    monthEl.className = 'info-month';
+    monthEl.textContent = month;
+
+    dateColumn.append(dayEl, monthEl);
+
+    const details = document.createElement('div');
+    details.className = 'info-details';
+
+    const header = document.createElement('div');
+    header.className = 'info-header';
+
+    const titleEl = document.createElement('h4');
+    titleEl.textContent = title;
+
+    const chip = document.createElement('span');
+    chip.className = 'info-chip';
+    chip.textContent = getStatusLabel(status, relative);
+
+    header.append(titleEl, chip);
+    details.appendChild(header);
+
+    if (description) {
+        const descEl = document.createElement('p');
+        descEl.textContent = description;
+        details.appendChild(descEl);
+    }
+
+    const metaList = document.createElement('ul');
+    metaList.className = 'info-meta';
+
+    const formattedItem = document.createElement('li');
+    formattedItem.innerHTML = '<span aria-hidden="true">📅</span>';
+    const formattedText = document.createElement('span');
+    formattedText.textContent = formatted;
+    formattedItem.appendChild(formattedText);
+    metaList.appendChild(formattedItem);
+
+    if (relative) {
+        const relativeItem = document.createElement('li');
+        relativeItem.innerHTML = '<span aria-hidden="true">⏰</span>';
+        const relativeText = document.createElement('span');
+        relativeText.textContent = relative;
+        relativeItem.appendChild(relativeText);
+        metaList.appendChild(relativeItem);
+    }
+
+    if (location) {
+        const locationItem = document.createElement('li');
+        locationItem.innerHTML = '<span aria-hidden="true">📍</span>';
+        const locationText = document.createElement('span');
+        locationText.textContent = location;
+        locationItem.appendChild(locationText);
+        metaList.appendChild(locationItem);
+    }
+
+    details.appendChild(metaList);
+
+    if (link) {
+        const linkEl = document.createElement('a');
+        linkEl.className = 'info-link';
+        linkEl.href = link;
+        linkEl.target = '_blank';
+        linkEl.rel = 'noopener noreferrer';
+        linkEl.textContent = 'Lihat detail';
+        linkEl.setAttribute('aria-label', `${title} — detail acara`);
+        details.appendChild(linkEl);
+    }
+
+    card.append(dateColumn, details);
+    return card;
 };
 
 /**
@@ -28,69 +221,246 @@ const loadAnnouncement = async () => {
     if (!announcementBar) return;
 
     try {
-        // Use a cache-busting query parameter for development, can be removed in production
         const response = await fetch('/data/announcements.json', { cache: 'no-store' });
         if (!response.ok) {
-            // Don't show an error to the user, just log it for the developer.
             console.error(`Failed to fetch announcements: ${response.statusText}`);
             return;
         }
 
-        const data = await response.json();
-        const announcement = data.latest;
-
-        if (announcement && announcement.active) {
-            const dismissedKey = `announcement_dismissed_${announcement.id}`;
-            if (localStorage.getItem(dismissedKey) === 'true') {
-                return; // Don't show if dismissed
+        const rawData = await response.json();
+        const resolveAnnouncement = (payload) => {
+            if (!payload) return null;
+            if (Array.isArray(payload)) {
+                return payload.find(item => item && item.active !== false) || payload[0];
             }
+            if (payload.latest) return payload.latest;
+            if (payload.announcement) return payload.announcement;
+            return payload;
+        };
 
-            const textEl = announcementBar.querySelector('.announcement-text');
-            const ctaEl = announcementBar.querySelector('.announcement-cta');
-            const dismissButton = announcementBar.querySelector('.announcement-dismiss');
+        const announcement = resolveAnnouncement(rawData);
+        if (!announcement || announcement.active === false) return;
 
-            textEl.textContent = announcement.text;
-            ctaEl.textContent = announcement.cta_text;
-            ctaEl.href = announcement.cta_link;
-
-            announcementBar.classList.remove('hidden');
-
-            // Use { once: true } to ensure the event listener is added only once.
-            dismissButton.addEventListener('click', () => {
-                announcementBar.classList.add('hidden');
-                localStorage.setItem(dismissedKey, 'true');
-            }, { once: true });
+        const announcementId = announcement.id || announcement.identifier || '';
+        const dismissedKey = 'zen_announcement_dismissed';
+        try {
+            const dismissedId = hasWindow ? window.localStorage.getItem(dismissedKey) : null;
+            if (announcementId && dismissedId === announcementId) {
+                return;
+            }
+        } catch (storageError) {
+            console.warn('Unable to read announcement dismissal state:', storageError);
         }
+
+        const message = announcement.message || announcement.text || announcement.title || '';
+        if (!message) return;
+        const ctaLabel = announcement.cta || announcement.cta_text || 'Lihat';
+        const ctaLink = announcement.link || announcement.cta_link || announcement.url || '';
+
+        const textEl = announcementBar.querySelector('.announcement-text');
+        const ctaEl = announcementBar.querySelector('.announcement-cta');
+        const dismissBtn = announcementBar.querySelector('.announcement-dismiss');
+
+        if (textEl) textEl.textContent = message;
+        if (ctaEl) {
+            if (ctaLink) {
+                ctaEl.href = ctaLink;
+                ctaEl.textContent = ctaLabel;
+                ctaEl.classList.remove('hidden');
+            } else {
+                ctaEl.classList.add('hidden');
+            }
+        }
+
+        if (dismissBtn) {
+            dismissBtn.addEventListener('click', () => {
+                announcementBar.classList.add('hidden');
+                announcementBar.setAttribute('aria-hidden', 'true');
+                if (announcementId && hasWindow) {
+                    try {
+                        window.localStorage.setItem(dismissedKey, announcementId);
+                    } catch (storageError) {
+                        console.warn('Unable to persist announcement dismissal:', storageError);
+                    }
+                }
+            });
+        }
+
+        announcementBar.dataset.announcementId = announcementId;
+        announcementBar.classList.remove('hidden');
+        announcementBar.setAttribute('aria-hidden', 'false');
     } catch (error) {
-        console.error('An error occurred while loading the announcement:', error);
+        console.error('Failed to fetch announcements:', error);
     }
 };
 
-/**
- * Fetches and populates the community content grid.
- */
-let communityData = [];
-let activeTag = null;
-let forumData = [];
-let forumThreadMap = new Map();
-let forumVoteState = {};
-let activeForumCategory = 'all';
-let forumSortMode = 'trending';
-let forumSearchTerm = '';
-let forumSearchRaw = '';
-let initialForumFocusHandled = false;
+const loadEvents = async () => {
+    const eventsRegion = document.getElementById('events');
+    const emptyState = document.getElementById('events-empty');
+    const summaryElement = document.getElementById('events-summary');
+    const filterButtons = document.querySelectorAll('[data-events-filter]');
+    if (!eventsRegion) return;
 
-const hasDocument = typeof document !== 'undefined';
-const hasWindow = typeof window !== 'undefined';
-const matchMediaAvailable = hasWindow && typeof window.matchMedia === 'function';
-const reduceMotionMediaQuery = matchMediaAvailable ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
-let shouldReduceMotion = reduceMotionMediaQuery ? reduceMotionMediaQuery.matches : false;
-let hashFocusTimeoutId = null;
+    if (emptyState && !emptyState.dataset.defaultMessage) {
+        const messageEl = emptyState.querySelector('p');
+        if (messageEl) {
+            emptyState.dataset.defaultMessage = messageEl.textContent;
+        }
+    }
 
-const getQueryParam = (key) => {
-    if (!hasWindow || !key) return '';
-    const value = new URLSearchParams(window.location.search).get(key);
-    return value !== null ? value : '';
+    const emptyMessages = {
+        all: 'Belum ada agenda komunitas yang bisa ditayangkan saat ini.',
+        upcoming: 'Tidak ada acara mendatang untuk saat ini. Cek kembali sebentar lagi!',
+        past: 'Belum ada arsip acara yang tersedia.'
+    };
+
+    const setBusy = (state) => eventsRegion.setAttribute('aria-busy', state ? 'true' : 'false');
+    const hideEmptyState = () => {
+        if (!emptyState) return;
+        emptyState.hidden = true;
+        emptyState.classList.add('hidden');
+    };
+    const showEmptyState = (message) => {
+        if (!emptyState) return;
+        const paragraph = emptyState.querySelector('p');
+        if (paragraph) {
+            paragraph.textContent = message || emptyState.dataset.defaultMessage || paragraph.textContent;
+        }
+        emptyState.hidden = false;
+        emptyState.classList.remove('hidden');
+    };
+    const removeSkeletons = () => {
+        eventsRegion.querySelectorAll('.info-card.skeleton').forEach(card => card.remove());
+    };
+    const removeExistingCards = () => {
+        eventsRegion.querySelectorAll('.info-card:not(.skeleton)').forEach(card => card.remove());
+    };
+    const updateSummary = (filter, count) => {
+        if (!summaryElement) return;
+        const variants = {
+            all: count > 0 ? `Menampilkan ${count} agenda komunitas.` : 'Agenda komunitas belum tersedia.',
+            upcoming: count > 0 ? `Menampilkan ${count} acara mendatang.` : 'Tidak ada acara mendatang saat ini.',
+            past: count > 0 ? `Menampilkan ${count} arsip acara.` : 'Belum ada arsip acara.'
+        };
+        summaryElement.textContent = variants[filter] || variants.all;
+    };
+    const getCounts = () => {
+        const upcomingCount = eventsData.filter(event => event.metadata?.status !== 'past').length;
+        const pastCount = eventsData.length - upcomingCount;
+        return {
+            all: eventsData.length,
+            upcoming: upcomingCount,
+            past: pastCount
+        };
+    };
+    const updateFilterButtons = (counts, activeFilter) => {
+        filterButtons.forEach(button => {
+            const filter = button.dataset.eventsFilter || 'all';
+            const count = counts[filter] ?? 0;
+            const countBadge = button.querySelector('.events-filter-count');
+            if (countBadge) {
+                countBadge.textContent = count;
+            }
+            button.setAttribute('aria-pressed', filter === activeFilter ? 'true' : 'false');
+            button.classList.toggle('active', filter === activeFilter);
+            const label = button.querySelector('.events-filter-label')?.textContent || 'Filter';
+            button.setAttribute('aria-label', `${label} (${count} acara)`);
+        });
+    };
+
+    const getFilteredEvents = (filter) => {
+        if (filter === 'all') return [...eventsData];
+        if (filter === 'past') {
+            return eventsData.filter(event => event.metadata?.status === 'past');
+        }
+        return eventsData.filter(event => event.metadata?.status !== 'past');
+    };
+
+    const renderEvents = (filter = activeEventsFilter) => {
+        activeEventsFilter = filter;
+        removeExistingCards();
+
+        const filteredEvents = getFilteredEvents(filter);
+        if (filteredEvents.length === 0) {
+            showEmptyState(emptyMessages[filter] || emptyMessages.all);
+            updateSummary(filter, 0);
+            updateFilterButtons(getCounts(), filter);
+            return;
+        }
+
+        hideEmptyState();
+        const fragment = document.createDocumentFragment();
+        filteredEvents.forEach(event => {
+            const card = createEventCard(event);
+            fragment.appendChild(card);
+        });
+
+        eventsRegion.appendChild(fragment);
+        observeFadeInTargets(eventsRegion.querySelectorAll('.info-card'));
+        updateSummary(filter, filteredEvents.length);
+        updateFilterButtons(getCounts(), filter);
+    };
+
+    const attachFilterListeners = () => {
+        filterButtons.forEach(button => {
+            if (button.dataset.filterBound === 'true') return;
+            button.addEventListener('click', () => {
+                const filter = button.dataset.eventsFilter || 'all';
+                renderEvents(filter);
+            });
+            button.dataset.filterBound = 'true';
+        });
+    };
+
+    try {
+        setBusy(true);
+        hideEmptyState();
+        if (summaryElement) {
+            summaryElement.textContent = 'Memuat agenda komunitas...';
+        }
+
+        const response = await fetch('/data/events.json', { cache: 'no-store' });
+        if (!response.ok) {
+            throw new Error(`Failed to fetch events: ${response.status} ${response.statusText}`);
+        }
+
+        const rawEvents = await response.json();
+        const events = Array.isArray(rawEvents) ? rawEvents.filter(item => item && item.title) : [];
+
+        removeSkeletons();
+
+        const upcomingEvents = [];
+        const pastEvents = [];
+
+        events.forEach(event => {
+            const metadata = getEventDateMetadata(event.date);
+            const enriched = { ...event, metadata };
+            if (metadata.status === 'past') {
+                pastEvents.push(enriched);
+            } else {
+                upcomingEvents.push(enriched);
+            }
+        });
+
+        upcomingEvents.sort((a, b) => (a.metadata?.timestamp ?? Infinity) - (b.metadata?.timestamp ?? Infinity));
+        pastEvents.sort((a, b) => (b.metadata?.timestamp ?? 0) - (a.metadata?.timestamp ?? 0));
+
+        eventsData = [...upcomingEvents, ...pastEvents];
+
+        attachFilterListeners();
+
+        renderEvents(activeEventsFilter);
+    } catch (error) {
+        console.error('Failed to load events:', error);
+        removeSkeletons();
+        eventsData = [];
+        showEmptyState('Gagal memuat daftar acara. Coba segarkan halaman nanti.');
+        updateFilterButtons(getCounts(), activeEventsFilter);
+        updateSummary('all', 0);
+    } finally {
+        setBusy(false);
+        eventsRegion.classList.remove('requires-js');
+    }
 };
 
 const updateQueryParam = (key, value) => {
@@ -824,6 +1194,15 @@ if (hasWindow) {
     window.addEventListener('hashchange', () => {
         focusCommunityCardFromHash();
         focusForumThreadFromQuery({ force: true });
+
+        const modalParam = getQueryParam('forumModal');
+        if (modalParam && forumThreadMap.has(modalParam)) {
+            if (!isForumModalOpen || forumModalActiveThreadId !== modalParam) {
+                openForumModal(modalParam);
+            }
+        } else if (isForumModalOpen) {
+            closeForumModal({ restoreFocus: false });
+        }
     });
 }
 
@@ -1094,6 +1473,365 @@ const computeForumScore = (thread) => {
     return voteTotal * 2 + replyWeight + answeredBoost + recencyBoost;
 };
 
+const forumModalFocusableSelector = 'a[href], area[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+const getForumModalElements = () => {
+    if (forumModalElements) return forumModalElements;
+    const root = document.getElementById('forum-modal');
+    if (!root) return null;
+
+    const container = root.querySelector('.forum-modal-container');
+    if (!container) return null;
+
+    forumModalElements = {
+        root,
+        container,
+        overlay: root.querySelector('.forum-modal-overlay'),
+        closeButton: root.querySelector('.forum-modal-close'),
+        category: root.querySelector('#forum-modal-category'),
+        title: root.querySelector('#forum-modal-title'),
+        subtitle: root.querySelector('#forum-modal-subtitle'),
+        meta: root.querySelector('#forum-modal-meta'),
+        tags: root.querySelector('#forum-modal-tags'),
+        highlight: root.querySelector('#forum-modal-highlight'),
+        body: root.querySelector('#forum-modal-body'),
+        replies: root.querySelector('#forum-modal-replies')
+    };
+
+    return forumModalElements;
+};
+
+const getForumModalFocusableElements = () => {
+    const elements = getForumModalElements();
+    if (!elements) return [];
+    return Array.from(elements.container.querySelectorAll(forumModalFocusableSelector)).filter((el) => {
+        const isDisabled = el.hasAttribute('disabled') || el.getAttribute('aria-hidden') === 'true';
+        const isHidden = el.offsetParent === null && !(el instanceof HTMLElement && el === elements.container);
+        return !isDisabled && !isHidden;
+    });
+};
+
+function handleForumModalKeydown(event) {
+    if (!isForumModalOpen) return;
+    const elements = getForumModalElements();
+    if (!elements) return;
+
+    if (event.key === 'Escape') {
+        event.preventDefault();
+        closeForumModal();
+        return;
+    }
+
+    if (event.key !== 'Tab') return;
+
+    const focusable = getForumModalFocusableElements();
+    if (focusable.length === 0) {
+        event.preventDefault();
+        elements.container.focus({ preventScroll: true });
+        return;
+    }
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    const active = document.activeElement;
+
+    if (event.shiftKey) {
+        if (active === first || !elements.container.contains(active)) {
+            event.preventDefault();
+            last.focus();
+        }
+    } else if (active === last) {
+        event.preventDefault();
+        first.focus();
+    }
+}
+
+function renderForumModalContent(thread) {
+    const elements = getForumModalElements();
+    if (!elements) return;
+
+    const {
+        category,
+        title,
+        subtitle,
+        meta,
+        tags,
+        highlight,
+        body,
+        replies
+    } = elements;
+
+    if (category) {
+        if (thread.category) {
+            category.textContent = thread.category;
+            category.hidden = false;
+        } else {
+            category.hidden = true;
+        }
+    }
+
+    if (title) {
+        title.textContent = thread.title || 'Diskusi';
+    }
+
+    if (subtitle) {
+        subtitle.textContent = thread.excerpt || '';
+        subtitle.classList.toggle('hidden', !thread.excerpt);
+    }
+
+    if (meta) {
+        meta.innerHTML = '';
+
+        const metaItems = [];
+        if (thread.author && thread.author.name) {
+            const role = thread.author.role ? ` • ${thread.author.role}` : '';
+            metaItems.push({ icon: '👤', label: `${thread.author.name}${role}` });
+        } else {
+            metaItems.push({ icon: '👤', label: 'Pengguna anonim' });
+        }
+
+        const voteDisplay = getThreadVoteDisplay(thread.id);
+        metaItems.push({ icon: '👍', label: `${voteDisplay} dukungan` });
+
+        if (Number.isFinite(thread.replies)) {
+            metaItems.push({ icon: '💬', label: `${thread.replies} balasan` });
+        }
+
+        if (thread.createdAt) {
+            metaItems.push({
+                icon: '📅',
+                label: `Diposting ${formatRelativeTime(thread.createdAt) || 'baru saja'}`,
+                title: formatAbsoluteDate(thread.createdAt, { withTime: true })
+            });
+        }
+
+        if (thread.lastActivity) {
+            metaItems.push({
+                icon: '🕒',
+                label: `Aktivitas ${formatRelativeTime(thread.lastActivity) || 'baru saja'}`,
+                title: formatAbsoluteDate(thread.lastActivity, { withTime: true })
+            });
+        }
+
+        metaItems.forEach(({ icon, label, title: itemTitle }) => {
+            const span = document.createElement('span');
+            if (itemTitle) {
+                span.title = itemTitle;
+            }
+            if (icon) {
+                const iconSpan = document.createElement('span');
+                iconSpan.textContent = icon;
+                iconSpan.setAttribute('aria-hidden', 'true');
+                span.appendChild(iconSpan);
+            }
+            span.appendChild(document.createTextNode(` ${label}`));
+            meta.appendChild(span);
+        });
+    }
+
+    if (tags) {
+        tags.innerHTML = '';
+        if (Array.isArray(thread.tags) && thread.tags.length > 0) {
+            thread.tags.forEach(tagValue => {
+                const tagEl = document.createElement('span');
+                tagEl.className = 'thread-tag';
+                tagEl.textContent = `#${tagValue}`;
+                tags.appendChild(tagEl);
+            });
+            tags.hidden = false;
+        } else {
+            tags.hidden = true;
+        }
+    }
+
+    if (highlight) {
+        if (thread.highlightReply && thread.highlightReply.author && thread.highlightReply.summary) {
+            const author = escapeHtml(thread.highlightReply.author);
+            const summary = escapeHtml(thread.highlightReply.summary);
+            highlight.innerHTML = `<strong>${author}</strong>: ${summary}`;
+            highlight.hidden = false;
+        } else {
+            highlight.innerHTML = '';
+            highlight.hidden = true;
+        }
+    }
+
+    if (body) {
+        body.innerHTML = '';
+        if (Array.isArray(thread.body) && thread.body.length > 0) {
+            thread.body.forEach(paragraph => {
+                const p = document.createElement('p');
+                p.textContent = paragraph;
+                body.appendChild(p);
+            });
+        } else {
+            const p = document.createElement('p');
+            p.textContent = 'Detail diskusi belum tersedia.';
+            body.appendChild(p);
+        }
+    }
+
+    if (replies) {
+        replies.innerHTML = '';
+        if (Array.isArray(thread.posts) && thread.posts.length > 0) {
+            thread.posts.forEach(post => {
+                const reply = document.createElement('article');
+                reply.className = 'forum-reply';
+                if (post.isAnswer) {
+                    reply.classList.add('is-answer');
+                }
+
+                const header = document.createElement('header');
+                header.className = 'forum-reply-header';
+
+                const authorName = document.createElement('strong');
+                authorName.textContent = post.author?.name || 'Kontributor';
+                header.appendChild(authorName);
+
+                if (post.author?.role) {
+                    const role = document.createElement('span');
+                    role.className = 'forum-reply-role';
+                    role.textContent = post.author.role;
+                    header.appendChild(role);
+                }
+
+                if (post.isAnswer) {
+                    const answerBadge = document.createElement('span');
+                    answerBadge.className = 'forum-reply-answer';
+                    answerBadge.innerHTML = '<span aria-hidden="true">✓</span> Jawaban terverifikasi';
+                    header.appendChild(answerBadge);
+                }
+
+                if (post.createdAt) {
+                    const postDate = new Date(post.createdAt);
+                    if (!Number.isNaN(postDate.getTime())) {
+                        const timeEl = document.createElement('time');
+                        timeEl.dateTime = postDate.toISOString();
+                        timeEl.textContent = formatRelativeTime(post.createdAt) || '';
+                        timeEl.title = formatAbsoluteDate(post.createdAt, { withTime: true });
+                        header.appendChild(timeEl);
+                    }
+                }
+
+                reply.appendChild(header);
+
+                if (Array.isArray(post.content) && post.content.length > 0) {
+                    post.content.forEach(block => {
+                        const paragraph = document.createElement('p');
+                        paragraph.textContent = block;
+                        reply.appendChild(paragraph);
+                    });
+                }
+
+                replies.appendChild(reply);
+            });
+        } else {
+            const emptyState = document.createElement('div');
+            emptyState.className = 'forum-reply-empty';
+            emptyState.textContent = 'Belum ada balasan. Jadilah yang pertama memberi insight!';
+            replies.appendChild(emptyState);
+        }
+    }
+}
+
+function openForumModal(threadId) {
+    initForumModal();
+    const elements = getForumModalElements();
+    if (!elements) return;
+    const thread = forumThreadMap.get(threadId);
+    if (!thread) {
+        console.warn('Thread tidak ditemukan untuk modal:', threadId);
+        return;
+    }
+
+    renderForumModalContent(thread);
+
+    forumModalPreviousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    forumModalBodyWasLocked = document.body.classList.contains('no-scroll');
+    forumModalActiveThreadId = threadId;
+
+    elements.root.hidden = false;
+    elements.root.classList.remove('hidden');
+    elements.root.classList.add('is-visible');
+    elements.root.setAttribute('aria-hidden', 'false');
+    elements.container.setAttribute('tabindex', '-1');
+
+    if (!forumModalBodyWasLocked) {
+        document.body.classList.add('no-scroll');
+    }
+
+    isForumModalOpen = true;
+    document.addEventListener('keydown', handleForumModalKeydown, true);
+
+    requestAnimationFrame(() => {
+        elements.container.focus({ preventScroll: true });
+    });
+
+    updateQueryParam('forumModal', threadId);
+
+    if (analytics && typeof analytics.trackEvent === 'function') {
+        analytics.trackEvent('forum_modal_opened', { thread_id: threadId });
+    }
+}
+
+function closeForumModal({ restoreFocus = true } = {}) {
+    const elements = getForumModalElements();
+    if (!elements || !isForumModalOpen) return;
+
+    elements.root.classList.remove('is-visible');
+    elements.root.classList.add('hidden');
+    elements.root.hidden = true;
+    elements.root.setAttribute('aria-hidden', 'true');
+    elements.container.removeAttribute('tabindex');
+
+    if (!forumModalBodyWasLocked) {
+        document.body.classList.remove('no-scroll');
+    }
+
+    document.removeEventListener('keydown', handleForumModalKeydown, true);
+    isForumModalOpen = false;
+    forumModalActiveThreadId = '';
+
+    updateQueryParam('forumModal', '');
+
+    if (restoreFocus && forumModalPreviousFocus) {
+        try {
+            forumModalPreviousFocus.focus({ preventScroll: true });
+        } catch (error) {
+            forumModalPreviousFocus.focus();
+        }
+    }
+    forumModalPreviousFocus = null;
+    forumModalBodyWasLocked = false;
+}
+
+function initForumModal() {
+    const elements = getForumModalElements();
+    if (!elements) return;
+    if (elements.root.dataset.modalInitialized === 'true') return;
+
+    const closers = elements.root.querySelectorAll('[data-close-forum-modal]');
+    closers.forEach((closer) => {
+        closer.addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            closeForumModal();
+        });
+    });
+
+    elements.root.addEventListener('click', (event) => {
+        if (event.target === elements.root) {
+            closeForumModal();
+        }
+    });
+
+    elements.container.addEventListener('click', (event) => {
+        event.stopPropagation();
+    });
+
+    elements.root.dataset.modalInitialized = 'true';
+}
+
 const renderForumThreads = (threads, afterRender) => {
     const list = document.getElementById('forum-threads');
     const emptyState = document.getElementById('forum-empty');
@@ -1244,6 +1982,24 @@ const renderForumThreads = (threads, afterRender) => {
             content.appendChild(highlight);
         }
 
+        const actions = document.createElement('div');
+        actions.className = 'thread-actions';
+
+        const detailButton = document.createElement('button');
+        detailButton.type = 'button';
+        detailButton.className = 'thread-detail-btn';
+        detailButton.setAttribute('aria-label', `Lihat detail diskusi ${thread.title}`);
+        const detailIcon = document.createElement('span');
+        detailIcon.className = 'icon';
+        detailIcon.setAttribute('aria-hidden', 'true');
+        detailIcon.textContent = '🔍';
+        detailButton.appendChild(detailIcon);
+        detailButton.appendChild(document.createTextNode(' Lihat detail diskusi'));
+        detailButton.addEventListener('click', () => openForumModal(thread.id));
+        actions.appendChild(detailButton);
+
+        content.appendChild(actions);
+
         article.appendChild(voteWrapper);
         article.appendChild(content);
 
@@ -1259,6 +2015,15 @@ const renderForumThreads = (threads, afterRender) => {
     }
 
     focusForumThreadFromQuery();
+
+    const modalParam = getQueryParam('forumModal');
+    if (modalParam && forumThreadMap.has(modalParam)) {
+        if (!isForumModalOpen || forumModalActiveThreadId !== modalParam) {
+            requestAnimationFrame(() => openForumModal(modalParam));
+        }
+    } else if (isForumModalOpen && modalParam !== forumModalActiveThreadId) {
+        closeForumModal({ restoreFocus: false });
+    }
 };
 
 const ensureForumThreadVisible = (thread, targetId) => {
@@ -1336,6 +2101,10 @@ const toggleForumVote = (threadId) => {
     } else {
         updateForumVoteUI(threadId);
         focusAfterRender();
+    }
+
+    if (isForumModalOpen && forumModalActiveThreadId === threadId) {
+        renderForumModalContent(thread);
     }
 
     if (window.toastSystem) {
@@ -1662,31 +2431,109 @@ document.addEventListener("DOMContentLoaded", function () {
     const searchInput = document.getElementById('material-search');
     const learningItems = document.querySelectorAll('.learning-item');
     const noResultsMessage = document.getElementById('no-results');
+    const resultsCounter = document.getElementById('materials-results');
+    const totalLearningItems = learningItems.length;
 
     if (searchInput) {
+        const ensureOriginalCopy = (element) => {
+            if (element && !element.dataset.originalText) {
+                element.dataset.originalText = element.textContent;
+            }
+        };
+
+        const formatCount = (count) => `${count} materi`;
+
+        const updateResultsCounter = (visibleCount, rawQuery) => {
+            if (!resultsCounter) return;
+            const trimmed = rawQuery.trim();
+
+            if (visibleCount === 0 && trimmed.length > 0) {
+                resultsCounter.textContent = `0 dari ${totalLearningItems} materi cocok untuk "${trimmed}".`;
+                return;
+            }
+
+            if (trimmed.length === 0) {
+                resultsCounter.textContent = `Menampilkan ${formatCount(totalLearningItems)} terkurasi.`;
+                return;
+            }
+
+            if (visibleCount === totalLearningItems) {
+                resultsCounter.textContent = `Menampilkan semua ${formatCount(totalLearningItems)} untuk pencarian Anda.`;
+                return;
+            }
+
+            resultsCounter.textContent = `Menampilkan ${formatCount(visibleCount)} dari ${formatCount(totalLearningItems)}.`;
+        };
+
+        const highlightText = (element, query) => {
+            if (!element) return;
+            ensureOriginalCopy(element);
+            const original = element.dataset.originalText || '';
+            const trimmedQuery = query.trim();
+
+            const tokens = trimmedQuery.split(/\s+/).filter(token => token.length >= 2);
+            if (tokens.length === 0) {
+                element.textContent = original;
+                return;
+            }
+
+            const regex = new RegExp(`(${tokens.map(escapeRegExp).join('|')})`, 'gi');
+            element.innerHTML = original.replace(regex, '<mark>$1</mark>');
+        };
+
+        const resetHighlights = (element) => {
+            if (!element) return;
+            if (!element.dataset.originalText) {
+                element.dataset.originalText = element.textContent;
+            }
+            element.textContent = element.dataset.originalText;
+        };
+
+        if (noResultsMessage && !noResultsMessage.dataset.defaultMessage) {
+            noResultsMessage.dataset.defaultMessage = noResultsMessage.textContent;
+        }
+
         const handleSearch = () => {
-            const rawValue = searchInput.value.trim();
-            const searchTerm = rawValue.toLowerCase();
+            const rawValue = searchInput.value;
+            const trimmedValue = rawValue.trim();
+            const searchTerm = trimmedValue.toLowerCase();
             let visibleItems = 0;
 
             learningItems.forEach(item => {
                 const tags = item.dataset.tags.toLowerCase();
-                if (tags.includes(searchTerm)) {
+                const content = item.textContent.toLowerCase();
+                const matches = searchTerm.length === 0 || tags.includes(searchTerm) || content.includes(searchTerm);
+
+                if (matches) {
                     item.classList.remove('hidden');
                     visibleItems++;
                 } else {
                     item.classList.add('hidden');
+                }
+
+                const titleEl = item.querySelector('.learning-content h4');
+                const descEl = item.querySelector('.learning-content p');
+
+                if (trimmedValue.length >= 2 && matches) {
+                    highlightText(titleEl, trimmedValue);
+                    highlightText(descEl, trimmedValue);
+                } else {
+                    resetHighlights(titleEl);
+                    resetHighlights(descEl);
                 }
             });
 
             if (noResultsMessage) {
                 if (visibleItems === 0 && searchTerm.length > 0) {
                     noResultsMessage.classList.remove('hidden');
+                    noResultsMessage.textContent = `Tidak ada materi yang cocok dengan pencarian "${trimmedValue}".`;
                 } else {
                     noResultsMessage.classList.add('hidden');
+                    noResultsMessage.textContent = noResultsMessage.dataset.defaultMessage || '';
                 }
             }
 
+            updateResultsCounter(visibleItems, rawValue);
             updateQueryParam('materi', rawValue);
         };
 
@@ -1699,6 +2546,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         handleSearch();
+    } else if (resultsCounter) {
+        resultsCounter.textContent = `Menampilkan ${learningItems.length} materi terkurasi.`;
     }
 
     // --- Form Submission & Validation ---
@@ -1729,12 +2578,16 @@ document.addEventListener("DOMContentLoaded", function () {
             return valid;
         };
 
-        const nameValidator = (v) => ({ valid: v.trim().length >= 2, message: 'Nama minimal 2 karakter.' });
+        const nameValidator = (v) => ({ valid: v.trim().length >= 2, message: 'Nama lengkap minimal 2 karakter.' });
+        const campusEmailPattern = /^[^@\s]+@(mahasiswa\.)?unikom\.ac\.id$/i;
         const emailValidator = (v) => ({
-            valid: /^[^@\s]+@mahasiswa\.unikom\.ac\.id$/i.test(v.trim()),
-            message: 'Gunakan email kampus @mahasiswa.unikom.ac.id.'
+            valid: campusEmailPattern.test(v.trim()),
+            message: 'Gunakan email kampus @mahasiswa.unikom.ac.id atau @unikom.ac.id.'
         });
-        const messageValidator = (v) => ({ valid: v.trim().length >= 10, message: 'Pesan minimal 10 karakter.' });
+        const messageValidator = (v) => ({
+            valid: v.trim().length >= 15,
+            message: 'Pesan minimal 15 karakter agar kami memahami kebutuhan Anda.'
+        });
 
         ['input', 'blur'].forEach(evt => {
             if (nameInput) nameInput.addEventListener(evt, () => validateField(nameInput, nameError, nameValidator));
@@ -1799,7 +2652,9 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    initForumModal();
     loadAnnouncement();
+    loadEvents();
 
     if (document.getElementById('community-grid')) {
         loadCommunityContent();
@@ -1807,15 +2662,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (document.getElementById('forum-threads')) {
         loadForumThreads();
-    }
-
-    // Events skeleton state toggle when content loaded (if implemented later)
-    const eventsRegion = document.getElementById('events');
-    if (eventsRegion) {
-        // Mark busy false when DOM paints
-        requestAnimationFrame(() => {
-            eventsRegion.setAttribute('aria-busy', 'false');
-        });
     }
 
     // --- Merch Store Interest Tracking ---

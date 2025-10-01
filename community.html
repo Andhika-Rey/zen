@@ -191,14 +191,14 @@
                 <span class="eyebrow">Ruang Komunitas</span>
                 <h1 id="community-title" class="section-title">Kolaborasi &amp; Kreasi Mahasiswa</h1>
                 <p class="section-subtitle">
-                    Tempat untuk berbagi, belajar, dan tumbuh bersama. Publikasikan proyek, ajukan ide, atau temukan rekan kolaborasi baru.
+                    Tempat untuk berbagi, belajar, dan tumbuh bersama. Publikasikan proyek, ajukan ide, atau temukan
+                    rekan kolaborasi baru.
                 </p>
             </div>
 
             <div class="community-filters">
                 <div class="search-container">
-                    <input type="search" id="community-search"
-                        placeholder="🔍 Cari proyek, penulis, atau tag..."
+                    <input type="search" id="community-search" placeholder="🔍 Cari proyek, penulis, atau tag..."
                         aria-label="Cari proyek komunitas">
                 </div>
                 <div class="tag-filters" id="tag-filters">
@@ -219,14 +219,16 @@
                 <span class="eyebrow">Forum Diskusi</span>
                 <h2 id="forum-title" class="section-title">Diskusi Aktif &amp; Insight Profesional</h2>
                 <p class="section-subtitle">
-                    Ikuti percakapan, bagikan pengalaman, dan bantu rekan satu kampus menyelesaikan tantangan teknis maupun karier.
+                    Ikuti percakapan, bagikan pengalaman, dan bantu rekan satu kampus menyelesaikan tantangan teknis
+                    maupun karier.
                 </p>
             </div>
 
             <div class="forum-controls">
                 <div class="forum-search">
                     <label for="forum-search-input" class="sr-only">Cari diskusi forum</label>
-                    <input type="search" id="forum-search-input" placeholder="🔍 Cari topik, penulis, atau tag..." aria-label="Cari diskusi forum">
+                    <input type="search" id="forum-search-input" placeholder="🔍 Cari topik, penulis, atau tag..."
+                        aria-label="Cari diskusi forum">
                 </div>
                 <div class="forum-actions">
                     <div class="forum-categories" id="forum-categories" role="radiogroup" aria-label="Kategori diskusi">
@@ -249,14 +251,16 @@
 
             <div id="forum-empty" class="forum-empty hidden" role="status" aria-live="polite" hidden>
                 <h3>Belum ada diskusi yang cocok</h3>
-                <p>Coba ganti kata kunci, pilih kategori lain, atau mulailah diskusi baru untuk mencari solusi bersama.</p>
+                <p>Coba ganti kata kunci, pilih kategori lain, atau mulailah diskusi baru untuk mencari solusi bersama.
+                </p>
             </div>
 
             <div class="forum-cta">
                 <div class="forum-cta-content">
                     <h3>Mulai Diskusi Baru</h3>
                     <p>
-                        Ingin mengangkat studi kasus, menanyakan feedback tugas, atau berbagi peluang karier? Kirim topik Anda dan tim moderator akan membantu mempublikasikan dalam 24 jam.
+                        Ingin mengangkat studi kasus, menanyakan feedback tugas, atau berbagi peluang karier? Kirim
+                        topik Anda dan tim moderator akan membantu mempublikasikan dalam 24 jam.
                     </p>
                 </div>
                 <a class="btn btn-primary" href="https://forms.gle/zenotikaforum" target="_blank" rel="noopener">
@@ -264,6 +268,25 @@
                 </a>
             </div>
         </section>
+
+        <div id="forum-modal" class="forum-modal hidden" role="dialog" aria-modal="true"
+            aria-labelledby="forum-modal-title" aria-describedby="forum-modal-body" hidden>
+            <div class="forum-modal-overlay" data-close-forum-modal></div>
+            <div class="forum-modal-container" role="document" tabindex="-1">
+                <button type="button" class="forum-modal-close" aria-label="Tutup diskusi"
+                    data-close-forum-modal>&times;</button>
+                <div class="forum-modal-header">
+                    <span class="forum-modal-category badge" id="forum-modal-category"></span>
+                    <h3 id="forum-modal-title"></h3>
+                    <p class="forum-modal-subtitle" id="forum-modal-subtitle"></p>
+                    <div class="forum-modal-meta" id="forum-modal-meta"></div>
+                    <div class="forum-modal-tags" id="forum-modal-tags"></div>
+                </div>
+                <section class="forum-modal-highlight" id="forum-modal-highlight" hidden></section>
+                <section class="forum-modal-body" id="forum-modal-body"></section>
+                <section class="forum-modal-replies" id="forum-modal-replies" aria-label="Balasan diskusi"></section>
+            </div>
+        </div>
     </main>
 
     <footer class="footer">
@@ -274,7 +297,8 @@
                     <span>Zenotika</span>
                 </div>
                 <p>
-                    Ekosistem digital mahasiswa Ilmu Komputer UNIKOM yang menghadirkan pembelajaran, komunitas, dan karier dalam satu pengalaman terpadu.
+                    Ekosistem digital mahasiswa Ilmu Komputer UNIKOM yang menghadirkan pembelajaran, komunitas, dan
+                    karier dalam satu pengalaman terpadu.
                 </p>
             </div>
             <div class="footer-column">
