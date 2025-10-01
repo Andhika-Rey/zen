@@ -1208,4 +1208,157 @@ document.addEventListener("DOMContentLoaded", function () {
             eventsRegion.setAttribute('aria-busy', 'false');
         });
     }
+
+    // --- Merch Store Interest Tracking ---
+    initMerchStore();
 });
+
+/**
+ * Initialize merch store interest tracking with localStorage persistence
+ */
+function initMerchStore() {
+    const interestButtons = document.querySelectorAll('.merch-interest-btn');
+    
+    if (!interestButtons.length) return;
+
+    // Load interest counts from localStorage
+    const loadInterestCounts = () => {
+        const counts = JSON.parse(localStorage.getItem('merch_interests') || '{}');
+        return {
+            jaket: counts.jaket || 0,
+            jersey: counts.jersey || 0
+        };
+    };
+
+    // Save interest counts to localStorage
+    const saveInterestCounts = (counts) => {
+        localStorage.setItem('merch_interests', JSON.stringify(counts));
+    };
+
+    // Check if user already showed interest
+    const getUserInterests = () => {
+        const interests = JSON.parse(localStorage.getItem('user_merch_interests') || '[]');
+        return interests;
+    };
+
+    // Save user interest
+    const saveUserInterest = (product) => {
+        const interests = getUserInterests();
+        if (!interests.includes(product)) {
+            interests.push(product);
+            localStorage.setItem('user_merch_interests', JSON.stringify(interests));
+        }
+    };
+
+    // Remove user interest
+    const removeUserInterest = (product) => {
+        const interests = getUserInterests();
+        const filtered = interests.filter(p => p !== product);
+        localStorage.setItem('user_merch_interests', JSON.stringify(filtered));
+    };
+
+    // Initialize counts display
+    const counts = loadInterestCounts();
+    const userInterests = getUserInterests();
+
+    document.querySelectorAll('.merch-count').forEach(countEl => {
+        const card = countEl.closest('.merch-card');
+        const btn = card.querySelector('.merch-interest-btn');
+        const product = btn.dataset.product;
+        
+        const count = counts[product] || 0;
+        countEl.querySelector('strong').textContent = count;
+        countEl.dataset.count = count;
+
+        // Restore button state if user already interested
+        if (userInterests.includes(product)) {
+            btn.classList.add('interested');
+            btn.textContent = 'Sudah Daftar';
+        }
+    });
+
+    // Handle interest button clicks
+    interestButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const product = this.dataset.product;
+            const card = this.closest('.merch-card');
+            const countEl = card.querySelector('.merch-count');
+            const isInterested = this.classList.contains('interested');
+
+            let counts = loadInterestCounts();
+
+            if (isInterested) {
+                // Remove interest
+                counts[product] = Math.max(0, counts[product] - 1);
+                this.classList.remove('interested');
+                this.textContent = 'Daftar Minat';
+                removeUserInterest(product);
+                
+                // Track event
+                if (window.analytics) {
+                    analytics.trackEvent('merch_interest_removed', {
+                        product: product,
+                        new_count: counts[product]
+                    });
+                }
+            } else {
+                // Add interest
+                counts[product] = (counts[product] || 0) + 1;
+                this.classList.add('interested');
+                this.textContent = 'Sudah Daftar';
+                saveUserInterest(product);
+
+                // Show toast notification
+                if (window.toastSystem) {
+                    toastSystem.show(
+                        `Terima kasih! Anda telah terdaftar untuk ${product === 'jaket' ? 'Jaket Angkatan' : 'Jersey Futsal'}. 
+                        Kami akan menginformasikan detail pemesanan via email kampus.`,
+                        'success'
+                    );
+                }
+
+                // Track event
+                if (window.analytics) {
+                    analytics.trackEvent('merch_interest_added', {
+                        product: product,
+                        new_count: counts[product]
+                    });
+                }
+
+                // Animate count
+                animateCount(countEl, counts[product] - 1, counts[product]);
+            }
+
+            // Save and update display
+            saveInterestCounts(counts);
+            countEl.querySelector('strong').textContent = counts[product];
+            countEl.dataset.count = counts[product];
+        });
+    });
+}
+
+/**
+ * Animate counter with easing
+ */
+function animateCount(element, start, end) {
+    const strongEl = element.querySelector('strong');
+    const duration = 600;
+    const startTime = performance.now();
+
+    const easeOutQuad = t => t * (2 - t);
+
+    const updateCount = (currentTime) => {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const easedProgress = easeOutQuad(progress);
+        const current = Math.round(start + (end - start) * easedProgress);
+        
+        strongEl.textContent = current;
+
+        if (progress < 1) {
+            requestAnimationFrame(updateCount);
+        }
+    };
+
+    requestAnimationFrame(updateCount);
+}

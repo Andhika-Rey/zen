@@ -2653,3 +2653,338 @@ html.prefers-reduced-motion img.card-image
     transition: none !important;
     opacity: 1 !important;
 }
+
+/* ------------------------------
+   Merch Store Section
+-------------------------------- */
+.store
+{
+    padding: 4rem 1.5rem 5rem;
+    background: linear-gradient(
+        180deg,
+        rgba(12, 15, 38, 0.6) 0%,
+        rgba(5, 5, 20, 0.9) 100%
+    );
+    position: relative;
+    overflow: hidden;
+}
+
+.store::before
+{
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+        circle at 30% 20%,
+        rgba(108, 99, 255, 0.15),
+        transparent 45%
+    ),
+    radial-gradient(
+        circle at 70% 80%,
+        rgba(49, 215, 255, 0.12),
+        transparent 50%
+    );
+    pointer-events: none;
+    z-index: 0;
+}
+
+.store-inner
+{
+    position: relative;
+    z-index: 1;
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+.merch-grid
+{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+    gap: 2.5rem;
+    margin-top: 3rem;
+}
+
+.merch-card
+{
+    background: var(--color-surface);
+    backdrop-filter: blur(18px);
+    border-radius: 20px;
+    border: 1px solid var(--color-border);
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.merch-card::before
+{
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        135deg,
+        rgba(108, 99, 255, 0.05),
+        transparent 60%
+    );
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+}
+
+.merch-card:hover
+{
+    transform: translateY(-6px);
+    border-color: var(--color-primary);
+    box-shadow: 0 20px 60px rgba(108, 99, 255, 0.25);
+}
+
+.merch-card:hover::before
+{
+    opacity: 1;
+}
+
+.merch-image-wrapper
+{
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    background: linear-gradient(
+        135deg,
+        rgba(20, 22, 51, 0.9),
+        rgba(25, 30, 60, 0.85)
+    );
+}
+
+.merch-image
+{
+    aspect-ratio: 16 / 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.merch-placeholder
+{
+    font-size: 6rem;
+    opacity: 0.6;
+    filter: drop-shadow(0 4px 12px rgba(108, 99, 255, 0.4));
+}
+
+.merch-badge
+{
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.4rem 0.85rem;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(108, 99, 255, 0.4);
+    animation: pulse-badge 2s ease-in-out infinite;
+}
+
+@keyframes pulse-badge
+{
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.05); opacity: 0.9; }
+}
+
+.merch-content
+{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    flex: 1;
+}
+
+.merch-content h3
+{
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--color-text);
+    line-height: 1.3;
+    margin: 0;
+}
+
+.merch-desc
+{
+    color: var(--color-text-subtle);
+    line-height: 1.65;
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+.merch-meta
+{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    background: rgba(108, 99, 255, 0.08);
+    border-radius: 12px;
+    border: 1px solid rgba(108, 99, 255, 0.15);
+}
+
+.merch-size,
+.merch-price
+{
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.merch-price
+{
+    color: var(--color-accent);
+    font-weight: 700;
+}
+
+.merch-features
+{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.merch-features li
+{
+    padding-left: 1.75rem;
+    position: relative;
+    color: var(--color-text-subtle);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.merch-features li::before
+{
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--color-success);
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.merch-actions
+{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border);
+}
+
+.merch-interest-btn
+{
+    width: 100%;
+    padding: 0.85rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.merch-interest-btn:hover
+{
+    transform: scale(1.02);
+}
+
+.merch-interest-btn.interested
+{
+    background: var(--color-success);
+    color: var(--color-bg);
+}
+
+.merch-interest-btn.interested::after
+{
+    content: ' ✓';
+    margin-left: 0.5rem;
+}
+
+.merch-count
+{
+    text-align: center;
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+}
+
+.merch-count strong
+{
+    color: var(--color-primary);
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.store-notice
+{
+    margin-top: 3rem;
+    padding: 1.75rem 2rem;
+    background: rgba(108, 99, 255, 0.1);
+    border: 1px solid rgba(108, 99, 255, 0.25);
+    border-radius: 16px;
+    text-align: center;
+}
+
+.store-notice p
+{
+    margin: 0.75rem 0;
+    color: var(--color-text-subtle);
+    line-height: 1.7;
+}
+
+.store-notice strong
+{
+    color: var(--color-primary);
+    font-weight: 700;
+}
+
+.store-revenue-info
+{
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+}
+
+@media (max-width: 768px)
+{
+    .merch-grid
+    {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .merch-card
+    {
+        padding: 1.5rem;
+    }
+
+    .merch-content h3
+    {
+        font-size: 1.5rem;
+    }
+
+    .merch-placeholder
+    {
+        font-size: 4rem;
+    }
+
+    .store-notice
+    {
+        padding: 1.25rem 1.5rem;
+    }
+}
+

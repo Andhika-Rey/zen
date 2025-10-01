@@ -86,6 +86,15 @@ const searchData = [
     tags: ['kolaborator', 'partner', 'industri', 'komunitas'],
   },
   {
+    id: 'page-store',
+    title: 'Merch Store Pre-Order',
+    description: 'Jaket angkatan dan jersey futsal eksklusif Zenotika',
+    content: 'Pre-order merchandise eksklusif Zenotika: jaket angkatan premium fleece (Rp 250K-320K) dengan custom nama & angkatan, dan jersey futsal dry-fit (Rp 150K-200K) dengan sablon nama punggung. Profit digunakan untuk funding event komunitas dan operasional platform.',
+    url: '#store',
+    category: 'page',
+    tags: ['store', 'merch', 'jaket', 'jersey', 'angkatan', 'pre-order', 'futsal'],
+  },
+  {
     id: 'page-insights',
     title: 'Insights & Roadmap',
     description: 'Roadmap 2025 dan testimoni mahasiswa',
