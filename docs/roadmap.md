@@ -8,7 +8,8 @@ Rencana proaktif ini berfokus pada peningkatan fungsionalitas, keberlanjutan, da
 
 - ✅ Fase 1 hampir rampung: audit aksesibilitas, toggle tema, dan SEO dasar telah diterapkan.
 - ✅ Fondasi fitur pencarian & filter komunitas selesai; optimalisasi performa lanjutan sedang berjalan.
-- ⏳ Konversi aset ke WebP dan strategi lazy loading sedang dalam eksperimen.
+- ✅ Lazy loading & responsive image pipeline untuk kartu komunitas aktif (Okt 2025).
+- ⏳ Konversi aset statis internal ke WebP dan proses minifikasi otomatis masih dalam eksperimen.
 - ⏳ Integrasi analytics & error tracking berada di pipeline sprint berikutnya.
 - 🚀 Fokus kuartal depan: persiapan integrasi Headless CMS & pencarian lanjutan berbasis indeks.
 
@@ -17,16 +18,19 @@ Rencana proaktif ini berfokus pada peningkatan fungsionalitas, keberlanjutan, da
 Fondasi untuk memastikan apa yang sudah dibangun mencapai standar keunggulan.
 
 1.  **Audit dan Peningkatan Aksesibilitas (A11y):**
+    *   **Status:** ✅ Iterasi berkelanjutan — preferensi gerak kini memengaruhi animasi dinamis (fade-in & spotlight), kontras tinggi, dan outline yang konsisten (Okt 2025).
     *   **Masalah:** Situs yang profesional harus dapat diakses oleh semua orang, termasuk mereka yang menggunakan pembaca layar atau navigasi keyboard.
-    *   **Tindakan:** Melakukan audit untuk memastikan semua elemen interaktif dapat diakses keyboard, kontras warna memenuhi standar WCAG, dan atribut ARIA digunakan dengan benar.
+    *   **Tindakan:** Melakukan audit untuk memastikan semua elemen interaktif dapat diakses keyboard, kontras warna memenuhi standar WCAG, dan atribut ARIA digunakan dengan benar. Berikutnya: audit screen reader end-to-end + pengujian NVDA/VoiceOver.
 
 2.  **Optimasi Performa Lanjutan:**
+    *   **Status:** ⏳ Sedang berjalan — lazy loading + responsive `srcset` + fallback monogram untuk komunitas; tahap berikutnya otomatisasi minifikasi & WebP lokal.
     *   **Masalah:** Kecepatan adalah kunci. Situs bisa dibuat lebih cepat lagi.
-    *   **Tindakan:** Mengoptimalkan semua aset gambar ke format modern (seperti WebP), melakukan *minification* pada file CSS dan JS untuk produksi, dan meninjau strategi *caching* Service Worker agar lebih efisien.
+    *   **Tindakan:** Mengoptimalkan semua aset gambar ke format modern (seperti WebP), melakukan *minification* pada file CSS dan JS untuk produksi, dan meninjau strategi *caching* Service Worker agar lebih efisien. Aksi berikut: tambahkan pipeline build ringan (mis. `esbuild`/`lightningcss`) + konversi aset lokal ke WebP.
 
 3.  **Peningkatan SEO (Search Engine Optimization):**
+    *   **Status:** ✅ Meta OG/Twitter, `sitemap.xml`, dan `robots.txt` sudah tayang; review structured data berikutnya.
     *   **Masalah:** Agar Zenotika mudah ditemukan dan dibagikan secara profesional di media sosial.
-    *   **Tindakan:** Menambahkan meta tag Open Graph (untuk pratinjau di WhatsApp, Twitter, dll.), membuat file `sitemap.xml` untuk membantu Google mengindeks semua halaman, dan membuat `robots.txt`.
+    *   **Tindakan:** Menambahkan meta tag Open Graph (untuk pratinjau di WhatsApp, Twitter, dll.), membuat file `sitemap.xml` untuk membantu Google mengindeks semua halaman, dan membuat `robots.txt`. Selanjutnya: tambahkan schema.org (`Organization`, `Course`) dan validasi Search Console.
 
 ---
 
@@ -35,12 +39,14 @@ Fondasi untuk memastikan apa yang sudah dibangun mencapai standar keunggulan.
 Langkah untuk membuat platform lebih berguna dan interaktif.
 
 1.  **Implementasi Fitur Pencarian (Search):**
+    *   **Status:** ✅ Tahap 1 selesai — pencarian dasar + filter komunitas berjalan. Berikutnya: indeks materi global & highlight hasil.
     *   **Masalah:** Seiring bertambahnya materi ajar, pengguna akan kesulitan menemukan informasi spesifik.
     *   **Tindakan:** Mengintegrasikan pustaka pencarian sisi klien (seperti `lunr.js`) untuk memungkinkan pengguna mencari konten materi secara instan.
 
 2.  **Mode Terang/Gelap (Light/Dark Mode Toggle):**
+    *   **Status:** ✅ Implementasi live dengan persistensi `localStorage`, sinkron preferensi OS, dan styling lengkap (Sep–Okt 2025).
     *   **Masalah:** Preferensi visual pengguna bervariasi. Memberikan pilihan adalah standar UX modern.
-    *   **Tindakan:** Mengimplementasikan *toggle* yang memungkinkan pengguna beralih antara mode gelap dan terang, dengan preferensi mereka disimpan di `localStorage`.
+    *   **Tindakan:** Mengimplementasikan *toggle* yang memungkinkan pengguna beralih antara mode gelap dan terang, dengan preferensi mereka disimpan di `localStorage`. Iterasi berikut: tambahkan animasi transisi tema yang ramah mata & opsi kontras tinggi.
 
 ---
 

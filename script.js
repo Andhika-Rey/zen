@@ -68,6 +68,146 @@ const loadAnnouncement = async () => {
 let communityData = [];
 let activeTag = null;
 
+const hasDocument = typeof document !== 'undefined';
+const hasWindow = typeof window !== 'undefined';
+const matchMediaAvailable = hasWindow && typeof window.matchMedia === 'function';
+const reduceMotionMediaQuery = matchMediaAvailable ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+let shouldReduceMotion = reduceMotionMediaQuery ? reduceMotionMediaQuery.matches : false;
+
+const fadeInSelectors = '.fade-in, .feature-card, .learning-item, .info-card, .contact-info-card, .contact-form, .community-card, .footer-column';
+
+let fadeInObserver = null;
+
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -80px 0px'
+};
+
+const intersectionCallback = (entries, observer) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            entry.target.dataset.fadeObserved = 'done';
+            observer.unobserve(entry.target);
+        }
+    });
+};
+
+const createFadeInObserver = () => {
+    if (fadeInObserver) {
+        fadeInObserver.disconnect();
+        fadeInObserver = null;
+    }
+
+    if (shouldReduceMotion || typeof IntersectionObserver === 'undefined') {
+        return;
+    }
+
+    fadeInObserver = new IntersectionObserver(intersectionCallback, observerOptions);
+};
+
+const observeFadeInTargets = (elements) => {
+    if (!elements) return;
+    const targets = Array.from(elements);
+    if (targets.length === 0) return;
+
+    if (shouldReduceMotion || !fadeInObserver) {
+        targets.forEach(target => {
+            target.classList.add('is-visible');
+            target.dataset.fadeObserved = 'done';
+        });
+        return;
+    }
+
+    targets.forEach(target => {
+        if (target.dataset.fadeObserved === 'pending' || target.dataset.fadeObserved === 'done') {
+            return;
+        }
+        target.dataset.fadeObserved = 'pending';
+        fadeInObserver.observe(target);
+    });
+};
+
+const clearSpotlightCoordinates = (card) => {
+    card.style.removeProperty('--x');
+    card.style.removeProperty('--y');
+};
+
+const spotlightEventHandler = (event) => {
+    const card = event.currentTarget;
+    if (!card) return;
+
+    if (shouldReduceMotion) {
+        clearSpotlightCoordinates(card);
+        return;
+    }
+
+    const rect = card.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    card.style.setProperty('--x', `${x}px`);
+    card.style.setProperty('--y', `${y}px`);
+};
+
+const applySpotlightEffectToCards = (root = document) => {
+    if (!hasDocument || !root || typeof root.querySelectorAll !== 'function') return;
+
+    const cards = root.querySelectorAll('.feature-card, .learning-item, .community-card');
+    cards.forEach(card => {
+        if (card.dataset.spotlightBound === 'true') {
+            if (shouldReduceMotion) {
+                clearSpotlightCoordinates(card);
+            }
+            return;
+        }
+
+        card.addEventListener('mousemove', spotlightEventHandler);
+        card.addEventListener('mouseleave', () => clearSpotlightCoordinates(card));
+        card.dataset.spotlightBound = 'true';
+
+        if (shouldReduceMotion) {
+            clearSpotlightCoordinates(card);
+        }
+    });
+};
+
+const applyReduceMotionPreferences = () => {
+    if (!hasDocument) return;
+
+    document.documentElement.classList.toggle('prefers-reduced-motion', shouldReduceMotion);
+
+    if (shouldReduceMotion) {
+        if (fadeInObserver) {
+            fadeInObserver.disconnect();
+            fadeInObserver = null;
+        }
+
+        document.querySelectorAll(fadeInSelectors).forEach(target => {
+            target.classList.add('is-visible');
+            target.dataset.fadeObserved = 'done';
+        });
+
+        document.querySelectorAll('.feature-card, .learning-item, .community-card').forEach(clearSpotlightCoordinates);
+    } else {
+        createFadeInObserver();
+        observeFadeInTargets(document.querySelectorAll(fadeInSelectors));
+    }
+};
+
+if (reduceMotionMediaQuery) {
+    const handleReduceMotionChange = (event) => {
+        shouldReduceMotion = event.matches;
+        applyReduceMotionPreferences();
+        applySpotlightEffectToCards();
+    };
+
+    if (typeof reduceMotionMediaQuery.addEventListener === 'function') {
+        reduceMotionMediaQuery.addEventListener('change', handleReduceMotionChange);
+    } else if (typeof reduceMotionMediaQuery.addListener === 'function') {
+        reduceMotionMediaQuery.addListener(handleReduceMotionChange);
+    }
+}
+
 const showCommunityEmptyState = (message) => {
     const emptyMessage = document.getElementById('community-empty');
     if (!emptyMessage) return;
@@ -230,8 +370,11 @@ const displayCommunityItems = (items) => {
         const card = document.createElement('div');
         card.className = 'community-card';
         card.setAttribute('role', 'listitem');
+
+        const pictureMarkup = createResponsivePictureMarkup(item.image, item.title);
+
         card.innerHTML = `
-            <img src="${escapeHtml(item.image)}" alt="Gambar Proyek: ${escapeHtml(item.title)}" class="card-image">
+            ${pictureMarkup}
             <div class="card-content">
                 <h3>${escapeHtml(item.title)}</h3>
                 <p class="author">Oleh: ${escapeHtml(item.author)}</p>
@@ -246,6 +389,8 @@ const displayCommunityItems = (items) => {
     });
 
     grid.appendChild(fragment);
+    applySpotlightEffectToCards(grid);
+    observeFadeInTargets(grid.querySelectorAll('.community-card'));
     grid.setAttribute('aria-busy', 'false');
 };
 
@@ -253,6 +398,63 @@ const escapeHtml = (str) => {
     const div = document.createElement('div');
     div.textContent = str;
     return div.innerHTML;
+};
+
+const RESPONSIVE_IMAGE_WIDTHS = [360, 540, 720, 960, 1200];
+
+const buildOptimizedImageUrl = (url, { width, format } = {}) => {
+    if (!url) return null;
+    try {
+        const optimizedUrl = new URL(url);
+        optimizedUrl.searchParams.set('auto', 'format');
+        optimizedUrl.searchParams.set('fit', 'crop');
+        if (width) {
+            optimizedUrl.searchParams.set('w', String(width));
+            optimizedUrl.searchParams.set('q', width >= 960 ? '75' : '80');
+        }
+        if (format) {
+            optimizedUrl.searchParams.set('fm', format);
+        } else {
+            optimizedUrl.searchParams.delete('fm');
+        }
+        return optimizedUrl.toString();
+    } catch (error) {
+        console.warn('Gagal mengoptimalkan URL gambar:', error);
+        return url;
+    }
+};
+
+const buildImageSrcSet = (url, format) => {
+    const candidates = RESPONSIVE_IMAGE_WIDTHS.map(width => {
+        const candidateUrl = buildOptimizedImageUrl(url, { width, format });
+        if (!candidateUrl) return null;
+        return `${escapeHtml(candidateUrl)} ${width}w`;
+    }).filter(Boolean);
+    return candidates.length > 0 ? candidates.join(', ') : '';
+};
+
+const createResponsivePictureMarkup = (url, title) => {
+    const safeTitleForAlt = `Gambar Proyek: ${title || 'Tanpa Judul'}`;
+    const sizesValue = '(max-width: 600px) 100vw, (max-width: 1100px) 50vw, 400px';
+
+    if (!url) {
+        const fallbackInitialRaw = (title || '').trim().charAt(0) || 'Z';
+        const fallbackInitial = escapeHtml(fallbackInitialRaw.toUpperCase());
+        return `<div class="card-image card-image--fallback" role="img" aria-label="${escapeHtml(safeTitleForAlt)}">${fallbackInitial}</div>`;
+    }
+
+    const defaultSrc = escapeHtml(buildOptimizedImageUrl(url, { width: 960 }) || url);
+    const webpSrcSet = buildImageSrcSet(url, 'webp');
+    const fallbackSrcSet = buildImageSrcSet(url);
+    const sizesAttr = escapeHtml(sizesValue);
+
+    return `
+        <picture>
+            ${webpSrcSet ? `<source type="image/webp" srcset="${webpSrcSet}" sizes="${sizesAttr}">` : ''}
+            ${fallbackSrcSet ? `<source type="image/jpeg" srcset="${fallbackSrcSet}" sizes="${sizesAttr}">` : ''}
+            <img src="${defaultSrc}" alt="${escapeHtml(safeTitleForAlt)}" class="card-image" loading="lazy" decoding="async" fetchpriority="low">
+        </picture>
+    `;
 };
 
 // --- Modern UI/UX Interactions for Zenotika 2025 ---
@@ -324,44 +526,18 @@ document.addEventListener("DOMContentLoaded", function () {
             const targetElement = document.querySelector(targetId);
             if (targetElement) {
                 const offsetTop = targetElement.offsetTop - navbar.offsetHeight;
+                const targetPosition = Math.max(offsetTop, 0);
                 window.scrollTo({
-                    top: offsetTop,
-                    behavior: 'smooth'
+                    top: targetPosition,
+                    behavior: shouldReduceMotion ? 'auto' : 'smooth'
                 });
             }
         });
     });
 
-    // --- Card Spotlight Effect ---
-    const cards = document.querySelectorAll('.feature-card, .learning-item, .community-card');
-    cards.forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            card.style.setProperty('--x', `${x}px`);
-            card.style.setProperty('--y', `${y}px`);
-        });
-    });
-
-    // --- Intersection Observer for Fade-in Animations ---
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -80px 0px'
-    };
-
-    const fadeInObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    document.querySelectorAll('.fade-in, .feature-card, .learning-item, .info-card, .contact-info-card, .contact-form, .community-card, .footer-column').forEach(el => {
-        fadeInObserver.observe(el);
-    });
+    // --- Card Spotlight & Motion Preferences ---
+    applyReduceMotionPreferences();
+    applySpotlightEffectToCards();
 
     // --- Theme Switcher ---
     const themeToggle = document.getElementById('theme-toggle');

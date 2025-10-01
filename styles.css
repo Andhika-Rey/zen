@@ -1275,12 +1275,20 @@ body.light-mode #community-search
     box-shadow: var(--shadow-md);
 }
 
+.community-card picture
+{
+    display: block;
+    width: 100%;
+}
+
 .card-image
 {
     width: 100%;
-    height: 190px;
+    aspect-ratio: 16 / 10;
     object-fit: cover;
     border: none;
+    display: block;
+    background: rgba(255, 255, 255, 0.04);
 }
 
 .card-content
@@ -1289,6 +1297,20 @@ body.light-mode #community-search
     display: grid;
     gap: var(--spacing-2xs);
     flex-grow: 1;
+}
+
+.card-image--fallback
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(108, 99, 255, 0.2), rgba(49, 215, 255, 0.2));
+    color: var(--color-primary-strong);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
 }
 
 .card-content h3
@@ -1760,4 +1782,26 @@ body.light-mode .footer
         transition: none !important;
         transform: none !important;
     }
+}
+
+html.prefers-reduced-motion
+{
+    scroll-behavior: auto;
+}
+
+html.prefers-reduced-motion .fade-in
+{
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+html.prefers-reduced-motion .btn,
+html.prefers-reduced-motion .primary-cta,
+html.prefers-reduced-motion .feature-card,
+html.prefers-reduced-motion .learning-item,
+html.prefers-reduced-motion .community-card,
+html.prefers-reduced-motion .stat-card
+{
+    transition: none !important;
+    transform: none !important;
 }
