@@ -70,6 +70,19 @@ npx esbuild src/toast.js \
 # Copy Toast CSS
 cp src/toast.css "$BUILD_DIR/"
 
+# Build Advanced Search (Phase 2)
+echo -e "${GREEN}🔍 Building Advanced Search module...${NC}"
+npx esbuild src/search-modal.js \
+    --bundle \
+    --minify \
+    --target=es2020 \
+    --format=esm \
+    --outfile="$BUILD_DIR/search-modal.js"
+
+# Copy Search Modal CSS
+mkdir -p "$BUILD_DIR/src"
+cp src/search-modal.css "$BUILD_DIR/src/"
+
 # Copy static assets
 echo -e "${GREEN}🖼️  Copying static assets...${NC}"
 cp icon.svg "$BUILD_DIR/"

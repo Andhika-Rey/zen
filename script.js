@@ -1,3 +1,6 @@
+// --- Imports ---
+import searchModal from './src/search-modal.js';
+
 // --- Utility Functions ---
 /**
  * Debounce function to limit the rate at which a function gets called.
