@@ -45,6 +45,8 @@ After analysis, decided to focus on **realistic, value-add features** that don't
 - Animated counter updates
 - Toast notification on registration
 - Per-user interest state tracking
+- Baseline demand pre-fill to reflect existing interest
+- Progress indicator toward production goal (with accessibility support)
 
 **Analytics:**
 - GA4 event tracking: `merch_interest_added`, `merch_interest_removed`

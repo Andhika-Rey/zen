@@ -1220,6 +1220,10 @@ function initMerchStore() {
     const interestButtons = document.querySelectorAll('.merch-interest-btn');
     
     if (!interestButtons.length) return;
+    const countElements = {};
+    const progressElements = {};
+    const baselineCounts = {};
+    const goalCounts = {};
 
     // Load interest counts from localStorage
     const loadInterestCounts = () => {
@@ -1263,17 +1267,41 @@ function initMerchStore() {
 
     document.querySelectorAll('.merch-count').forEach(countEl => {
         const card = countEl.closest('.merch-card');
+        if (!card) return;
         const btn = card.querySelector('.merch-interest-btn');
+        if (!btn) return;
         const product = btn.dataset.product;
-        
-        const count = counts[product] || 0;
-        countEl.querySelector('strong').textContent = count;
-        countEl.dataset.count = count;
+
+        const baseCount = parseInt(countEl.dataset.base || '0', 10);
+        const goalCount = parseInt(countEl.dataset.goal || '50', 10);
+
+        baselineCounts[product] = baseCount;
+        goalCounts[product] = goalCount;
+        countElements[product] = countEl;
+
+        const progressEl = card.querySelector(`.merch-progress[data-product="${product}"]`);
+        if (progressEl) {
+            progressElements[product] = progressEl;
+        }
+
+        const storedIncrement = counts[product] || 0;
+        const displayValue = Math.max(0, baseCount + storedIncrement);
+
+        const strongEl = countEl.querySelector('strong');
+        if (strongEl) {
+            strongEl.textContent = displayValue;
+        }
+        countEl.dataset.count = displayValue;
+        updateProgressBar(product, displayValue, goalCount, progressElements[product]);
 
         // Restore button state if user already interested
         if (userInterests.includes(product)) {
             btn.classList.add('interested');
             btn.textContent = 'Sudah Daftar';
+            btn.setAttribute('aria-pressed', 'true');
+        }
+        else {
+            btn.setAttribute('aria-pressed', 'false');
         }
     });
 
@@ -1283,30 +1311,50 @@ function initMerchStore() {
             const product = this.dataset.product;
             const card = this.closest('.merch-card');
             const countEl = card.querySelector('.merch-count');
+            const progressEl = progressElements[product];
             const isInterested = this.classList.contains('interested');
 
             let counts = loadInterestCounts();
+            const base = baselineCounts[product] || 0;
+            const goal = goalCounts[product] || 50;
+            const strongEl = countEl?.querySelector('strong');
+            const previousDisplay = base + (counts[product] || 0);
 
             if (isInterested) {
                 // Remove interest
-                counts[product] = Math.max(0, counts[product] - 1);
+                counts[product] = Math.max(0, (counts[product] || 0) - 1);
                 this.classList.remove('interested');
                 this.textContent = 'Daftar Minat';
+                this.setAttribute('aria-pressed', 'false');
                 removeUserInterest(product);
+                const newDisplay = base + (counts[product] || 0);
+                animateCount(strongEl, previousDisplay, newDisplay);
+                countEl.dataset.count = newDisplay;
+                updateProgressBar(product, newDisplay, goal, progressEl);
                 
                 // Track event
                 if (window.analytics) {
                     analytics.trackEvent('merch_interest_removed', {
                         product: product,
-                        new_count: counts[product]
+                        new_count: Math.max(0, newDisplay)
                     });
+                }
+
+                if (window.toastSystem) {
+                    toastSystem.show(
+                        'Anda telah membatalkan minat untuk produk ini. Tidak masalah, Anda tetap bisa kembali kapan saja.',
+                        'info'
+                    );
                 }
             } else {
                 // Add interest
                 counts[product] = (counts[product] || 0) + 1;
                 this.classList.add('interested');
                 this.textContent = 'Sudah Daftar';
+                this.setAttribute('aria-pressed', 'true');
                 saveUserInterest(product);
+
+                const newDisplay = base + (counts[product] || 0);
 
                 // Show toast notification
                 if (window.toastSystem) {
@@ -1321,18 +1369,18 @@ function initMerchStore() {
                 if (window.analytics) {
                     analytics.trackEvent('merch_interest_added', {
                         product: product,
-                        new_count: counts[product]
+                        new_count: newDisplay
                     });
                 }
 
                 // Animate count
-                animateCount(countEl, counts[product] - 1, counts[product]);
+                animateCount(strongEl, previousDisplay, newDisplay);
+                countEl.dataset.count = newDisplay;
+                updateProgressBar(product, newDisplay, goal, progressEl);
             }
 
             // Save and update display
             saveInterestCounts(counts);
-            countEl.querySelector('strong').textContent = counts[product];
-            countEl.dataset.count = counts[product];
         });
     });
 }
@@ -1340,8 +1388,8 @@ function initMerchStore() {
 /**
  * Animate counter with easing
  */
-function animateCount(element, start, end) {
-    const strongEl = element.querySelector('strong');
+function animateCount(targetEl, start, end) {
+    if (!targetEl) return;
     const duration = 600;
     const startTime = performance.now();
 
@@ -1353,7 +1401,7 @@ function animateCount(element, start, end) {
         const easedProgress = easeOutQuad(progress);
         const current = Math.round(start + (end - start) * easedProgress);
         
-        strongEl.textContent = current;
+        targetEl.textContent = current;
 
         if (progress < 1) {
             requestAnimationFrame(updateCount);
@@ -1361,4 +1409,34 @@ function animateCount(element, start, end) {
     };
 
     requestAnimationFrame(updateCount);
+}
+
+function updateProgressBar(product, displayValue, goal, progressEl) {
+    if (!progressEl) return;
+    const effectiveGoal = goal || parseInt(progressEl.getAttribute('aria-valuemax') || '50', 10);
+    const boundedDisplay = Math.max(0, displayValue);
+    const ratio = Math.min(boundedDisplay / effectiveGoal, 1);
+    const percent = Math.round(ratio * 100);
+
+    const fillEl = progressEl.querySelector('.progress-fill');
+    if (fillEl) {
+        fillEl.style.width = `${percent}%`;
+    }
+
+    progressEl.setAttribute('aria-valuenow', Math.min(boundedDisplay, effectiveGoal));
+    const statusEl = progressEl.querySelector('.progress-status');
+    const goalEl = progressEl.querySelector('.progress-goal');
+
+    if (statusEl) {
+        if (boundedDisplay >= effectiveGoal) {
+            statusEl.textContent = 'Target terpenuhi! Produksi batch pertama siap dimulai.';
+        } else {
+            const remaining = effectiveGoal - boundedDisplay;
+            statusEl.textContent = `${remaining} minat lagi menuju produksi`;
+        }
+    }
+
+    if (goalEl) {
+        goalEl.textContent = `Progress: ${boundedDisplay}/${effectiveGoal} (${percent}%)`;
+    }
 }

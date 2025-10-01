@@ -2882,7 +2882,7 @@ html.prefers-reduced-motion img.card-image
 {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.1rem;
     margin-top: auto;
     padding-top: 1rem;
     border-top: 1px solid var(--color-border);
@@ -2927,6 +2927,59 @@ html.prefers-reduced-motion img.card-image
     color: var(--color-primary);
     font-weight: 700;
     font-size: 1.1rem;
+}
+
+.merch-progress
+{
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    background: rgba(108, 99, 255, 0.08);
+    border: 1px solid rgba(108, 99, 255, 0.18);
+    padding: 0.85rem 1rem;
+    border-radius: 14px;
+}
+
+.progress-track
+{
+    position: relative;
+    width: 100%;
+    height: 8px;
+    background: rgba(108, 99, 255, 0.18);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.progress-fill
+{
+    position: absolute;
+    inset: 0;
+    width: 0;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(108, 99, 255, 0.9), rgba(49, 215, 255, 0.8));
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: inherit;
+}
+
+.progress-meta
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+}
+
+.progress-status
+{
+    font-weight: 600;
+    color: var(--color-text-subtle);
+}
+
+.progress-goal
+{
+    font-style: italic;
 }
 
 .store-notice
@@ -2985,6 +3038,12 @@ html.prefers-reduced-motion img.card-image
     .store-notice
     {
         padding: 1.25rem 1.5rem;
+    }
+
+    .progress-meta
+    {
+        flex-direction: column;
+        align-items: flex-start;
     }
 }
 
