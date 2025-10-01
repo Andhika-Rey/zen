@@ -6,25 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description"
         content="Zenotika - Rumah Digital modern untuk Mahasiswa Ilmu Komputer Universitas Komputer Indonesia." />
-    <meta name="keywords" content="Zenotika, Rumah Digital, Computer Science, UNIKOM, Universitas Komputer Indonesia, Belajar, Materi Ajar" />
+    <meta name="keywords"
+        content="Zenotika, Rumah Digital, Computer Science, UNIKOM, Universitas Komputer Indonesia, Belajar, Materi Ajar" />
     <meta name="author" content="Zenotika" />
     <meta name="theme-color" content="#0B0B1A" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://andhika-rey.github.io/zen/" />
+    <meta property="og:url" content="https://zenotika.unikom.ac.id/" />
     <meta property="og:title" content="Zenotika 2025 - Digital Aurora" />
     <meta property="og:description"
         content="Rumah digital modern untuk belajar, berbagi, dan bertumbuh bagi mahasiswa Ilmu Komputer UNIKOM." />
-    <meta property="og:image" content="https://andhika-rey.github.io/zen/assets/og-image.png" />
+    <meta property="og:image" content="https://zenotika.unikom.ac.id/assets/og-image.png" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://andhika-rey.github.io/zen/" />
+    <meta property="twitter:url" content="https://zenotika.unikom.ac.id/" />
     <meta property="twitter:title" content="Zenotika 2025 - Digital Aurora" />
     <meta property="twitter:description"
         content="Rumah digital modern untuk belajar, berbagi, dan bertumbuh bagi mahasiswa Ilmu Komputer UNIKOM." />
-    <meta property="twitter:image" content="https://andhika-rey.github.io/zen/assets/og-image.png" />
+    <meta property="twitter:image" content="https://zenotika.unikom.ac.id/assets/og-image.png" />
 
     <title>Zenotika - Rumah Digital</title>
 
@@ -36,6 +37,18 @@
     <link rel="stylesheet" href="styles.css" />
     <link rel="icon" href="/icon.svg" type="image/svg+xml" />
     <link rel="manifest" href="/manifest.json" />
+    <script>
+        (function () {
+            try {
+                const savedTheme = localStorage.getItem('theme');
+                const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+                const initialTheme = savedTheme || (prefersLight ? 'light' : 'dark');
+                document.documentElement.dataset.theme = initialTheme;
+            } catch (error) {
+                document.documentElement.dataset.theme = 'dark';
+            }
+        })();
+    </script>
 </head>
 
 <body class="aurora-bg">
@@ -67,7 +80,8 @@
                     <li><a href="#contact" class="nav-link">Kontak</a></li>
                     <li class="theme-switcher-mobile">
                         <div class="theme-switcher">
-                            <input type="checkbox" id="theme-toggle" class="theme-toggle-checkbox" aria-label="Ganti tema">
+                            <input type="checkbox" id="theme-toggle" class="theme-toggle-checkbox"
+                                aria-label="Ganti tema">
                             <label for="theme-toggle" class="theme-toggle-label">
                                 <span class="sun" aria-hidden="true">☀️</span>
                                 <span class="moon" aria-hidden="true">🌙</span>

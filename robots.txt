@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.zenotika.com/sitemap.xml
+Sitemap: https://zenotika.unikom.ac.id/sitemap.xml

@@ -3,7 +3,7 @@
 _Platform digital untuk komunitas Ilmu Komputer UNIKOM. Menyatukan materi belajar, kolaborasi komunitas, dan pengalaman PWA modern dalam satu tempat._
 
 <p align="center">
-    <a href="https://andhika-rey.github.io/zen/">
+    <a href="https://zenotika.unikom.ac.id/">
         <img alt="Zenotika demo badge" src="https://img.shields.io/badge/demo-live-success" />
     </a>
     <a href="LICENSE">
@@ -188,9 +188,9 @@ Butuh ide? Lihat [IMPROVEMENTS.md](IMPROVEMENTS.md) untuk daftar tugas yang siap
 ## 📜 Lisensi & Kontak
 
 - **Lisensi**: [MIT](LICENSE)
-- **Demo**: [andhika-rey.github.io/zen](https://andhika-rey.github.io/zen/)
+- **Demo**: [zenotika.unikom.ac.id](https://zenotika.unikom.ac.id/) _(fallback sementara: [andhika-rey.github.io/zen](https://andhika-rey.github.io/zen/))_
 - **GitHub**: [@Andhika-Rey](https://github.com/Andhika-Rey)
-- **Email**: support@zenotika.com _(opsional)_
+- **Email**: support@zenotika.unikom.ac.id _(opsional, WIP)_
 
 Berikan ⭐️ jika proyek ini membantu Anda — dukungan kecil yang berdampak besar bagi komunitas! 🙌
 
@@ -201,7 +201,7 @@ _Dibangun dengan 💙 untuk pendidikan dan kolaborasi digital._
 
 > Platform digital modern untuk Mahasiswa Ilmu Komputer Universitas Komputer Indonesia
 
-[![GitHub Pages](https://img.shields.io/badge/demo-live-success)](https://andhika-rey.github.io/zen/)
+[![GitHub Pages](https://img.shields.io/badge/demo-live-success)](https://zenotika.unikom.ac.id/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
@@ -440,8 +440,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Contact & Support
 
 - **GitHub**: [@Andhika-Rey](https://github.com/Andhika-Rey)
-- **Email**: support@zenotika.com (if available)
-- **Website**: [zenotika.com](https://andhika-rey.github.io/zen/)
+- **Email**: support@zenotika.unikom.ac.id _(opsional, WIP)_
+- **Website**: [zenotika.unikom.ac.id](https://zenotika.unikom.ac.id/)
 
 ---
 
@@ -459,7 +459,7 @@ Give a ⭐️ if this project helped you!
 
 ### Quick Links
 
-- [Live Demo](https://andhika-rey.github.io/zen/) 
+- [Live Demo](https://zenotika.unikom.ac.id/) 
 - [Documentation](docs/)
 - [Changelog](CHANGELOG.md)
 - [Issues](https://github.com/Andhika-Rey/zen/issues)

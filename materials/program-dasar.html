@@ -8,6 +8,18 @@
   <link rel="icon" href="/icon.svg" type="image/svg+xml" />
   <link rel="manifest" href="/manifest.json" />
   <meta name="description" content="Materi ajar Pemrograman Dasar untuk mahasiswa Ilmu Komputer UNIKOM" />
+    <script>
+        (function () {
+            try {
+                const savedTheme = localStorage.getItem('theme');
+                const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+                const initialTheme = savedTheme || (prefersLight ? 'light' : 'dark');
+                document.documentElement.dataset.theme = initialTheme;
+            } catch (error) {
+                document.documentElement.dataset.theme = 'dark';
+            }
+        })();
+    </script>
 </head>
 <body class="aurora-bg">
     <a href="#main-content" class="skip-link">Lewati ke konten utama</a>

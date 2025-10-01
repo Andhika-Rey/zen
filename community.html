@@ -11,17 +11,17 @@
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://andhika-rey.github.io/zen/community.html" />
+    <meta property="og:url" content="https://zenotika.unikom.ac.id/community.html" />
     <meta property="og:title" content="Zenotika - Ruang Komunitas" />
     <meta property="og:description" content="Berbagi proyek, ide, dan berkolaborasi dengan sesama mahasiswa." />
-    <meta property="og:image" content="https://andhika-rey.github.io/zen/assets/og-image.png" />
+    <meta property="og:image" content="https://zenotika.unikom.ac.id/assets/og-image.png" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://andhika-rey.github.io/zen/community.html" />
+    <meta property="twitter:url" content="https://zenotika.unikom.ac.id/community.html" />
     <meta property="twitter:title" content="Zenotika - Ruang Komunitas" />
     <meta property="twitter:description" content="Berbagi proyek, ide, dan berkolaborasi dengan sesama mahasiswa." />
-    <meta property="twitter:image" content="https://andhika-rey.github.io/zen/assets/og-image.png" />
+    <meta property="twitter:image" content="https://zenotika.unikom.ac.id/assets/og-image.png" />
 
     <title>Zenotika - Ruang Komunitas</title>
 
@@ -34,15 +34,14 @@
     <link rel="icon" href="/icon.svg" type="image/svg+xml" />
     <link rel="manifest" href="/manifest.json" />
     <script>
-        // Menerapkan tema secepat mungkin untuk menghindari FOUC (Flash of Unstyled Content)
-        (function() {
+        (function () {
             try {
-                const theme = localStorage.getItem('theme');
-                if (theme === 'light') {
-                    document.body.classList.add('light-mode');
-                }
-            } catch (e) {
-                console.error('Could not apply theme from localStorage', e);
+                const savedTheme = localStorage.getItem('theme');
+                const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+                const initialTheme = savedTheme || (prefersLight ? 'light' : 'dark');
+                document.documentElement.dataset.theme = initialTheme;
+            } catch (error) {
+                document.documentElement.dataset.theme = 'dark';
             }
         })();
     </script>
@@ -102,10 +101,10 @@
             </div>
         </div>
 
-        <div class="community-grid" id="community-grid">
+        <div class="community-grid" id="community-grid" role="list" aria-busy="true">
             <!-- Konten akan diisi secara dinamis oleh script.js -->
         </div>
-        <div id="community-empty" class="no-results-message hidden">
+        <div id="community-empty" class="no-results-message hidden" role="status" aria-live="polite" hidden>
             <p>Belum ada konten komunitas yang cocok dengan filter Anda.</p>
         </div>
     </main>

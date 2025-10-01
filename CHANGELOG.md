@@ -69,6 +69,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Progress bar indicator
 - Mobile-optimized navigation
 - Responsive typography
+- Early theme bootstrapping on every page untuk mencegah FOUC
+- Empty state komunitas lebih informatif dengan dukungan ARIA dan status loading
 
 ### 🐛 Fixed
 - Theme application bug in community page

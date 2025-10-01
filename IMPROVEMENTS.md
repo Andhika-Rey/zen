@@ -11,12 +11,15 @@
 - ✅ Ditambahkan `aria-label` descriptive untuk semua tombol filter
 - ✅ Ditambahkan `:focus-visible` styles untuk keyboard navigation
 - ✅ Filter tags sekarang fully accessible dengan screen readers
+- ✅ Empty state komunitas sekarang menggunakan `aria-live` dan pesan dinamis
+- ✅ Loader status menggunakan `aria-busy` untuk grid komunitas
 
 ### 3. **Responsive Design**
 - ✅ Media queries untuk mobile (<768px) ditambahkan
 - ✅ Community grid menjadi single column di mobile
 - ✅ Tag filters dan spacing disesuaikan untuk layar kecil
 - ✅ Typography responsif untuk card content
+- ✅ Tema kini di-bootstrap lebih awal di semua halaman untuk mencegah flash
 
 ### 4. **Code Quality**
 - ✅ Duplikasi CSS dihapus (3 instance `.tag-filter-btn` menjadi 1)

@@ -25,7 +25,7 @@ const loadAnnouncement = async () => {
 
     try {
         // Use a cache-busting query parameter for development, can be removed in production
-        const response = await fetch(`/data/announcements.json?v=${new Date().getTime()}`);
+    const response = await fetch('/data/announcements.json', { cache: 'no-store' });
         if (!response.ok) {
             // Don't show an error to the user, just log it for the developer.
             console.error(`Failed to fetch announcements: ${response.statusText}`);
@@ -68,15 +68,35 @@ const loadAnnouncement = async () => {
 let communityData = [];
 let activeTag = null;
 
+const showCommunityEmptyState = (message) => {
+    const emptyMessage = document.getElementById('community-empty');
+    if (!emptyMessage) return;
+
+    const messageParagraph = emptyMessage.querySelector('p');
+    if (messageParagraph) {
+        messageParagraph.textContent = message;
+    }
+
+    emptyMessage.classList.remove('hidden');
+    emptyMessage.hidden = false;
+};
+
 const loadCommunityContent = async () => {
     const grid = document.getElementById('community-grid');
     const emptyMessage = document.getElementById('community-empty');
     if (!grid) return;
 
+    grid.setAttribute('aria-busy', 'true');
+    if (emptyMessage) {
+        emptyMessage.classList.add('hidden');
+        emptyMessage.hidden = true;
+    }
+
     try {
-        const response = await fetch(`/data/community.json?v=${new Date().getTime()}`);
+        const response = await fetch('/data/community.json', { cache: 'no-store' });
         if (!response.ok) {
-            if (emptyMessage) emptyMessage.classList.remove('hidden');
+            showCommunityEmptyState('Gagal memuat konten komunitas. Coba lagi nanti.');
+            grid.setAttribute('aria-busy', 'false');
             return;
         }
 
@@ -84,7 +104,8 @@ const loadCommunityContent = async () => {
         communityData = items;
 
         if (!items || items.length === 0) {
-            if (emptyMessage) emptyMessage.classList.remove('hidden');
+            showCommunityEmptyState('Belum ada konten komunitas yang dapat ditampilkan saat ini.');
+            grid.setAttribute('aria-busy', 'false');
             return;
         }
 
@@ -94,13 +115,18 @@ const loadCommunityContent = async () => {
 
     } catch (error) {
         console.error('Failed to load community content:', error);
-        if (emptyMessage) emptyMessage.classList.remove('hidden');
+        showCommunityEmptyState('Terjadi kesalahan saat memuat konten komunitas.');
+    } finally {
+        grid.setAttribute('aria-busy', 'false');
     }
 };
 
 const generateTagFilters = (items) => {
     const tagFiltersContainer = document.getElementById('tag-filters');
     if (!tagFiltersContainer) return;
+
+    tagFiltersContainer.innerHTML = '';
+    activeTag = null;
 
     const allTags = new Set();
     items.forEach(item => {
@@ -113,16 +139,18 @@ const generateTagFilters = (items) => {
     allBtn.setAttribute('data-tag', 'all');
     allBtn.setAttribute('aria-pressed', 'true');
     allBtn.setAttribute('aria-label', 'Filter: Tampilkan semua proyek');
+    allBtn.type = 'button';
     allBtn.addEventListener('click', () => handleTagFilter('all'));
     tagFiltersContainer.appendChild(allBtn);
 
-    allTags.forEach(tag => {
+    [...allTags].sort((a, b) => a.localeCompare(b, 'id')).forEach(tag => {
         const btn = document.createElement('button');
         btn.className = 'tag-filter-btn';
         btn.textContent = tag;
         btn.setAttribute('data-tag', tag);
         btn.setAttribute('aria-pressed', 'false');
         btn.setAttribute('aria-label', `Filter: ${tag}`);
+        btn.type = 'button';
         btn.addEventListener('click', () => handleTagFilter(tag));
         tagFiltersContainer.appendChild(btn);
     });
@@ -183,19 +211,25 @@ const displayCommunityItems = (items) => {
     const emptyMessage = document.getElementById('community-empty');
     if (!grid) return;
 
+    grid.setAttribute('aria-busy', 'true');
     grid.innerHTML = '';
 
     if (items.length === 0) {
-        if (emptyMessage) emptyMessage.classList.remove('hidden');
+        showCommunityEmptyState('Tidak ada proyek yang sesuai dengan filter Anda.');
+        grid.setAttribute('aria-busy', 'false');
         return;
     }
 
-    if (emptyMessage) emptyMessage.classList.add('hidden');
+    if (emptyMessage) {
+        emptyMessage.classList.add('hidden');
+        emptyMessage.hidden = true;
+    }
 
     const fragment = document.createDocumentFragment();
     items.forEach(item => {
         const card = document.createElement('div');
         card.className = 'community-card';
+        card.setAttribute('role', 'listitem');
         card.innerHTML = `
             <img src="${escapeHtml(item.image)}" alt="Gambar Proyek: ${escapeHtml(item.title)}" class="card-image">
             <div class="card-content">
@@ -212,6 +246,7 @@ const displayCommunityItems = (items) => {
     });
 
     grid.appendChild(fragment);
+    grid.setAttribute('aria-busy', 'false');
 };
 
 const escapeHtml = (str) => {
@@ -330,25 +365,36 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // --- Theme Switcher ---
     const themeToggle = document.getElementById('theme-toggle');
-    const currentTheme = localStorage.getItem('theme') || 'dark';
+    const prefersLightMediaQuery = window.matchMedia ? window.matchMedia('(prefers-color-scheme: light)') : null;
+    const storedTheme = localStorage.getItem('theme');
+    const detectedTheme = storedTheme
+        || document.documentElement.dataset.theme
+        || (prefersLightMediaQuery && prefersLightMediaQuery.matches ? 'light' : 'dark');
 
     const applyTheme = (theme) => {
-        if (theme === 'light') {
-            document.body.classList.add('light-mode');
-            themeToggle.checked = true;
-        } else {
-            document.body.classList.remove('light-mode');
-            themeToggle.checked = false;
+        const resolvedTheme = theme === 'light' ? 'light' : 'dark';
+        document.documentElement.dataset.theme = resolvedTheme;
+        document.body.classList.toggle('light-mode', resolvedTheme === 'light');
+        if (themeToggle) {
+            themeToggle.checked = resolvedTheme === 'light';
         }
     };
 
-    applyTheme(currentTheme);
+    applyTheme(detectedTheme);
 
-    themeToggle.addEventListener('change', function() {
-        const newTheme = this.checked ? 'light' : 'dark';
-        localStorage.setItem('theme', newTheme);
-        applyTheme(newTheme);
-    });
+    if (!storedTheme && prefersLightMediaQuery) {
+        prefersLightMediaQuery.addEventListener('change', (event) => {
+            applyTheme(event.matches ? 'light' : 'dark');
+        });
+    }
+
+    if (themeToggle) {
+        themeToggle.addEventListener('change', function () {
+            const newTheme = this.checked ? 'light' : 'dark';
+            localStorage.setItem('theme', newTheme);
+            applyTheme(newTheme);
+        });
+    }
 
     // --- Material Search Functionality ---
     const searchInput = document.getElementById('material-search');
@@ -404,35 +450,9 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    /**
-     * Initializes all dynamic content loaders for the site.
-     * This acts as an orchestrator for fetching and displaying content from the /data/ directory.
-     */
-    const initDynamicContent = () => {
-        loadAnnouncement();
-        // Future loaders like loadEvents() can be added here.
-    };
+    loadAnnouncement();
 
-    /**
-     * Initializes all functions for a specific page.
-     * This function checks for the existence of page-specific elements and initializes
-     * corresponding features or content loaders as needed.
-     */
-    const main = () => {
-        initMobileNav();
-        initSmoothScroll();
-        initCardSpotlight();
-        initIntersectionObserver();
-
-        // Page-specific initializers
-        if (document.getElementById('material-search')) {
-            initSearch();
-        }
-        if (document.getElementById('community-grid')) {
-            loadCommunityContent();
-        }
-    };
-
-    initDynamicContent();
-    main();
+    if (document.getElementById('community-grid')) {
+        loadCommunityContent();
+    }
 });
