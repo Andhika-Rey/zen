@@ -359,7 +359,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }, observerOptions);
 
-    document.querySelectorAll('.feature-card, .learning-item, .info-card, .contact-info-card, .contact-form, .community-card, .footer-column').forEach(el => {
+    document.querySelectorAll('.fade-in, .feature-card, .learning-item, .info-card, .contact-info-card, .contact-form, .community-card, .footer-column').forEach(el => {
         fadeInObserver.observe(el);
     });
 
