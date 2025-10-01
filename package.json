@@ -5,15 +5,21 @@
   "scripts": {
     "dev": "python -m http.server 3000",
     "preview": "python -m http.server 8080",
+    "build": "./scripts/build.sh",
+    "build:quick": "./scripts/build.sh && cd dist && python -m http.server 8080",
     "optimize:images": "./scripts/optimize-images.sh",
     "optimize:images:responsive": "./scripts/optimize-images.sh ./assets/images ./assets/images/optimized",
     "lint:html": "npx htmlhint *.html",
     "lint:css": "npx stylelint '**/*.css'",
+    "minify:css": "npx lightningcss --minify --bundle styles.css -o dist/styles.css",
+    "minify:js": "npx esbuild script.js --minify --target=es2020 --outfile=dist/script.js",
     "test": "npm run lint:html",
-    "build:prepare": "echo '🔨 Preparing for production build...' && npm run lint:html",
-    "deploy:preview": "echo '🚀 Preview deployment ready'",
+    "prebuild": "npm run lint:html",
+    "postbuild": "echo '✅ Build complete! Output: dist/' && ls -lh dist/",
     "check:webp": "command -v cwebp || echo 'WebP tools not installed. Run: sudo apt-get install webp'",
-    "setup:tools": "sudo apt-get update && sudo apt-get install -y webp imagemagick"
+    "check:minify": "npx esbuild --version && npx lightningcss --version || echo 'Install: npm install -D esbuild lightningcss'",
+    "setup:tools": "sudo apt-get update && sudo apt-get install -y webp imagemagick",
+    "setup:build": "npm install -D esbuild lightningcss csso terser htmlhint"
   },
   "devDependencies": {
     "htmlhint": "^1.1.4",
