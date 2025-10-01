@@ -1,0 +1,37 @@
+{
+  "name": "zenotika-zen",
+  "version": "3.1.0",
+  "description": "Platform digital modern untuk Mahasiswa Ilmu Komputer UNIKOM",
+  "scripts": {
+    "dev": "python -m http.server 3000",
+    "preview": "python -m http.server 8080",
+    "optimize:images": "./scripts/optimize-images.sh",
+    "optimize:images:responsive": "./scripts/optimize-images.sh ./assets/images ./assets/images/optimized",
+    "lint:html": "npx htmlhint *.html",
+    "lint:css": "npx stylelint '**/*.css'",
+    "test": "npm run lint:html",
+    "build:prepare": "echo '🔨 Preparing for production build...' && npm run lint:html",
+    "deploy:preview": "echo '🚀 Preview deployment ready'",
+    "check:webp": "command -v cwebp || echo 'WebP tools not installed. Run: sudo apt-get install webp'",
+    "setup:tools": "sudo apt-get update && sudo apt-get install -y webp imagemagick"
+  },
+  "devDependencies": {
+    "htmlhint": "^1.1.4",
+    "stylelint": "^15.10.3",
+    "stylelint-config-standard": "^34.0.0"
+  },
+  "keywords": [
+    "zenotika",
+    "education",
+    "pwa",
+    "computer-science",
+    "unikom"
+  ],
+  "author": "Zenotika Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Andhika-Rey/zen.git"
+  },
+  "homepage": "https://zenotika.unikom.ac.id"
+}

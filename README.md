@@ -147,6 +147,7 @@ zen/
 
 - [roadmap.md](docs/roadmap.md) — Peta jalan pengembangan.
 - [PERFORMANCE.md](docs/PERFORMANCE.md) — Checklist optimasi Core Web Vitals & PWA.
+- [IMAGE_OPTIMIZATION.md](docs/IMAGE_OPTIMIZATION.md) — Panduan konversi WebP & responsive images.
 - [DEPLOYMENT.md](docs/DEPLOYMENT.md) — Panduan GitHub Pages & Netlify.
 - [IMPROVEMENTS.md](IMPROVEMENTS.md) — Ide fitur lanjutan & tugas backlog.
 - [CHANGELOG.md](CHANGELOG.md) — Riwayat rilisan.
@@ -162,8 +163,9 @@ zen/
 - ✅ Optimasi Service Worker dan meta SEO dasar.
 
 ### Sedang Berjalan
-- ⏳ Optimasi aset (WebP, kompresi, lazy loading gambar).
+- ✅ Optimasi aset (WebP pipeline, lazy loading, responsive images).
 - ⏳ Integrasi analytics & error tracking.
+- ⏳ Build automation untuk minifikasi CSS/JS.
 
 ### Berikutnya
 - ⭕ Integrasi Headless CMS (Strapi/Contentful).

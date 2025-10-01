@@ -23,9 +23,9 @@ Fondasi untuk memastikan apa yang sudah dibangun mencapai standar keunggulan.
     *   **Tindakan:** Melakukan audit untuk memastikan semua elemen interaktif dapat diakses keyboard, kontras warna memenuhi standar WCAG, dan atribut ARIA digunakan dengan benar. Berikutnya: audit screen reader end-to-end + pengujian NVDA/VoiceOver.
 
 2.  **Optimasi Performa Lanjutan:**
-    *   **Status:** ⏳ Sedang berjalan — lazy loading + responsive `srcset` + fallback monogram & error handling untuk komunitas; tahap berikutnya otomatisasi minifikasi & WebP lokal.
+    *   **Status:** ✅ Fase 1 selesai — lazy loading + responsive `srcset` aktif; script optimasi WebP + dokumentasi lengkap tersedia (Okt 2025). ⏳ Berikutnya: minifikasi CSS/JS otomatis + CI/CD pipeline.
     *   **Masalah:** Kecepatan adalah kunci. Situs bisa dibuat lebih cepat lagi.
-    *   **Tindakan:** Mengoptimalkan semua aset gambar ke format modern (seperti WebP), melakukan *minification* pada file CSS dan JS untuk produksi, dan meninjau strategi *caching* Service Worker agar lebih efisien. Aksi berikut: tambahkan pipeline build ringan (mis. `esbuild`/`lightningcss`) + konversi aset lokal ke WebP.
+    *   **Tindakan:** Mengoptimalkan semua aset gambar ke format modern (seperti WebP), melakukan *minification* pada file CSS dan JS untuk produksi, dan meninjau strategi *caching* Service Worker agar lebih efisien. ✅ Pipeline WebP tersedia via `npm run optimize:images`. Aksi berikut: tambahkan build tool ringan (mis. `esbuild`/`lightningcss`) untuk minifikasi otomatis.
 
 3.  **Peningkatan SEO (Search Engine Optimization):**
     *   **Status:** ✅ Meta OG/Twitter, `sitemap.xml`, `robots.txt`, dan schema.org (Organization, Courses, ItemList) sudah tayang; berikutnya tinggal validasi Search Console + breadcrumbs.
