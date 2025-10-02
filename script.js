@@ -12,6 +12,8 @@ let shouldReduceMotion = reduceMotionMediaQuery ? reduceMotionMediaQuery.matches
 
 let eventsData = [];
 let activeEventsFilter = 'upcoming';
+const EVENT_FILTER_QUERY_KEY = 'acara';
+const VALID_EVENT_FILTERS = new Set(['all', 'upcoming', 'past']);
 let communityData = [];
 let activeTag = null;
 
@@ -128,7 +130,10 @@ const createEventCard = (event) => {
     const { day, month, formatted, relative, status } = metadata;
 
     const card = document.createElement('article');
-    card.className = 'info-card fade-in';
+    card.classList.add('info-card', 'fade-in', 'event-card');
+    if (status) {
+        card.classList.add(`event-${status}`);
+    }
     card.dataset.fadeObserved = 'pending';
     card.dataset.eventStatus = status;
 
@@ -155,7 +160,10 @@ const createEventCard = (event) => {
     titleEl.textContent = title;
 
     const chip = document.createElement('span');
-    chip.className = 'info-chip';
+    chip.classList.add('info-chip');
+    if (status) {
+        chip.classList.add(`info-chip--${status}`);
+    }
     chip.textContent = getStatusLabel(status, relative);
 
     header.append(titleEl, chip);
@@ -368,6 +376,23 @@ const loadEvents = async () => {
         });
     };
 
+    const normalizeFilter = (value) => {
+        if (!value) return null;
+        const normalized = value.trim().toLowerCase();
+        if (normalized.length === 0) return null;
+        return VALID_EVENT_FILTERS.has(normalized) ? normalized : null;
+    };
+
+    const initialFilterParam = getQueryParam(EVENT_FILTER_QUERY_KEY);
+    const queryFilter = normalizeFilter(initialFilterParam);
+    if (queryFilter) {
+        activeEventsFilter = queryFilter;
+    } else if (initialFilterParam) {
+        updateQueryParam(EVENT_FILTER_QUERY_KEY, '');
+    }
+
+    updateFilterButtons(getCounts(), activeEventsFilter);
+
     const getFilteredEvents = (filter) => {
         if (filter === 'all') return [...eventsData];
         if (filter === 'past') {
@@ -377,14 +402,16 @@ const loadEvents = async () => {
     };
 
     const renderEvents = (filter = activeEventsFilter) => {
-        activeEventsFilter = filter;
+        const effectiveFilter = normalizeFilter(filter) || 'upcoming';
+        updateQueryParam(EVENT_FILTER_QUERY_KEY, effectiveFilter === 'upcoming' ? '' : effectiveFilter);
+        activeEventsFilter = effectiveFilter;
         removeExistingCards();
 
-        const filteredEvents = getFilteredEvents(filter);
+        const filteredEvents = getFilteredEvents(effectiveFilter);
         if (filteredEvents.length === 0) {
-            showEmptyState(emptyMessages[filter] || emptyMessages.all);
-            updateSummary(filter, 0);
-            updateFilterButtons(getCounts(), filter);
+            showEmptyState(emptyMessages[effectiveFilter] || emptyMessages.all);
+            updateSummary(effectiveFilter, 0);
+            updateFilterButtons(getCounts(), effectiveFilter);
             return;
         }
 
@@ -397,8 +424,8 @@ const loadEvents = async () => {
 
         eventsRegion.appendChild(fragment);
         observeFadeInTargets(eventsRegion.querySelectorAll('.info-card'));
-        updateSummary(filter, filteredEvents.length);
-        updateFilterButtons(getCounts(), filter);
+        updateSummary(effectiveFilter, filteredEvents.length);
+        updateFilterButtons(getCounts(), effectiveFilter);
     };
 
     const attachFilterListeners = () => {
@@ -411,6 +438,8 @@ const loadEvents = async () => {
             button.dataset.filterBound = 'true';
         });
     };
+
+    attachFilterListeners();
 
     try {
         setBusy(true);
@@ -447,8 +476,6 @@ const loadEvents = async () => {
 
         eventsData = [...upcomingEvents, ...pastEvents];
 
-        attachFilterListeners();
-
         renderEvents(activeEventsFilter);
     } catch (error) {
         console.error('Failed to load events:', error);
@@ -482,6 +509,17 @@ const updateQueryParam = (key, value) => {
 
     const nextUrl = `${url.pathname}${url.search}${url.hash}`;
     history.replaceState(null, '', nextUrl);
+};
+
+const getQueryParam = (key) => {
+    if (!hasWindow || !key) return '';
+    try {
+        const url = new URL(window.location.href);
+        return url.searchParams.get(key) ?? '';
+    } catch (error) {
+        console.warn('Unable to read query parameter:', error);
+        return '';
+    }
 };
 
 const fadeInSelectors = '.fade-in, .feature-card, .learning-item, .info-card, .contact-info-card, .contact-form, .community-card, .footer-column';
